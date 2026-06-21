@@ -20,6 +20,7 @@
 #include "femath.h"
 #include "festring.h"
 #include "ivandef.h"
+#include "iconf.h"
 
 #ifndef LIGHT_BORDER
 #define LIGHT_BORDER 80
@@ -286,6 +287,8 @@ class game
   static int GetMaxScreenXSize();
   static int GetMaxScreenYSize();
   static v2 CalculateScreenCoordinates(v2);
+  static int AdjustForFacing(int d);
+  static int UnadjustForFacing(int d);
   static void BusyAnimation();
   static void BusyAnimation(bitmap*, truth);
   static v2 PositionQuestion(cfestring&, v2, positionhandler = 0, positionkeyhandler = 0, truth = true);
@@ -392,6 +395,9 @@ class game
   static lsquare* GetHighlightedMapNoteLSquare();
   static bool ToggleShowMapNotes();
   static bool CheckAddAutoMapNote(square* =NULL);
+  static void SetFacing(int x) { Mode3Facing = x; }
+  static int GetFacing();
+  static const v2 GetFacingVector(int I) { return FacingVector[I]; }
   static int CheckAutoPickup(square* sqr = NULL);
   static void UpdateAutoPickUpMatching();
   static int RotateMapNotes();
@@ -569,6 +575,8 @@ class game
   static int FreedomStoryState;
   static int AslonaStoryState;
   static int RebelStoryState;
+  static int Mode3Facing;
+  static const v2 FacingVector[];
   static truth InGetCommand;
   static truth PlayerHurtByExplosion;
   static area* CurrentArea;
