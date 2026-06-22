@@ -990,7 +990,7 @@ struct recipe{
   template <typename T> static void prepareFilter(
     recipedata& rpd,
     const itemvector& vi,
-    long reqVol,
+    slong reqVol,
     ci CI=ci(),
     std::vector<ulong>* ptmpIngredientsIDs = NULL
   ){
@@ -1088,7 +1088,7 @@ struct recipe{
 
   template <typename T> static truth choseIngredients(
       cfestring fsQ,
-      long reqVolPrecise,
+      slong reqVolPrecise,
       recipedata& rpd,
       int& iWeakestCfg,
       ci CI=ci()
@@ -1101,9 +1101,9 @@ struct recipe{
      * remaining lump: after shapping the stone, should become lump, ex.: dagger 25cm3 req 33cm3,
      * prepare a stone with 25cm3 and a lump with 8cm3
      */
-    long reqVolTotal = reqVolPrecise/CI.fUsablePercVol;
+    slong reqVolTotal = reqVolPrecise/CI.fUsablePercVol;
 
-    long reqVol = reqVolTotal;
+    slong reqVol = reqVolTotal;
 
     if(reqVol==0)
       ABORT("ingredient required 0 volume?");
@@ -1157,13 +1157,13 @@ struct recipe{
         ToUse[i]->SetValidRecipeIngredient(false); //just to not be shown again on the list
 
         if(reqVol<=0){
-          long lRemainingVol = reqVol * -1; //beyond required
+          slong lRemainingVol = reqVol * -1; //beyond required
 
           if(CI.fUsablePercVol<1.0) //while shapping this is what is "lost"
             lRemainingVol += reqVolTotal * (1.0 - CI.fUsablePercVol); //ex.: a round rock being shaped into a spear tip
 
           if(lRemainingVol>0 && CI.bMainMaterRemainsBecomeLump){
-            long lVolM = matM->GetVolume();
+            slong lVolM = matM->GetVolume();
             lVolM -= lRemainingVol; //to sub
             if(lVolM<=0)
               ABORT("ingredient volume reduced to negative or zero %ld %ld %s %s",lVolM,lRemainingVol,matM->GetName(DEFINITE).CStr(),ToUse[i]->GetNameSingular().CStr());
@@ -1899,16 +1899,16 @@ struct srpMelt : public srpJoinLumps{
      * Smaller ingots are easier to manage, less user interaction as they fit better.
      * BUT it may generate a HUGE LOT of tiny ingots and slow down the game when dropping/picking up :(
      */
-    static long iIngotVol = 250; //TODO savegame this
-    long iIngotVolTmp = game::NumberQuestion(festring("What volume shall the ingots have? [min 25cm3, ENTER/ESC accepts last (default) ")+iIngotVol+"cm3]",WHITE,true); //TODO how to let ESC cancel it?
+    static slong iIngotVol = 250; //TODO savegame this
+    slong iIngotVolTmp = game::NumberQuestion(festring("What volume shall the ingots have? [min 25cm3, ENTER/ESC accepts last (default) ")+iIngotVol+"cm3]",WHITE,true); //TODO how to let ESC cancel it?
     if(iIngotVolTmp>0){
       if(iIngotVolTmp<25)
         iIngotVolTmp=25;
       iIngotVol=iIngotVolTmp;
     }
 
-    long lVolRemaining = 0;
-    long lVolM = LumpMeltable->GetMainMaterial()->GetVolume();
+    slong lVolRemaining = 0;
+    slong lVolM = LumpMeltable->GetMainMaterial()->GetVolume();
     if(lVolM <= iIngotVol){
       rpd.itSpawnTot = 1;
       iIngotVol = lVolM;
@@ -2291,7 +2291,7 @@ struct srpSplitLump : public recipe{
     }
 
     // some items may not have main material like corpses
-    long volTot=ToSplit->GetVolume();
+    slong volTot=ToSplit->GetVolume();
 
     festring fsInfo;
     ToSplit->AddInventoryEntry(rpd.rc.H(),fsInfo,1,true);
@@ -2339,7 +2339,7 @@ struct srpSplitLump : public recipe{
      * if not gradative, this little remainder will just be lost (probably only in case of corpses)
      * kept the code active as reference if someone thinks a good way to use that value :)
      */
-    long volRest = volTot%rpd.itSpawnTot;
+    slong volRest = volTot%rpd.itSpawnTot;
 
     if(rpd.itSpawnCfg==0)
       rpd.itSpawnCfg = ToSplit->GetConfig();
@@ -2484,11 +2484,11 @@ struct srpForgeItem : public recipe{
       ADD_MESSAGE("Now you need the materials to create a %s as you would probably create %s.",Default.CStr(),itSpawn->GetName(INDEFINITE).CStr());
     */
 
-    long lVolM = itSpawn->GetMainMaterial()->GetVolume();
+    slong lVolM = itSpawn->GetMainMaterial()->GetVolume();
     if(lVolM==0)
       ABORT("main material 0 volume??? %s",itSpawn->GetName(DEFINITE).CStr());
 
-    long lVolS = 0;
+    slong lVolS = 0;
     if(itSpawn->GetSecondaryMaterial()!=NULL){
       lVolS = itSpawn->GetSecondaryMaterial()->GetVolume();
       if(lVolS==0)
@@ -2646,7 +2646,7 @@ struct srpForgeItem : public recipe{
       ABORT("item reqs secondary mat but doesnt allow it??? %s",itSpawn->GetName(DEFINITE).CStr());
 
     if(rpd.bTailoringMode){
-      long lVolSewing = lVolM/100;
+      slong lVolSewing = lVolM/100;
       if(lVolSewing==0)lVolSewing=1;
       int iSCfg=-1;
       ci CISW;
@@ -2906,7 +2906,7 @@ struct srpFluidsBASE : public recipe{
     //TODO extract poison glands as a new item (so a new recipe to create it) to be used here instead of the corpse?
     item* itBottle=NULL;
     material* mat = NULL;
-    long currentVolume=0;
+    slong currentVolume=0;
 
     // look for compatible bottle first
     vi = vitInv(rpd);
@@ -2926,7 +2926,7 @@ struct srpFluidsBASE : public recipe{
         }
 
         if(bChkVol){DBGLN;
-          long vol = mat->GetVolume();
+          slong vol = mat->GetVolume();
           if(vol < pot->GetDefaultSecondaryVolume()){ //less than max
             itBottle = pot;
             currentVolume = vol;
@@ -3062,7 +3062,7 @@ void updateCraftDesc(){
 
   festring fsDesc=fsSkill;
   if(vSuspended.size()>0)
-    fsDesc<<" (Suspended Actions: "<<vSuspended.size()<<")";
+    fsDesc<<" (Suspended Actions: "<<int(vSuspended.size())<<")";
 
   craftRecipes.AddDescription(fsDesc,fSkill<10?RED:WHITE);
 }
@@ -3157,7 +3157,7 @@ void craftcore::UndoRemainsIfNeeded(recipedata& rpd)
     itLump = game::SearchItem(pur->ulUndoRemainsLumpID);
     if(itLump){
       matM = itLump->GetMainMaterial();
-      long vol = matM->GetVolume() - pur->lUndoRemainsVolume;
+      slong vol = matM->GetVolume() - pur->lUndoRemainsVolume;
       if(vol<=0){
         craftcore::SendToHellSafely(itLump);
         if(vol<0){
@@ -3622,7 +3622,7 @@ item* crafthandle::SpawnItem(recipedata& rpd, festring& fsCreated)
     if(rpd.bCanBeBroken && !itSpawn->IsBroken()){
       // this may break it too!
       if(rpd.lDamageFinalItem>0){
-        long lDmg=RAND()%rpd.lDamageFinalItem;
+        slong lDmg=RAND()%rpd.lDamageFinalItem;
         itSpawn->ReceiveDamage(rpd.rc.H(), lDmg, PHYSICAL_DAMAGE);
         DBG5(itSpawn->GetName(DEFINITE).CStr(), lDmg, rpd.lDamageFinalItem, itSpawn->GetStrengthValue(), itSpawn->GetStrengthModifier());
         if(!itSpawn->Exists()){ //it may break (creating a cloned broken item) and the original will vanish!
@@ -3718,7 +3718,7 @@ void crafthandle::GradativeCraftOverride(recipedata& rpd)
     ABORT("incompatible gradative mode and ingredients count %lu",rpd.ingredientsIDs.size());
 
   material* matM = game::SearchItem(rpd.ingredientsIDs[0])->GetMainMaterial();DBGLN;
-  long matMRemVol = matM->GetVolume();
+  slong matMRemVol = matM->GetVolume();
 
   /**
    * ex.: tot=20 base=10 remain=9
@@ -4131,7 +4131,7 @@ cfestring crafthandle::DestroyIngredients(recipedata& rpd){
  * @param volume is the main material volume, it is important to be set before item->CalculateAll()
  * @return
  */
-item* craftcore::PrepareRemains(recipedata& rpd, material* matWorkWith, int ForceType, long NewMaterialVolume) //TODO force type could be a class (type) reference?
+item* craftcore::PrepareRemains(recipedata& rpd, material* matWorkWith, int ForceType, slong NewMaterialVolume) //TODO force type could be a class (type) reference?
 {
   if(matWorkWith==NULL)
     ABORT("NULL remains material");

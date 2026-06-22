@@ -41,9 +41,9 @@ CHARACTER(nonhumanoid, character)
   double GetUnarmedToHitValue() const { return UnarmedToHitValue; }
   double GetKickToHitValue() const { return KickToHitValue; }
   double GetBiteToHitValue() const { return BiteToHitValue; }
-  long GetUnarmedAPCost() const { return UnarmedAPCost; }
-  long GetKickAPCost() const { return KickAPCost; }
-  long GetBiteAPCost() const { return BiteAPCost; }
+  slong GetUnarmedAPCost() const { return UnarmedAPCost; }
+  slong GetKickAPCost() const { return KickAPCost; }
+  slong GetBiteAPCost() const { return BiteAPCost; }
   virtual void Kick(lsquare*, int, truth = false);
   virtual truth Hit(character*, v2, int, int = 0);
   virtual void UnarmedHit(character*, v2, int, truth = false);
@@ -73,9 +73,9 @@ CHARACTER(nonhumanoid, character)
   double UnarmedToHitValue;
   double KickToHitValue;
   double BiteToHitValue;
-  long UnarmedAPCost;
-  long KickAPCost;
-  long BiteAPCost;
+  slong UnarmedAPCost;
+  slong KickAPCost;
+  slong BiteAPCost;
 };
 
 CHARACTER(frog, nonhumanoid)
@@ -404,7 +404,7 @@ CHARACTER(genetrixvesana, largecreature)
   virtual void GetAICommand();
   virtual void CreateCorpse(lsquare*);
   virtual truth MustBeRemovedFromBone() const;
-  long TurnsExisted;
+  slong TurnsExisted;
 };
 
 CHARACTER(hedgehog, nonhumanoid)
@@ -484,7 +484,7 @@ CHARACTER(lobhse, largecreature)
   virtual void CreateCorpse(lsquare*);
   virtual truth MustBeRemovedFromBone() const;
   virtual bodypart* MakeBodyPart(int) const;
-  long TurnsExisted;
+  slong TurnsExisted;
 };
 
 CHARACTER(mindworm, nonhumanoid)

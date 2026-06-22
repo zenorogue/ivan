@@ -467,7 +467,7 @@ int stack::DrawContents(itemvector& ReturnVector, stack* MergeStack,
   /*if(!(Flags & NO_SPECIAL_INFO))
     {
     Contents.AddDescription(CONST_S(""));
-    long Weight = GetWeight(Viewer, CENTER);
+    slong Weight = GetWeight(Viewer, CENTER);
 
     if(MergeStack)
     Weight += MergeStack->GetWeight(Viewer, CENTER);
@@ -572,7 +572,7 @@ void stack::AddContentsToList(felist& Contents, ccharacter* Viewer,
   Pile(PileVector, Viewer, RequiredSquarePosition, SorterFunction);
 
   truth DrawDesc = Desc.GetSize();
-  long LastCategory = 0;
+  slong LastCategory = 0;
   festring Entry;
 
   for(uint p = 0; p < PileVector.size(); ++p)
@@ -1021,9 +1021,9 @@ void stack::Pile(itemvectorvector& PileVector, ccharacter* Viewer,
 
 /* Total price of the stack */
 
-long stack::GetTruePrice() const
+slong stack::GetTruePrice() const
 {
-  long Price = 0;
+  slong Price = 0;
 
   for(stackiterator i = GetBottom(); i.HasItem(); ++i)
     Price += i->GetTruePrice();
@@ -1079,7 +1079,7 @@ truth stack::TakeSomethingFrom(character* Opener,
    the container isn't an item). Returns whether anything was done. */
 
 truth stack::PutSomethingIn(character* Opener, cfestring& ContainerName,
-                            long StorageVolume, ulong ContainerID)
+                            slong StorageVolume, ulong ContainerID)
 {
   if(!Opener->GetStack()->GetItems())
   {
@@ -1225,7 +1225,7 @@ void stack::FinalProcessForBone()
    Note that the original liquid isn't placed anywhere nor deleted,
    but its volume is decreased (possibly to zero). */
 
-void stack::SpillFluid(character* Spiller, liquid* Liquid, long VolumeModifier)
+void stack::SpillFluid(character* Spiller, liquid* Liquid, slong VolumeModifier)
 {
   if(!Items)
     return;
@@ -1237,14 +1237,14 @@ void stack::SpillFluid(character* Spiller, liquid* Liquid, long VolumeModifier)
   for(int c = ItemVector.size() - 1; c >= 0; --c)
     if(ItemVector[c]->Exists() && ItemVector[c]->AllowFluids())
     {
-      long ItemVolume = ItemVector[c]->GetVolume();
+      slong ItemVolume = ItemVector[c]->GetVolume();
       double Root = sqrt(ItemVolume);
 
       // in this loop, we need to increase the odds with which something on fire can receive a spilled fluid
 
       if(ItemVector[c]->IsBurning() || Root > RAND() % 200 || Root > RAND() % 200)
       {
-        long SpillVolume = long(VolumeModifier * Root * ChanceMultiplier);
+        slong SpillVolume = slong(VolumeModifier * Root * ChanceMultiplier);
 
         if(SpillVolume)
         {
@@ -1324,9 +1324,9 @@ truth stack::AllowDamage(int Direction, int SquarePosition)
   return true;
 }
 
-long stack::GetWeight(ccharacter* Viewer, int SquarePosition) const
+slong stack::GetWeight(ccharacter* Viewer, int SquarePosition) const
 {
-  long Weight = 0;
+  slong Weight = 0;
 
   for(stackiterator i = GetBottom(); i.HasItem(); ++i)
     if(i->GetSquarePosition() == SquarePosition

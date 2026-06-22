@@ -82,7 +82,7 @@ class sweaponskill : public weaponskill
   void PreProcessForBone() { ID = -ID; }
  private:
   ulong ID;
-  long Weight;
+  slong Weight;
   int Config;
 };
 

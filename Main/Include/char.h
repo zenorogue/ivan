@@ -130,7 +130,7 @@ struct characterdatabase : public databasebase
   int DefaultLegStrength;
   int DefaultDexterity;
   int DefaultAgility;
-  long DefaultMoney;
+  slong DefaultMoney;
   int TotalSize;
   int Sex;
   int CriticalModifier;
@@ -143,7 +143,7 @@ struct characterdatabase : public databasebase
   int AcidResistance;
   int SoundResistance;
   int ConsumeFlags;
-  long TotalVolume;
+  slong TotalVolume;
   packv2 HeadBitmapPos;
   packv2 TorsoBitmapPos;
   packv2 ArmBitmapPos;
@@ -180,7 +180,7 @@ struct characterdatabase : public databasebase
   int BaseKickStrength;
   int BonusBiteStrength;
   int AttackStyle;
-  long ClassStates;
+  slong ClassStates;
   fearray<festring> Alias;
   contentscript<item> Helmet;
   contentscript<item> Amulet;
@@ -196,8 +196,8 @@ struct characterdatabase : public databasebase
   contentscript<item> RightBoot;
   contentscript<item> LeftBoot;
   int AttributeBonus;
-  fearray<long> KnownCWeaponSkills;
-  fearray<long> CWeaponSkillHits;
+  fearray<slong> KnownCWeaponSkills;
+  fearray<slong> CWeaponSkillHits;
   int RightSWeaponSkillHits;
   int LeftSWeaponSkillHits;
   int PanicLevel;
@@ -323,11 +323,11 @@ class character : public entity, public id
   ulong GetFlags() const { return Flags; } //mainly for debugging
   truth Engrave(cfestring&);
   void AddScoreEntry(cfestring&, double = 1., truth = true) const;
-  long GetAP() const { return AP; }
-  long GetNP() const { return NP; }
+  slong GetAP() const { return AP; }
+  slong GetNP() const { return NP; }
   stack* GetStack() const { return Stack; }
   int GetBurdenState() const { return BurdenState; }
-  truth MakesBurdened(long What) const { return long(GetCarryingStrength()) * 2500 < What; }
+  truth MakesBurdened(slong What) const { return slong(GetCarryingStrength()) * 2500 < What; }
   virtual int TakeHit(character*, item*, bodypart*, v2, double, double, int, int, int, truth, truth);
   int GetLOSRange() const;
   int GetLOSRangeSquare() const { return GetLOSRange() * GetLOSRange(); }
@@ -339,35 +339,35 @@ class character : public entity, public id
   void AddPrimitiveHitMessage(ccharacter*, cfestring&, cfestring&, int) const;
   void AddWeaponHitMessage(ccharacter*, citem*, int, truth = false) const;
   virtual void BeTalkedTo();
-  void ReceiveDarkness(long);
+  void ReceiveDarkness(slong);
   void Die(ccharacter* = 0, cfestring& = CONST_S(""), ulong = 0);
   void HasBeenHitByItem(character*, item*, int, double, int);
   void Hunger();
   void Move(v2, truth, truth = false);
   virtual truth MoveRandomly();
-  void ReceiveNutrition(long);
-  void ReceiveOmmelUrine(long);
-  void ReceiveOmmelBlood(long);
-  void ReceivePepsi(long);
-  void ReceiveSchoolFood(long);
+  void ReceiveNutrition(slong);
+  void ReceiveOmmelUrine(slong);
+  void ReceiveOmmelBlood(slong);
+  void ReceivePepsi(slong);
+  void ReceiveSchoolFood(slong);
   void Regenerate();
-  void SetAP(long What) { AP = What; }
-  void SetNP(long);
+  void SetAP(slong What) { AP = What; }
+  void SetNP(slong);
   void Vomit(v2, int, truth = true);
   virtual void Be();
   truth Polymorph(character*, int);
   void BeKicked(character*, item*, bodypart*, v2, double, double, int, int, truth, truth);
   void FallTo(character*, v2);
   truth CheckCannibalism(cmaterial*) const;
-  void ActivateTemporaryState(long What) { TemporaryState |= What; }
-  void DeActivateTemporaryState(long What);
-  void ActivateEquipmentState(long What) { EquipmentState |= What; }
-  void DeActivateEquipmentState(long What) { EquipmentState &= ~What; }
-  truth TemporaryStateIsActivated(long What) const;
-  truth EquipmentStateIsActivated(long What) const { return EquipmentState & What; }
-  truth StateIsActivated(long What) const;
+  void ActivateTemporaryState(slong What) { TemporaryState |= What; }
+  void DeActivateTemporaryState(slong What);
+  void ActivateEquipmentState(slong What) { EquipmentState |= What; }
+  void DeActivateEquipmentState(slong What) { EquipmentState &= ~What; }
+  truth TemporaryStateIsActivated(slong What) const;
+  truth EquipmentStateIsActivated(slong What) const { return EquipmentState & What; }
+  truth StateIsActivated(slong What) const;
   truth LoseConsciousness(int, truth = false);
-  void SetTemporaryStateCounter(long, int);
+  void SetTemporaryStateCounter(slong, int);
   void DeActivateVoluntaryAction(cfestring& = CONST_S(""));
   void ActionAutoTermination();
   team* GetTeam() const { return Team; }
@@ -375,9 +375,9 @@ class character : public entity, public id
   void ChangeTeam(team*);
   virtual int GetMoveEase() const;
   double GetDodgeValue() const { return DodgeValue; }
-  long GetMoney() const { return Money; }
-  void SetMoney(long What) { Money = What; }
-  void EditMoney(long What) { Money += What; }
+  slong GetMoney() const { return Money; }
+  void SetMoney(slong What) { Money = What; }
+  void EditMoney(slong What) { Money += What; }
   truth Displace(character*, truth = false);
   truth CheckStarvationDeath(cfestring&);
   void ShowNewPosInfo() const;
@@ -386,15 +386,15 @@ class character : public entity, public id
   truth MoveRandomlyInRoom();
   std::list<character*>::iterator GetTeamIterator();
   void SetTeamIterator(std::list<character*>::iterator);
-  void ReceiveKoboldFlesh(long);
+  void ReceiveKoboldFlesh(slong);
   truth ChangeRandomAttribute(int);
-  int RandomizeReply(long&, int);
+  int RandomizeReply(slong&, int);
   virtual void CreateInitialEquipment(int);
   void DisplayInfo(festring&);
   virtual truth SpecialEnemySightedReaction(character*) { return false; }
   void TestWalkability();
-  void EditAP(long);
-  void EditNP(long);
+  void EditAP(slong);
+  void EditNP(slong);
   void SetSize(int);
   virtual int GetSize() const;
   torso* GetTorso() const { return static_cast<torso*>(*BodyPartSlot[TORSO_INDEX]); }
@@ -421,7 +421,7 @@ class character : public entity, public id
   festring GetWorldShapeDescription() const;
   virtual truth BodyPartCanBeSevered(int) const;
   virtual void AddName(festring&, int) const;
-  void ReceiveHeal(long);
+  void ReceiveHeal(slong);
   virtual item* GetMainWielded() const { return 0; }
   virtual item* GetSecondaryWielded() const { return 0; }
   int GetHungerState() const;
@@ -440,8 +440,8 @@ class character : public entity, public id
   virtual int CloseMultiplier() const { return 2; }
   virtual truth CheckThrow() const;
   virtual truth CheckOffer() const { return true; }
-  int GetTemporaryStateCounter(long) const;
-  void EditTemporaryStateCounter(long, int);
+  int GetTemporaryStateCounter(slong) const;
+  void EditTemporaryStateCounter(slong, int);
   static truth AllowDamageTypeBloodSpill(int);
   int GetResistance(int) const;
   virtual int GetGlobalResistance(int Type) const { return GetResistance(Type); }
@@ -492,7 +492,7 @@ class character : public entity, public id
   DATA_BASE_VALUE(int, DefaultLegStrength);
   DATA_BASE_VALUE(int, DefaultDexterity);
   DATA_BASE_VALUE(int, DefaultAgility);
-  DATA_BASE_VALUE(long, DefaultMoney);
+  DATA_BASE_VALUE(slong, DefaultMoney);
   DATA_BASE_VALUE(int, TotalSize);
   DATA_BASE_TRUTH(CanRead);
   DATA_BASE_VALUE(int, Sex);
@@ -506,7 +506,7 @@ class character : public entity, public id
   DATA_BASE_VALUE(int, AcidResistance);
   DATA_BASE_VALUE(int, SoundResistance);
   DATA_BASE_VALUE(int, ConsumeFlags);
-  DATA_BASE_VALUE(long, TotalVolume);
+  DATA_BASE_VALUE(slong, TotalVolume);
   virtual DATA_BASE_VALUE(v2, HeadBitmapPos);
   virtual DATA_BASE_VALUE(v2, TorsoBitmapPos);
   virtual DATA_BASE_VALUE(v2, ArmBitmapPos);
@@ -550,11 +550,11 @@ class character : public entity, public id
   DATA_BASE_TRUTH(CanKick);
   DATA_BASE_TRUTH(CanTalk);
   DATA_BASE_TRUTH(CanBeWished);
-  DATA_BASE_VALUE(long, ClassStates);
+  DATA_BASE_VALUE(slong, ClassStates);
   DATA_BASE_VALUE(const fearray<festring>&, Alias);
   DATA_BASE_TRUTH(CreateGolemMaterialConfigurations);
-  DATA_BASE_VALUE(const fearray<long>&, KnownCWeaponSkills);
-  DATA_BASE_VALUE(const fearray<long>&, CWeaponSkillHits);
+  DATA_BASE_VALUE(const fearray<slong>&, KnownCWeaponSkills);
+  DATA_BASE_VALUE(const fearray<slong>&, CWeaponSkillHits);
   DATA_BASE_VALUE(int, RightSWeaponSkillHits);
   DATA_BASE_VALUE(int, LeftSWeaponSkillHits);
   DATA_BASE_VALUE(int, PanicLevel);
@@ -657,12 +657,12 @@ class character : public entity, public id
   cweaponskill* GetCWeaponSkill(int I) const { return &CWeaponSkill[I]; }
   virtual truth AddSpecialSkillInfo(felist&) const { return false; }
   virtual truth CheckBalance(double);
-  long GetStateAPGain(long) const;
-  virtual long GetMoveAPRequirement(int) const;
+  slong GetStateAPGain(slong) const;
+  virtual slong GetMoveAPRequirement(int) const;
   virtual void SignalEquipmentAdd(int);
   virtual void SignalEquipmentRemoval(int, citem*);
-  void BeginTemporaryState(long, int);
-  void GainIntrinsic(long);
+  void BeginTemporaryState(slong, int);
+  void GainIntrinsic(slong);
   void HandleStates();
   void PrintBeginPolymorphControlMessage() const;
   void PrintEndPolymorphControlMessage() const;
@@ -703,7 +703,7 @@ class character : public entity, public id
   void VampirismHandler();
   character* PolymorphRandomly(int, int, int);
   virtual truth EquipmentEasilyRecognized(int) const { return true; }
-  void StartReading(item*, long);
+  void StartReading(item*, slong);
   void DexterityAction(int);
   void IntelligenceAction(int);
   virtual void SWeaponSkillTick() { }
@@ -784,10 +784,10 @@ class character : public entity, public id
   virtual void SignalVolumeAndWeightChange();
   virtual void SignalBodyPartVolumeAndWeightChange() { }
   void CalculateVolumeAndWeight();
-  long GetVolume() const { return Volume; }
-  long GetBodyVolume() const { return BodyVolume; }
-  long GetWeight() const { return Weight; }
-  long GetCarriedWeight() const { return CarriedWeight; }
+  slong GetVolume() const { return Volume; }
+  slong GetBodyVolume() const { return BodyVolume; }
+  slong GetWeight() const { return Weight; }
+  slong GetCarriedWeight() const { return CarriedWeight; }
   virtual void SignalEmitationIncrease(col24);
   virtual void SignalEmitationDecrease(col24);
   void CalculateEmitation();
@@ -800,8 +800,8 @@ class character : public entity, public id
   void CalculateBodyPartMaxHPs(ulong = MAY_CHANGE_HPS|CHECK_USABILITY);
   truth IsInitializing() const { return Flags & C_INITIALIZING; }
   truth IsInNoMsgMode() const { return Flags & C_IN_NO_MSG_MODE; }
-  truth ActivateRandomState(int, int, long = 0);
-  long GetRandomState(int) const;
+  truth ActivateRandomState(int, int, slong = 0);
+  slong GetRandomState(int) const;
   truth GainRandomIntrinsic(int);
   virtual void CalculateBattleInfo() = 0;
   void CalculateBurdenState();
@@ -851,7 +851,7 @@ class character : public entity, public id
   int GetRelation(ccharacter*) const;
   truth CalculateAttributeBonuses();
   void ApplyEquipmentAttributeBonuses(item*);
-  void ReceiveAntidote(long);
+  void ReceiveAntidote(slong);
   void AddAntidoteConsumeEndMessage() const;
   truth IsDead() const;
   void AddOriginalBodyPartID(int, ulong);
@@ -899,7 +899,7 @@ class character : public entity, public id
   virtual void AddSpecialStethoscopeInfo(felist&) const = 0;
   virtual item* GetPairEquipment(int) const { return 0; }
   bodypart* HealHitPoint();
-  void HealBurntBodyParts(long);
+  void HealBurntBodyParts(slong);
   void CreateHomeData();
   room* GetHomeRoom() const;
   truth HomeDataIsValid() const;
@@ -938,7 +938,7 @@ class character : public entity, public id
   virtual void DetachBodyPart();
   virtual void SetFireToBodyPart();
 #endif
-  void ReceiveHolyBanana(long);
+  void ReceiveHolyBanana(slong);
   void AddHolyBananaConsumeEndMessage() const;
   virtual truth PreProcessForBone();
   truth PostProcessForBone(double&, int&);
@@ -1003,7 +1003,7 @@ class character : public entity, public id
   virtual int GetSwimmingSymbolSquareIndex() const { return 0; }
   virtual int GetUnconsciousSymbolSquareIndex() const { return 0; }
   virtual truth PlaceIsIllegal(v2 Pos, v2 Illegal) const { return Pos == Illegal; }
-  liquid* CreateBlood(long) const;
+  liquid* CreateBlood(slong) const;
   void SpillFluid(character*, liquid*, int = 0);
   virtual void StayOn(liquid*);
   virtual head* GetVirtualHead() const { return 0; }
@@ -1031,7 +1031,7 @@ class character : public entity, public id
   truth CheckIfTooScaredToHit(ccharacter*) const;
   void PrintBeginLevitationMessage() const;
   void PrintEndLevitationMessage() const;
-  void EditDealExperience(long);
+  void EditDealExperience(slong);
   int RawEditExperience(double&, double, double, double) const;
   virtual void LeprosyHandler();
   virtual void TryToInfectWithLeprosy(ccharacter*);
@@ -1045,7 +1045,7 @@ class character : public entity, public id
   void RemoveAllItems();
   int CalculateWeaponSkillHits(ccharacter*) const;
   void DonateEquipmentTo(character*);
-  void ReceivePeaSoup(long);
+  void ReceivePeaSoup(slong);
   void AddPeaSoupConsumeEndMessage() const;
   void CalculateMaxStamina();
   void EditStamina(int, truth);
@@ -1057,11 +1057,11 @@ class character : public entity, public id
   int GetMaxStamina() const { return MaxStamina; }
   void SetGenerationDanger(double What) { GenerationDanger = What; }
   double GetGenerationDanger() const { return GenerationDanger; }
-  void ReceiveBlackUnicorn(long);
-  void ReceiveGrayUnicorn(long);
-  void ReceiveWhiteUnicorn(long);
-  void ReceiveSickness(long);
-  void DecreaseStateCounter(long, int);
+  void ReceiveBlackUnicorn(slong);
+  void ReceiveGrayUnicorn(slong);
+  void ReceiveWhiteUnicorn(slong);
+  void ReceiveSickness(slong);
+  void DecreaseStateCounter(slong, int);
   truth IsImmuneToLeprosy() const;
   bodypart* SearchForOriginalBodyPart(int) const;
   void SetLifeExpectancy(int, int);
@@ -1071,11 +1071,11 @@ class character : public entity, public id
   virtual truth CanHear() const;
   void BeginLeprosy();
   void EndLeprosy();
-  void ReceiveOmmelCerumen(long);
-  void ReceiveOmmelSweat(long);
-  void ReceiveOmmelTears(long);
-  void ReceiveOmmelSnot(long);
-  void ReceiveOmmelBone(long);
+  void ReceiveOmmelCerumen(slong);
+  void ReceiveOmmelSweat(slong);
+  void ReceiveOmmelTears(slong);
+  void ReceiveOmmelSnot(slong);
+  void ReceiveOmmelBone(slong);
   truth IsSameAs(ccharacter*) const;
   ulong GetCommandFlags() const;
   void SetCommandFlags(ulong What) { CommandFlags = What; }
@@ -1100,7 +1100,7 @@ class character : public entity, public id
   virtual truth CanMove() const;
   void CalculateEnchantments();
   truth GetNewFormForPolymorphWithControl(character*&);
-  liquid* CreateSweat(long) const;
+  liquid* CreateSweat(slong) const;
   truth IsTemporary() const;
   truth TeleportRandomItem(truth);
   truth HasClearRouteTo(v2) const;
@@ -1155,9 +1155,9 @@ class character : public entity, public id
   virtual bool IsConscious() const;
   void ForcePutNear(v2);
   virtual void ApplySpecialAttributeBonuses() { }
-  void ReceiveMustardGas(int, long);
-  void ReceiveMustardGasLiquid(int, long);
-  void ReceiveFlames(long);
+  void ReceiveMustardGas(int, slong);
+  void ReceiveMustardGasLiquid(int, slong);
+  void ReceiveFlames(slong);
   truth IsBadPath(v2) const;
   double& GetExpModifierRef(expid);
   truth ForgetRandomThing();
@@ -1208,12 +1208,12 @@ class character : public entity, public id
   virtual col16 GetBodyPartColorC(int, truth = false) const;
   virtual col16 GetBodyPartColorD(int, truth = false) const;
   virtual int GetBodyPartSparkleFlags(int) const;
-  virtual long GetBodyPartSize(int, int) const;
-  virtual long GetBodyPartVolume(int) const;
+  virtual slong GetBodyPartSize(int, int) const;
+  virtual slong GetBodyPartVolume(int) const;
   void UpdateBodyPartPicture(int I, truth);
   int ChooseBodyPartToReceiveHit(double, double);
   virtual void CreateBodyParts(int);
-  virtual material* CreateBodyPartMaterial(int, long) const;
+  virtual material* CreateBodyPartMaterial(int, slong) const;
   virtual truth ShowClassDescription() const { return true; }
   void SeekLeader(ccharacter*);
   virtual truth CheckForUsefulItemsOnGround(truth = true);
@@ -1272,13 +1272,13 @@ class character : public entity, public id
   virtual const prototype* FindProtoType() const { return &ProtoType; }
   static const prototype ProtoType;
   stack* Stack;
-  long NP, AP;
-  long TemporaryState;
+  slong NP, AP;
+  slong TemporaryState;
   int TemporaryStateCounter[STATES];
   team* Team;
   v2 GoingTo;
   double RandomMoveDir;
-  long Money;
+  slong Money;
   int MyVomitMaterial;
   std::list<character*>::iterator TeamIterator;
   bodypartslot* BodyPartSlot;
@@ -1290,19 +1290,19 @@ class character : public entity, public id
   entity* MotherEntity;
   character* PolymorphBackup;
   cweaponskill* CWeaponSkill;
-  long EquipmentState;
+  slong EquipmentState;
   square** SquareUnder;
-  long Volume;
-  long Weight;
-  long CarriedWeight;
-  long BodyVolume;
+  slong Volume;
+  slong Weight;
+  slong CarriedWeight;
+  slong BodyVolume;
   int HP;
   int MaxHP;
   int BurdenState;
   double DodgeValue;
   int AllowedWeaponSkillCategories;
   int BodyParts;
-  long RegenerationCounter;
+  slong RegenerationCounter;
   int AttributeBonus[BASE_ATTRIBUTES];
   int CarryingBonus;
   homedata* HomeData;

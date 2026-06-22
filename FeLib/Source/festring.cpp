@@ -497,7 +497,7 @@ void festring::Insert(sizetype Pos, cchar* CStr, sizetype N)
 }
 
 /* Creates map of char representations of numbers 0-999 used by
-   festring::Append(long). Due to automatization, you don't need
+   festring::Append(slong). Due to automatization, you don't need
    to explicitly call it. */
 
 void festring::InstallIntegerMap()
@@ -526,7 +526,7 @@ void festring::InstallIntegerMap()
   atexit(DeInstallIntegerMap);
 }
 
-/* Deletes the integer map used by festring::Append(long).
+/* Deletes the integer map used by festring::Append(slong).
    Due to automatization, you don't need to explicitly call it. */
 
 void festring::DeInstallIntegerMap()
@@ -544,7 +544,7 @@ void festring::CheckNull(cchar* Ptr)
 /* Displays numbers in the range [-2147483647, 2147483647].
    Much faster than sprintf and (nonstandard) itoa. */
 #include <cstdio>
-festring& festring::AppendInt(long Integer)
+festring& festring::AppendInt(slong Integer)
 {
   if(!IntegerMap)
     InstallIntegerMap();
@@ -876,7 +876,7 @@ void festring::SwapData(festring& Str)
   Str.OwnsData = TOwnsData;
 }
 
-long festring::GetCheckSum() const
+slong festring::GetCheckSum() const
 {
   return Size > 0 ? Data[Size - 1] : 0;
 }

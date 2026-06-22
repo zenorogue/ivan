@@ -380,10 +380,10 @@ void character::SetTeamIterator(std::list<character*>::iterator What)
 { TeamIterator = What; }
 void character::CreateInitialEquipment(int SpecialFlags)
 { AddToInventory(DataBase->Inventory, SpecialFlags); }
-void character::EditAP(long What)
-{ AP = Limit<long>(AP + What, -12000, 1200); }
+void character::EditAP(slong What)
+{ AP = Limit<slong>(AP + What, -12000, 1200); }
 int character::GetRandomStepperBodyPart() const { return TORSO_INDEX; }
-void character::GainIntrinsic(long What)
+void character::GainIntrinsic(slong What)
 { BeginTemporaryState(What, PERMANENT); }
 truth character::IsUsingArms() const { return GetAttackStyle() & USE_ARMS; }
 truth character::IsUsingLegs() const { return GetAttackStyle() & USE_LEGS; }
@@ -2365,8 +2365,8 @@ truth character::ReadItem(item* ToBeRead)
 void character::CalculateBurdenState()
 {
   int OldBurdenState = BurdenState;
-  long SumOfMasses = GetCarriedWeight();
-  long CarryingStrengthUnits = long(GetCarryingStrength()) * 2500;
+  slong SumOfMasses = GetCarriedWeight();
+  slong CarryingStrengthUnits = slong(GetCarryingStrength()) * 2500;
 
   if(SumOfMasses > (CarryingStrengthUnits << 1) + CarryingStrengthUnits)
     BurdenState = OVER_LOADED;
@@ -2591,7 +2591,7 @@ void character::AddScoreEntry(cfestring& Description, double Multiplier, truth A
         Desc << " in " << game::GetCurrentDungeon()->GetLevelDescription(game::GetCurrentLevelIndex());
     }
 
-    HScore.Add(long(game::GetScore() * Multiplier), Desc);
+    HScore.Add(slong(game::GetScore() * Multiplier), Desc);
     HScore.Save();
   }
 }
@@ -3847,7 +3847,7 @@ void character::Vomit(v2 Pos, int Amount, truth ShowMsg)
 
   if(!game::IsInWilderness())
     GetNearLSquare(Pos)->ReceiveVomit(this,
-                                      liquid::Spawn(GetMyVomitMaterial(), long(sqrt(GetBodyVolume()) * Amount / 1000)));
+                                      liquid::Spawn(GetMyVomitMaterial(), slong(sqrt(GetBodyVolume()) * Amount / 1000)));
 }
 
 truth character::Polymorph(character* NewForm, int Counter)
@@ -4066,7 +4066,7 @@ truth character::LoseConsciousness(int Counter, truth HungerFaint)
   return true;
 }
 
-void character::DeActivateTemporaryState(long What)
+void character::DeActivateTemporaryState(slong What)
 {
   if(PolymorphBackup)
     PolymorphBackup->TemporaryState &= ~What;
@@ -4131,7 +4131,7 @@ truth character::CheckForEnemies(truth CheckDoors, truth CheckGround, truth MayM
 
   truth HostileCharsNear = false;
   character* NearestChar = 0;
-  long NearestDistance = 0x7FFFFFFF;
+  slong NearestDistance = 0x7FFFFFFF;
   v2 Pos = GetPos();
 
   for(int c = 0; c < game::GetTeams(); ++c)
@@ -4139,7 +4139,7 @@ truth character::CheckForEnemies(truth CheckDoors, truth CheckGround, truth MayM
       for(character* p : game::GetTeam(c)->GetMember())
         if(p->IsEnabled() && GetAttribute(WISDOM) < p->GetAttackWisdomLimit())
         {
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
 
           if(ThisDistance <= GetLOSRangeSquare())
             HostileCharsNear = true;
@@ -4453,7 +4453,7 @@ truth character::Displace(character* Who, truth Forced)
   }
 }
 
-void character::SetNP(long What)
+void character::SetNP(slong What)
 {
   int OldState = GetHungerState();
   NP = What;
@@ -4776,7 +4776,7 @@ truth character::ChangeRandomAttribute(int HowMuch)
   return false;
 }
 
-int character::RandomizeReply(long& Said, int Replies)
+int character::RandomizeReply(slong& Said, int Replies)
 {
   truth NotSaid = false;
 
@@ -4790,7 +4790,7 @@ int character::RandomizeReply(long& Said, int Replies)
   if(!NotSaid)
     Said = 0;
 
-  long ToSay;
+  slong ToSay;
   while(Said & 1 << (ToSay = RAND() % Replies));
   Said |= 1 << ToSay;
   return ToSay;
@@ -5522,21 +5522,21 @@ truth character::CanConsume(material* Material) const
   return GetConsumeFlags() & Material->GetConsumeType();
 }
 
-void character::SetTemporaryStateCounter(long State, int What)
+void character::SetTemporaryStateCounter(slong State, int What)
 {
   for(int c = 0; c < STATES; ++c)
     if((1 << c) & State)
       TemporaryStateCounter[c] = What;
 }
 
-void character::EditTemporaryStateCounter(long State, int What)
+void character::EditTemporaryStateCounter(slong State, int What)
 {
   for(int c = 0; c < STATES; ++c)
     if((1 << c) & State)
       TemporaryStateCounter[c] += What;
 }
 
-int character::GetTemporaryStateCounter(long State) const
+int character::GetTemporaryStateCounter(slong State) const
 {
   for(int c = 0; c < STATES; ++c)
     if((1 << c) & State)
@@ -5600,7 +5600,7 @@ void character::Regenerate()
   if(HP == MaxHP)
     return;
 
-  long RegenerationBonus = 0;
+  slong RegenerationBonus = 0;
   truth NoHealableBodyParts = true;
 
   for(int c = 0; c < BodyParts; ++c)
@@ -5754,7 +5754,7 @@ void character::SetSize(int Size)
   }
 }
 
-long character::GetBodyPartSize(int I, int TotalSize) const
+slong character::GetBodyPartSize(int I, int TotalSize) const
 {
   if(I == TORSO_INDEX)
     return TotalSize;
@@ -5765,7 +5765,7 @@ long character::GetBodyPartSize(int I, int TotalSize) const
   }
 }
 
-long character::GetBodyPartVolume(int I) const
+slong character::GetBodyPartVolume(int I) const
 {
   if(I == TORSO_INDEX)
     return GetTotalVolume();
@@ -5874,11 +5874,11 @@ void character::LoadDataBaseStats()
 
   SetMoney(GetDefaultMoney());
   SetNewVomitMaterial(GetVomitMaterial());
-  const fearray<long>& Skills = GetKnownCWeaponSkills();
+  const fearray<slong>& Skills = GetKnownCWeaponSkills();
 
   if(Skills.Size)
   {
-    const fearray<long>& Hits = GetCWeaponSkillHits();
+    const fearray<slong>& Hits = GetCWeaponSkillHits();
 
     if(Hits.Size == 1)
     {
@@ -5979,7 +5979,7 @@ truth character::TeleportNear(character* Caller)
   return true;
 }
 
-void character::ReceiveHeal(long Amount)
+void character::ReceiveHeal(slong Amount)
 {
   int c;
 
@@ -6019,7 +6019,7 @@ void character::AddHealingLiquidConsumeEndMessage() const
     ADD_MESSAGE("%s looks healthier.", CHAR_NAME(DEFINITE));
 }
 
-void character::ReceiveSchoolFood(long SizeOfEffect)
+void character::ReceiveSchoolFood(slong SizeOfEffect)
 {
   SizeOfEffect += RAND() % SizeOfEffect;
 
@@ -6050,12 +6050,12 @@ void character::AddSchoolFoodHitMessage() const
     ADD_MESSAGE("Yuck! This stuff feels like vomit and old mousepads.");
 }
 
-void character::ReceiveNutrition(long SizeOfEffect)
+void character::ReceiveNutrition(slong SizeOfEffect)
 {
   EditNP(SizeOfEffect);
 }
 
-void character::ReceiveOmmelBlood(long Amount)
+void character::ReceiveOmmelBlood(slong Amount)
 {
   EditExperience(WILL_POWER, 500, Amount << 4);
   EditExperience(MANA, 500, Amount << 4);
@@ -6064,7 +6064,7 @@ void character::ReceiveOmmelBlood(long Amount)
     game::DoEvilDeed(Amount / 25);
 }
 
-void character::ReceiveOmmelUrine(long Amount)
+void character::ReceiveOmmelUrine(slong Amount)
 {
   EditExperience(ARM_STRENGTH, 500, Amount << 4);
   EditExperience(LEG_STRENGTH, 500, Amount << 4);
@@ -6073,7 +6073,7 @@ void character::ReceiveOmmelUrine(long Amount)
     game::DoEvilDeed(Amount / 25);
 }
 
-void character::ReceiveOmmelCerumen(long Amount)
+void character::ReceiveOmmelCerumen(slong Amount)
 {
   EditExperience(INTELLIGENCE, 500, Amount << 5);
   EditExperience(WISDOM, 500, Amount << 5);
@@ -6082,7 +6082,7 @@ void character::ReceiveOmmelCerumen(long Amount)
     game::DoEvilDeed(Amount / 25);
 }
 
-void character::ReceiveOmmelSweat(long Amount)
+void character::ReceiveOmmelSweat(slong Amount)
 {
   EditExperience(AGILITY, 500, Amount << 4);
   EditExperience(DEXTERITY, 500, Amount << 4);
@@ -6092,7 +6092,7 @@ void character::ReceiveOmmelSweat(long Amount)
     game::DoEvilDeed(Amount / 25);
 }
 
-void character::ReceiveOmmelTears(long Amount)
+void character::ReceiveOmmelTears(slong Amount)
 {
   EditExperience(PERCEPTION, 500, Amount << 4);
   EditExperience(CHARISMA, 500, Amount << 4);
@@ -6101,7 +6101,7 @@ void character::ReceiveOmmelTears(long Amount)
     game::DoEvilDeed(Amount / 25);
 }
 
-void character::ReceiveOmmelSnot(long Amount)
+void character::ReceiveOmmelSnot(slong Amount)
 {
   EditExperience(ENDURANCE, 500, Amount << 5);
   RestoreLivingHP();
@@ -6110,7 +6110,7 @@ void character::ReceiveOmmelSnot(long Amount)
     game::DoEvilDeed(Amount / 25);
 }
 
-void character::ReceiveOmmelBone(long Amount)
+void character::ReceiveOmmelBone(slong Amount)
 {
   EditExperience(ARM_STRENGTH, 500, Amount << 6);
   EditExperience(LEG_STRENGTH, 500, Amount << 6);
@@ -6136,7 +6136,7 @@ void character::AddOmmelConsumeEndMessage() const
     ADD_MESSAGE("Suddenly %s looks more powerful.", CHAR_NAME(DEFINITE));
 }
 
-void character::ReceivePepsi(long Amount)
+void character::ReceivePepsi(slong Amount)
 {
   ReceiveDamage(0, Amount / 100, POISON, TORSO);
   EditExperience(PERCEPTION, Amount, 1 << 14);
@@ -6164,7 +6164,7 @@ void character::AddCocaColaConsumeEndMessage() const
     ADD_MESSAGE("%s looks awesome.", CHAR_NAME(DEFINITE));
 }
 
-void character::ReceiveDarkness(long Amount)
+void character::ReceiveDarkness(slong Amount)
 {
   // A bit of a gum solution, but spiders and frogs are immune to prevent
   // Lobh-se and dark frogs from poisoning themselves.
@@ -6183,7 +6183,7 @@ void character::AddFrogFleshConsumeEndMessage() const
     ADD_MESSAGE("Suddenly %s looks like a navastater.", CHAR_NAME(DEFINITE));
 }
 
-void character::ReceiveKoboldFlesh(long)
+void character::ReceiveKoboldFlesh(slong)
 {
   /* As it is commonly known, the possibility of fainting per 500 cubic
      centimeters of kobold flesh is exactly 5%. */
@@ -6418,9 +6418,9 @@ int character::CheckForBlockWithArm(character* Enemy, item* Weapon, arm* Arm,
         break;
       }
 
-      long Weight = Blocker->GetWeight();
-      long StrExp = Limit(15 * Weight / 200L, 75L, 300L);
-      long DexExp = Weight ? Limit(75000L / Weight, 75L, 300L) : 300;
+      slong Weight = Blocker->GetWeight();
+      slong StrExp = Limit<slong>(15 * Weight / 200L, 75L, 300L);
+      slong DexExp = Weight ? Limit<slong>(75000L / Weight, 75L, 300L) : 300;
       Arm->EditExperience(ARM_STRENGTH, StrExp, 1 << 8);
       Arm->EditExperience(DEXTERITY, DexExp, 1 << 8);
       EditStamina(GetAdjustedStaminaCost(-1000, GetAttribute(ARM_STRENGTH)), false);
@@ -6450,7 +6450,7 @@ int character::CheckForBlockWithArm(character* Enemy, item* Weapon, arm* Arm,
   return Damage;
 }
 
-long character::GetStateAPGain(long BaseAPGain) const
+slong character::GetStateAPGain(slong BaseAPGain) const
 {
   if(!StateIsActivated(HASTE) == !StateIsActivated(SLOW))
     return BaseAPGain;
@@ -6466,7 +6466,7 @@ void character::SignalEquipmentAdd(int EquipmentIndex)
 
   if(Equipment->IsInCorrectSlot(EquipmentIndex))
   {
-    long AddedStates = Equipment->GetGearStates();
+    slong AddedStates = Equipment->GetGearStates();
 
     if(AddedStates)
       for(int c = 0; c < STATES; ++c)
@@ -6502,7 +6502,7 @@ void character::SignalEquipmentRemoval(int, citem* Item)
 void character::CalculateEquipmentState()
 {
   int c;
-  long Back = EquipmentState;
+  slong Back = EquipmentState;
   EquipmentState = 0;
 
   for(c = 0; c < GetEquipments(); ++c)
@@ -6531,7 +6531,7 @@ void character::CalculateEquipmentState()
 
 /* Counter = duration in ticks */
 
-void character::BeginTemporaryState(long State, int Counter)
+void character::BeginTemporaryState(slong State, int Counter)
 {
   if(!Counter)
     return;
@@ -6991,7 +6991,7 @@ character* character::PolymorphRandomly(int MinDanger, int MaxDanger, int Time)
 
 /* In reality, the reading takes Time / (Intelligence * 10) turns */
 
-void character::StartReading(item* Item, long Time)
+void character::StartReading(item* Item, slong Time)
 {
   study* Read = study::Spawn(this);
   Read->SetLiteratureID(Item->GetID());
@@ -7714,12 +7714,12 @@ void character::TeleportSomePartsAway(int NumberToTeleport)
       for(; c < NumberToTeleport; ++c)
       {
         GetTorso()->SetHP((GetTorso()->GetHP() << 2) / 5);
-        long TorsosVolume = GetTorso()->GetMainMaterial()->GetVolume() / 10;
+        slong TorsosVolume = GetTorso()->GetMainMaterial()->GetVolume() / 10;
 
         if(!TorsosVolume)
           break;
 
-        long Amount = (RAND() % TorsosVolume) + 1;
+        slong Amount = (RAND() % TorsosVolume) + 1;
         item* Lump = GetTorso()->GetMainMaterial()->CreateNaturalForm(Amount);
         GetTorso()->GetMainMaterial()->EditVolume(-Amount);
         Lump->MoveTo(GetNearLSquare(GetLevel()->GetRandomSquare())->GetStack());
@@ -7925,14 +7925,14 @@ truth character::EditAttribute(int Identifier, int Value)
     return false;
 }
 
-truth character::ActivateRandomState(int Flags, int Time, long Seed)
+truth character::ActivateRandomState(int Flags, int Time, slong Seed)
 {
   femath::SaveSeed();
 
   if(Seed)
     femath::SetSeed(Seed);
 
-  long ToBeActivated = GetRandomState(Flags|DUR_TEMPORARY);
+  slong ToBeActivated = GetRandomState(Flags|DUR_TEMPORARY);
   femath::LoadSeed();
 
   if(!ToBeActivated)
@@ -7944,7 +7944,7 @@ truth character::ActivateRandomState(int Flags, int Time, long Seed)
 
 truth character::GainRandomIntrinsic(int Flags)
 {
-  long ToBeActivated = GetRandomState(Flags|DUR_PERMANENT);
+  slong ToBeActivated = GetRandomState(Flags|DUR_PERMANENT);
 
   if(!ToBeActivated)
     return false;
@@ -7955,9 +7955,9 @@ truth character::GainRandomIntrinsic(int Flags)
 
 /* Returns 0 if state not found */
 
-long character::GetRandomState(int Flags) const
+slong character::GetRandomState(int Flags) const
 {
-  long OKStates[STATES];
+  slong OKStates[STATES];
   int NumberOfOKStates = 0;
 
   for(int c = 0; c < STATES; ++c)
@@ -8563,7 +8563,7 @@ void character::ApplyEquipmentAttributeBonuses(item* Equipment)
   }
 }
 
-void character::ReceiveAntidote(long Amount)
+void character::ReceiveAntidote(slong Amount)
 {
   if(StateIsActivated(POISONED))
   {
@@ -8588,7 +8588,7 @@ void character::ReceiveAntidote(long Amount)
       ADD_MESSAGE("Something in your belly didn't seem to like this stuff.");
 
     DeActivateTemporaryState(PARASITE_TAPE_WORM);
-    Amount -= Min(100L, Amount);
+    Amount -= Min<slong>(100L, Amount);
   }
 
   if((Amount > 500 || RAND_N(1000) < Amount) && StateIsActivated(PARASITE_MIND_WORM))
@@ -8597,7 +8597,7 @@ void character::ReceiveAntidote(long Amount)
       ADD_MESSAGE("Something in your head screeches in pain.");
 
     DeActivateTemporaryState(PARASITE_MIND_WORM);
-    Amount -= Min(100L, Amount);
+    Amount -= Min<slong>(100L, Amount);
   }
 
   if((Amount > 500 || RAND_N(1000) < Amount) && StateIsActivated(LEPROSY))
@@ -8606,7 +8606,7 @@ void character::ReceiveAntidote(long Amount)
       ADD_MESSAGE("You are not falling to pieces anymore.");
 
     DeActivateTemporaryState(LEPROSY);
-    Amount -= Min(100L, Amount);
+    Amount -= Min<slong>(100L, Amount);
   }
 }
 
@@ -8723,7 +8723,7 @@ void character::ProcessAndAddMessage(festring Msg) const
 
 void character::BeTalkedTo()
 {
-  static long Said;
+  static slong Said;
 
   if(GetRelation(PLAYER) == HOSTILE)
     ProcessAndAddMessage(GetHostileReplies()[RandomizeReply(Said, GetHostileReplies().Size)]);
@@ -8914,7 +8914,7 @@ truth character::EquipsSomething(sorter Sorter)
   return false;
 }
 
-material* character::CreateBodyPartMaterial(int, long Volume) const
+material* character::CreateBodyPartMaterial(int, slong Volume) const
 {
   return MAKE_MATERIAL(GetFleshMaterial(), Volume);
 }
@@ -9102,7 +9102,7 @@ festring character::GetPanelName() const
   return PanelName;
 }
 
-long character::GetMoveAPRequirement(int Difficulty) const
+slong character::GetMoveAPRequirement(int Difficulty) const
 {
   return (!StateIsActivated(PANIC) ? 10000000 : 8000000) * Difficulty
          / (APBonus(GetAttribute(AGILITY)) * GetMoveEase());
@@ -9131,7 +9131,7 @@ bodypart* character::HealHitPoint()
     return 0;
 }
 
-void character::HealBurntBodyParts(long Amount)
+void character::HealBurntBodyParts(slong Amount)
 {
   if(!Amount)
     return;
@@ -9580,7 +9580,7 @@ void character::SetFireToBodyPart()
 
 #endif
 
-void character::ReceiveHolyBanana(long Amount)
+void character::ReceiveHolyBanana(slong Amount)
 {
   Amount <<= 1;
   EditExperience(ARM_STRENGTH, Amount, 1 << 13);
@@ -10145,25 +10145,25 @@ double character::RandomizeBabyExperience(double SumE)
   return Limit(E, MIN_EXP, MAX_EXP);
 }
 
-liquid* character::CreateBlood(long Volume) const
+liquid* character::CreateBlood(slong Volume) const
 {
   return liquid::Spawn(GetBloodMaterial(), Volume);
 }
 
 void character::SpillFluid(character* Spiller, liquid* Liquid, int SquareIndex)
 {
-  long ReserveVolume = Liquid->GetVolume() >> 1;
+  slong ReserveVolume = Liquid->GetVolume() >> 1;
   Liquid->EditVolume(-ReserveVolume);
   GetStack()->SpillFluid(Spiller, Liquid,
-                         long(Liquid->GetVolume() * sqrt(double(GetStack()->GetVolume()) / GetVolume())));
+                         slong(Liquid->GetVolume() * sqrt(double(GetStack()->GetVolume()) / GetVolume())));
   Liquid->EditVolume(ReserveVolume);
   int c;
-  long Modifier[MAX_BODYPARTS], ModifierSum = 0;
+  slong Modifier[MAX_BODYPARTS], ModifierSum = 0;
 
   for(c = 0; c < BodyParts; ++c)
     if(GetBodyPart(c))
     {
-      Modifier[c] = long(sqrt(GetBodyPart(c)->GetVolume()));
+      Modifier[c] = slong(sqrt(GetBodyPart(c)->GetVolume()));
 
       if(Modifier[c])
         Modifier[c] *= 1 + (RAND() & 3);
@@ -10526,7 +10526,7 @@ void characterdatabase::PostProcess()
     NaturalExperience[c] = this->*ExpPtr[c] * AM;
 }
 
-void character::EditDealExperience(long Price)
+void character::EditDealExperience(slong Price)
 {
   EditExperience(CHARISMA, sqrt(Price) * 10, 15000);
 }
@@ -10752,7 +10752,7 @@ void character::DonateEquipmentTo(character* Character)
   }
 }
 
-void character::ReceivePeaSoup(long)
+void character::ReceivePeaSoup(slong)
 {                                            /* don't spawn fart smoke on the world map (smoke objects only
                                                 have functions for lsquares, not wsquares) */
   if(!game::IsInWilderness() || !IsPlayer()) /* not sure if the AI eats while the player's on the world map,
@@ -10833,7 +10833,7 @@ void character::RegenerateStamina()
 
     if(Sweats() && TorsoIsAlive() && !RAND_N(30) && !game::IsInWilderness())
     {
-      long Volume = long(.05 * sqrt(GetBodyVolume()));
+      slong Volume = slong(.05 * sqrt(GetBodyVolume()));
 
       if(GetTirednessState() == FAINTING)
         Volume <<= 1;
@@ -10935,7 +10935,7 @@ int character::GetTirednessState() const
     return FAINTING;
 }
 
-void character::ReceiveBlackUnicorn(long Amount)
+void character::ReceiveBlackUnicorn(slong Amount)
 {
   if(!(RAND() % 160))
     game::DoEvilDeed(Amount / 50);
@@ -10959,7 +10959,7 @@ void character::ReceiveBlackUnicorn(long Amount)
     }
 }
 
-void character::ReceiveGrayUnicorn(long Amount)
+void character::ReceiveGrayUnicorn(slong Amount)
 {
   if(!(RAND() % 80))
     game::DoEvilDeed(Amount / 50);
@@ -10976,7 +10976,7 @@ void character::ReceiveGrayUnicorn(long Amount)
     }
 }
 
-void character::ReceiveWhiteUnicorn(long Amount)
+void character::ReceiveWhiteUnicorn(slong Amount)
 {
   if(!(RAND() % 40))
     game::DoEvilDeed(Amount / 50);
@@ -10991,7 +10991,7 @@ void character::ReceiveWhiteUnicorn(long Amount)
   DecreaseStateCounter(VAMPIRISM, -Amount / 100);
 }
 
-void character::ReceiveSickness(long Amount)
+void character::ReceiveSickness(slong Amount)
 {
   if(IsPlayer() && !RAND_N(10))
     ADD_MESSAGE("You don't feel so good.");
@@ -11014,7 +11014,7 @@ void character::ReceiveSickness(long Amount)
 
 /* Counter should be negative. Removes intrinsics. */
 
-void character::DecreaseStateCounter(long State, int Counter)
+void character::DecreaseStateCounter(slong State, int Counter)
 {
   int Index;
 
@@ -11501,7 +11501,7 @@ truth character::EquipmentScreen(stack* MainStack, stack* SecStack)
   truth EquipmentChanged = false;
   felist List(CONST_S("Equipment menu [ESC exits]"));
   festring Entry;
-  long TotalEquippedWeight;
+  slong TotalEquippedWeight;
 
   for(;;)
   {
@@ -11727,7 +11727,7 @@ truth character::GetNewFormForPolymorphWithControl(character*& NewForm)
   return true;
 }
 
-liquid* character::CreateSweat(long Volume) const
+liquid* character::CreateSweat(slong Volume) const
 {
   return liquid::Spawn(GetSweatMaterial(), Volume);
 }
@@ -11738,7 +11738,7 @@ truth character::TeleportRandomItem(truth TryToHinderVisibility)
     return false;
 
   itemvector ItemVector;
-  std::vector<long> PossibilityVector;
+  std::vector<slong> PossibilityVector;
   int TotalPossibility = 0;
 
   for(stackiterator i = GetStack()->GetBottom(); i.HasItem(); ++i)
@@ -12342,7 +12342,7 @@ int character::GetRandomBodyPart(ulong Possible) const
   return OKBodyParts ? OKBodyPart[RAND_N(OKBodyParts)] : NONE_INDEX;
 }
 
-void character::EditNP(long What)
+void character::EditNP(slong What)
 {
   int OldState = GetHungerState();
   NP += What;
@@ -12558,23 +12558,23 @@ void character::ForcePutNear(v2 Pos)
   PutTo(NewPos);
 }
 
-void character::ReceiveMustardGas(int BodyPart, long Volume)
+void character::ReceiveMustardGas(int BodyPart, slong Volume)
 {
   if(Volume)
     GetBodyPart(BodyPart)->AddFluid(liquid::Spawn(MUSTARD_GAS_LIQUID, Volume), CONST_S("skin"), 0, true);
 }
 
-void character::ReceiveMustardGasLiquid(int BodyPartIndex, long Modifier)
+void character::ReceiveMustardGasLiquid(int BodyPartIndex, slong Modifier)
 {
   bodypart* BodyPart = GetBodyPart(BodyPartIndex);
 
   if(BodyPart->GetMainMaterial()->GetInteractionFlags() & IS_AFFECTED_BY_MUSTARD_GAS)
   {
-    long Tries = Modifier;
+    slong Tries = Modifier;
     Modifier -= Tries; //opt%?
     int Damage = 0;
 
-    for(long c = 0; c < Tries; ++c)
+    for(slong c = 0; c < Tries; ++c)
       if(!(RAND() % 100))
         ++Damage;
 
@@ -12625,7 +12625,7 @@ void character::ReceiveMustardGasLiquid(int BodyPartIndex, long Modifier)
   }
 }
 
-void character::ReceiveFlames(long Volume)
+void character::ReceiveFlames(slong Volume)
 {
   if(!Volume)
     return;
@@ -12865,7 +12865,7 @@ void character::ReceiveItemAsPresent(item* Present)
 character* character::GetNearestEnemy() const
 {
   character* NearestEnemy = 0;
-  long NearestEnemyDistance = 0x7FFFFFFF;
+  slong NearestEnemyDistance = 0x7FFFFFFF;
   v2 Pos = GetPos();
 
   for(int c = 0; c < game::GetTeams(); ++c)
@@ -12874,7 +12874,7 @@ character* character::GetNearestEnemy() const
       for(character* p : game::GetTeam(c)->GetMember())
         if(p->IsEnabled())
         {
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X),
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X),
                                         abs(p->GetPos().Y - Pos.Y));
 
           if((ThisDistance < NearestEnemyDistance
@@ -13102,7 +13102,7 @@ truth character::IsESPBlockedByEquipment() const
   return false;
 }
 
-truth character::TemporaryStateIsActivated (long What) const
+truth character::TemporaryStateIsActivated (slong What) const
 {DBG7(this,GetNameSingular().CStr(),TemporaryState&What,TemporaryState,std::bitset<32>(TemporaryState),What,std::bitset<32>(What));
   if((What&PANIC) && (TemporaryState&PANIC) && StateIsActivated(FEARLESS))
   {DBGLN;
@@ -13116,7 +13116,7 @@ truth character::TemporaryStateIsActivated (long What) const
   return b;
 }
 
-truth character::StateIsActivated (long What) const
+truth character::StateIsActivated (slong What) const
 {
   if ((What & PANIC) && ((TemporaryState|EquipmentState) & PANIC) && StateIsActivated(FEARLESS))
   {

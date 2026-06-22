@@ -85,8 +85,8 @@ struct itemdatabase : public databasebase
   void PostProcess() { }
   const prototype* ProtoType;
   /* Maintained by configcontainer */
-  long PartialPossibilitySum;
-  long PartialCategoryPossibilitySum;
+  slong PartialPossibilitySum;
+  slong PartialCategoryPossibilitySum;
   int Possibility;
   int WeaponCategory;
   truth IsDestroyable;
@@ -131,7 +131,7 @@ struct itemdatabase : public databasebase
   truth CanBeBroken;
   truth CanBeBurned;
   truth CanBePiled;
-  long Category;
+  slong Category;
   int EnergyResistance;
   int FireResistance;
   int PoisonResistance;
@@ -141,10 +141,10 @@ struct itemdatabase : public databasebase
   int SoundResistance;
   int FormModifier;
   int DefaultSize;
-  long DefaultMainVolume;
-  long DefaultSecondaryVolume;
+  slong DefaultMainVolume;
+  slong DefaultSecondaryVolume;
   v2 BitmapPos;
-  long Price;
+  slong Price;
   col24 BaseEmitation;
   truth UsesLongArticle;
   festring Adjective;
@@ -153,21 +153,21 @@ struct itemdatabase : public databasebase
   festring NamePlural;
   festring PostFix;
   int ArticleMode;
-  fearray<long> MainMaterialConfig;
-  fearray<long> SecondaryMaterialConfig;
-  fearray<long> MaterialConfigChances;
-  long MaterialConfigChanceSum;
+  fearray<slong> MainMaterialConfig;
+  fearray<slong> SecondaryMaterialConfig;
+  fearray<slong> MaterialConfigChances;
+  slong MaterialConfigChanceSum;
   fearray<festring> Alias;
   int OKVisualEffects;
   int ForcedVisualEffects;
   int Roundness;
-  long GearStates;
+  slong GearStates;
   int BeamRange;
   v2 WallBitmapPos;
   festring FlexibleNameSingular;
   int MinCharges;
   int MaxCharges;
-  long StorageVolume;
+  slong StorageVolume;
   int MaxGeneratedContainedItems;
   int BaseEnchantment;
   int InElasticityPenaltyModifier;
@@ -237,7 +237,7 @@ class item : public object
   virtual ~item();
   virtual double GetWeaponStrength() const;
   virtual truth Open(character*);
-  truth Consume(character*, long);
+  truth Consume(character*, slong);
   virtual truth IsHeadOfElpuri() const { return false; }
   virtual truth IsPetrussNut() const { return false; }
   virtual truth IsGoldenEagleShirt() const { return false; }
@@ -248,7 +248,7 @@ class item : public object
   virtual void FinishReading(character*) { }
   virtual truth HitEffect(character*, character*, v2, int, int, truth) { return false; }
   virtual void DipInto(liquid*, character*) { }
-  virtual liquid* CreateDipLiquid(long MaxVolume = 500) { return 0; }
+  virtual liquid* CreateDipLiquid(slong MaxVolume = 500) { return 0; }
   virtual item* BetterVersion() const { return 0; }
   virtual int GetOfferValue(int) const;
   virtual void Fly(character*, int, int, truth=false);
@@ -290,7 +290,7 @@ class item : public object
   virtual void RemoveFromSlot();
   void MoveTo(stack*);
   truth IsMainSlot(const slot* What) const { return Slot[0] == What; }
-  static cchar* GetItemCategoryName(long);
+  static cchar* GetItemCategoryName(slong);
   virtual truth IsConsumable() const { return true; }
   truth IsEatable(ccharacter*) const;
   truth IsDrinkable(ccharacter*) const;
@@ -339,7 +339,7 @@ class item : public object
   DATA_BASE_TRUTH(IsMaterialChangeable);
   DATA_BASE_VALUE(int, WeaponCategory);
   DATA_BASE_TRUTH(IsAutoInitializable);
-  DATA_BASE_VALUE(long, Category);
+  DATA_BASE_VALUE(slong, Category);
   DATA_BASE_VALUE(int, EnergyResistance);
   DATA_BASE_VALUE(int, FireResistance);
   DATA_BASE_VALUE(int, PoisonResistance);
@@ -349,10 +349,10 @@ class item : public object
   DATA_BASE_VALUE(int, StrengthModifier);
   virtual DATA_BASE_VALUE(int, FormModifier);
   DATA_BASE_VALUE(int, DefaultSize);
-  DATA_BASE_VALUE(long, DefaultMainVolume);
-  DATA_BASE_VALUE(long, DefaultSecondaryVolume);
+  DATA_BASE_VALUE(slong, DefaultMainVolume);
+  DATA_BASE_VALUE(slong, DefaultSecondaryVolume);
   virtual DATA_BASE_VALUE_WITH_PARAMETER(v2, BitmapPos, int);
-  virtual DATA_BASE_VALUE(long, Price);
+  virtual DATA_BASE_VALUE(slong, Price);
   virtual DATA_BASE_VALUE(col24, BaseEmitation);
   virtual DATA_BASE_TRUTH(UsesLongArticle);
   virtual DATA_BASE_VALUE(cfestring&, Adjective);
@@ -361,16 +361,16 @@ class item : public object
   virtual DATA_BASE_VALUE(cfestring&, NamePlural);
   virtual DATA_BASE_VALUE(cfestring&, PostFix);
   virtual DATA_BASE_VALUE(int, ArticleMode);
-  DATA_BASE_VALUE(const fearray<long>&, MainMaterialConfig);
-  DATA_BASE_VALUE(const fearray<long>&, SecondaryMaterialConfig);
-  virtual DATA_BASE_VALUE(const fearray<long>&, MaterialConfigChances);
-  virtual DATA_BASE_VALUE(long, MaterialConfigChanceSum);
+  DATA_BASE_VALUE(const fearray<slong>&, MainMaterialConfig);
+  DATA_BASE_VALUE(const fearray<slong>&, SecondaryMaterialConfig);
+  virtual DATA_BASE_VALUE(const fearray<slong>&, MaterialConfigChances);
+  virtual DATA_BASE_VALUE(slong, MaterialConfigChanceSum);
   DATA_BASE_TRUTH(IsPolymorphable);
   virtual DATA_BASE_VALUE(int, OKVisualEffects);
   DATA_BASE_TRUTH(CanBeGeneratedInContainer);
   virtual DATA_BASE_VALUE(int, ForcedVisualEffects);
   DATA_BASE_VALUE(int, Roundness);
-  DATA_BASE_VALUE(long, GearStates);
+  DATA_BASE_VALUE(slong, GearStates);
   DATA_BASE_TRUTH(IsTwoHanded);
   DATA_BASE_TRUTH(CanBeBroken);
   DATA_BASE_TRUTH(CanBeBurned);
@@ -394,7 +394,7 @@ class item : public object
   DATA_BASE_VALUE(int, MaxCharges);
   DATA_BASE_VALUE(int, MinCharges);
   DATA_BASE_VALUE(int, InElasticityPenaltyModifier);
-  DATA_BASE_VALUE(long, StorageVolume);
+  DATA_BASE_VALUE(slong, StorageVolume);
   DATA_BASE_VALUE(int, MaxGeneratedContainedItems);
   virtual DATA_BASE_TRUTH(CanBeCloned);
   virtual DATA_BASE_TRUTH(CanBeMirrored);
@@ -403,7 +403,7 @@ class item : public object
   DATA_BASE_VALUE(int, DamageDivider);
   DATA_BASE_TRUTH(HandleInPairs);
   DATA_BASE_TRUTH(CanBeEnchanted);
-  DATA_BASE_VALUE(long, BeamColor);
+  DATA_BASE_VALUE(slong, BeamColor);
   DATA_BASE_VALUE(int, BeamEffect);
   DATA_BASE_VALUE(int, BeamStyle);
   DATA_BASE_VALUE(int, WearWisdomLimit);
@@ -437,7 +437,7 @@ class item : public object
   DATA_BASE_VALUE(cfestring&, DescriptiveInfo);
   truth CanBeSoldInLibrary(character* Librarian) const { return CanBeRead(Librarian); }
   virtual truth TryKey(item*, character*) { return false; }
-  long GetBlockModifier() const;
+  slong GetBlockModifier() const;
   truth IsSimilarTo(item*) const;
   virtual truth IsPickable(character*) const { return true; }
   truth CanBeSeenByPlayer() const;
@@ -455,8 +455,8 @@ class item : public object
   lsquare* GetNearLSquare(int x, int y) const { return static_cast<lsquare*>(Slot[0]->GetSquareUnder()->GetArea()->GetSquare(x, y)); }
   virtual void SignalVolumeAndWeightChange();
   virtual void CalculateVolumeAndWeight();
-  long GetVolume() const { return Volume; }
-  long GetWeight() const { return Weight; }
+  slong GetVolume() const { return Volume; }
+  slong GetWeight() const { return Weight; }
   virtual void SignalEmitationIncrease(col24);
   virtual void SignalEmitationDecrease(col24);
   col24 GetEmitationDueToBurnLevel();
@@ -475,12 +475,12 @@ class item : public object
   int GetBaseToHitValue() const;
   int GetBaseBlockValue() const;
   virtual void AddInventoryEntry(ccharacter*, festring&, int, truth) const;
-  long GetNutritionValue() const;
+  slong GetNutritionValue() const;
   virtual void SignalSpoil(material*);
   virtual truth AllowSpoil() const;
   item* DuplicateToStack(stack*, ulong = 0);
   virtual truth CanBePiledWith(citem*, ccharacter*) const;
-  virtual long GetTotalExplosivePower() const { return 0; }
+  virtual slong GetTotalExplosivePower() const { return 0; }
   virtual void Break(character*, int = YOURSELF);
   virtual void SetEnchantment(int) { }
   virtual void EditEnchantment(int) { }
@@ -491,14 +491,14 @@ class item : public object
   virtual truth IsBroken() const;
   virtual truth IsFood() const;
   virtual int GetEnchantment() const { return 0; }
-  long GetEnchantedPrice(int) const;
+  slong GetEnchantedPrice(int) const;
   virtual item* Fix();
   int GetStrengthRequirement() const;
   virtual int GetInElasticityPenalty(int) const { return 0; }
   virtual truth IsFixableBySmith(ccharacter*) const { return false; }
   virtual truth IsFixableByTailor(ccharacter*) const { return false; }
   virtual truth IsOnFire(ccharacter*) const { return !!IsBurning(); }
-  virtual long GetFixPrice() const;
+  virtual slong GetFixPrice() const;
   virtual void DonateSlotTo(item*);
   virtual int GetSpoilLevel() const;
   virtual void SignalSpoilLevelChange(material*);
@@ -531,7 +531,7 @@ class item : public object
   virtual void SortAllItems(const sortdata&) const;
   virtual truth AllowAlphaEverywhere() const { return false; }
   virtual int GetAttachedGod() const;
-  virtual long GetTruePrice() const;
+  virtual slong GetTruePrice() const;
   virtual void Search(ccharacter*, int) { }
   virtual head* Behead() { return 0; }
   virtual truth IsGorovitsFamilyRelic() const { return false; }
@@ -566,8 +566,8 @@ class item : public object
   virtual void CalculateEmitation();
   void FillFluidVector(fluidvector&, int = 0) const;
   virtual void SpillFluid(character*, liquid*, int = 0);
-  virtual long DipIntoVolume() const { return 500; }
-  virtual void TryToRust(long);
+  virtual slong DipIntoVolume() const { return 500; }
+  virtual void TryToRust(slong);
   virtual truth TestActivationEnergy(int);
   void RemoveFluid(fluid*);
   void AddFluid(liquid*, festring, int, truth);
@@ -577,9 +577,9 @@ class item : public object
   void DrawFluidBodyArmorPictures(blitdata&, int) const;
   void CheckFluidGearPictures(v2, int, truth);
   void DrawFluids(blitdata&) const;
-  virtual void ReceiveAcid(material*, cfestring&, long);
-  virtual void ReceiveHeat(material*, cfestring&, long);
-  virtual void FightFire(material*, cfestring&, long);
+  virtual void ReceiveAcid(material*, cfestring&, slong);
+  virtual void ReceiveHeat(material*, cfestring&, slong);
+  virtual void FightFire(material*, cfestring&, slong);
   virtual truth ShowFluids() const { return true; }
   void DonateFluidsTo(item*);
   void Destroy(character*, int);
@@ -640,7 +640,7 @@ class item : public object
   void ResetFlyingThrownStep() { iRotateFlyingThrownStep = 0; }
  protected:
   virtual cchar* GetBreakVerb() const;
-  virtual long GetMaterialPrice() const;
+  virtual slong GetMaterialPrice() const;
   void LoadDataBaseStats();
   virtual void PostConstruct() { }
   void Initialize(int, int);
@@ -656,8 +656,8 @@ class item : public object
   int Size;
   ulong ID;
   const database* DataBase;
-  long Volume;
-  long Weight;
+  slong Volume;
+  slong Weight;
   idholder* CloneMotherID;
   fluid** Fluid;
   int SquaresUnder;

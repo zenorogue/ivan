@@ -59,7 +59,7 @@ class worldmap : public area
   wsquare*** GetMap() const { return Map; }
   void UpdateLOS();
   virtual int GetTypeOfNativeGTerrainType(int) const;
-  truth PoissonDiscSamplerCheckDistance(int, int, double, int, int, long, std::vector<v2>);
+  truth PoissonDiscSamplerCheckDistance(int, int, double, int, int, slong, std::vector<v2>);
   int GetWorldSeed() const { return WorldSeed; }
   void InitializeShapeDescription();
   std::vector<v2> GetWasPlaced();

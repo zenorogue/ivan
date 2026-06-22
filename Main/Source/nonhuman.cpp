@@ -227,7 +227,7 @@ void nonhumanoid::CalculateUnarmedToHitValue()
 
 void nonhumanoid::CalculateUnarmedAPCost()
 {
-  UnarmedAPCost = Max(long(10000000000. / (APBonus(GetAttribute(DEXTERITY)) * GetMoveEase()
+  UnarmedAPCost = Max<slong>(slong(10000000000. / (APBonus(GetAttribute(DEXTERITY)) * GetMoveEase()
                                            * GetCWeaponSkill(UNARMED)->GetBonus())), 100L);
 }
 
@@ -245,7 +245,7 @@ void nonhumanoid::CalculateKickToHitValue()
 
 void nonhumanoid::CalculateKickAPCost()
 {
-  KickAPCost = Max(long(20000000000. / (APBonus(GetAttribute(AGILITY))
+  KickAPCost = Max<slong>(slong(20000000000. / (APBonus(GetAttribute(AGILITY))
                                         * GetMoveEase() * GetCWeaponSkill(KICK)->GetBonus())), 1000L);
 }
 
@@ -263,7 +263,7 @@ void nonhumanoid::CalculateBiteToHitValue()
 
 void nonhumanoid::CalculateBiteAPCost()
 {
-  BiteAPCost = Max(long(10000000000. / (APBonus(GetAttribute(DEXTERITY))
+  BiteAPCost = Max<slong>(slong(10000000000. / (APBonus(GetAttribute(DEXTERITY))
                                         * GetMoveEase() * GetCWeaponSkill(BITE)->GetBonus())), 100L);
 }
 
@@ -651,7 +651,7 @@ void genetrixvesana::GetAICommand()
               if(LSquare && (LSquare->GetWalkability() & WALK) && !LSquare->GetCharacter())
               {
                 character* NewPlant;
-                long RandomValue = RAND() % TurnsExisted;
+                slong RandomValue = RAND() % TurnsExisted;
 
                 if(RandomValue < 250)
                   NewPlant = carnivorousplant::Spawn();
@@ -2269,7 +2269,7 @@ void mysticfrog::GetAICommand()
     return;
 
   character* NearestEnemy = 0;
-  long NearestEnemyDistance = 0x7FFFFFFF;
+  slong NearestEnemyDistance = 0x7FFFFFFF;
   character* RandomFriend = 0;
   charactervector Friend;
   v2 Pos = GetPos();
@@ -2283,7 +2283,7 @@ void mysticfrog::GetAICommand()
         if(p->IsEnabled())
         {
           Enemies = true;
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
 
           if((ThisDistance < NearestEnemyDistance || (ThisDistance == NearestEnemyDistance && !(RAND() % 3))) && p->CanBeSeenBy(this))
           {
@@ -2429,7 +2429,7 @@ void spider::GetAICommand()
     return;
 
   character* NearestChar = 0;
-  long NearestDistance = 0x7FFFFFFF;
+  slong NearestDistance = 0x7FFFFFFF;
   v2 Pos = GetPos();
   int Hostiles = 0;
 
@@ -2438,7 +2438,7 @@ void spider::GetAICommand()
       for(character* p : game::GetTeam(c)->GetMember())
         if(p->IsEnabled() && GetAttribute(WISDOM) < p->GetAttackWisdomLimit())
         {
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
           ++Hostiles;
 
           if((ThisDistance < NearestDistance
@@ -2639,7 +2639,7 @@ void lobhse::GetAICommand()
       if(LSquare && (LSquare->GetWalkability() & WALK) && !LSquare->GetCharacter())
       {
         character* NewSpider;
-        long RandomValue = RAND() % TurnsExisted;
+        slong RandomValue = RAND() % TurnsExisted;
 
         if(RandomValue < 250)
           NewSpider = spider::Spawn(!RAND_N(5) ? LARGE : GIANT);
@@ -2668,7 +2668,7 @@ void lobhse::GetAICommand()
   {
     /* Boss fight, first phase: Spin webs and attack when player is entangled. */
     character* NearestChar = 0;
-    long NearestDistance = 0x7FFFFFFF;
+    slong NearestDistance = 0x7FFFFFFF;
     v2 Pos = GetPos();
     int Hostiles = 0;
 
@@ -2677,7 +2677,7 @@ void lobhse::GetAICommand()
         for(character* p : game::GetTeam(c)->GetMember())
           if(p->IsEnabled() && GetAttribute(WISDOM) < p->GetAttackWisdomLimit())
           {
-            long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+            slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
             ++Hostiles;
 
             if((ThisDistance < NearestDistance

@@ -65,8 +65,8 @@ ITEM(bodypart, item)
   virtual void SignalEquipmentAdd(gearslot*);
   virtual void SignalEquipmentRemoval(gearslot*, citem*);
   virtual void Mutate();
-  long GetBodyPartVolume() const { return BodyPartVolume; }
-  long GetCarriedWeight() const { return CarriedWeight; }
+  slong GetBodyPartVolume() const { return BodyPartVolume; }
+  slong GetCarriedWeight() const { return CarriedWeight; }
   virtual item* GetEquipment(int) const { return 0; }
   virtual int GetEquipments() const { return 0; }
   virtual void CalculateVolumeAndWeight();
@@ -121,7 +121,7 @@ ITEM(bodypart, item)
   void StayOn(liquid*);
   void SetBloodMaterial(int What) { BloodMaterial = What; }
   int GetBloodMaterial() const { return BloodMaterial; }
-  liquid* CreateBlood(long) const;
+  liquid* CreateBlood(slong) const;
   virtual truth UpdateArmorPictures() { return false; }
   virtual void DrawArmor(blitdata&) const { }
   virtual void UpdatePictures();
@@ -129,10 +129,10 @@ ITEM(bodypart, item)
   item* GetExternalCloak() const;
   item* GetExternalHelmet() const;
   item* GetExternalBelt() const;
-  virtual void ReceiveAcid(material*, cfestring&, long);
-  virtual void ReceiveHeat(material*, cfestring&, long);
+  virtual void ReceiveAcid(material*, cfestring&, slong);
+  virtual void ReceiveHeat(material*, cfestring&, slong);
   virtual truth ShowFluids() const { return false; }
-  virtual void TryToRust(long);
+  virtual void TryToRust(slong);
   virtual truth TestActivationEnergy(int);
   virtual truth AllowFluidBe() const;
   virtual material* RemoveMaterial(material*);
@@ -152,7 +152,7 @@ ITEM(bodypart, item)
   virtual void RemoveRust();
   virtual void RemoveBurns();
   virtual item* Fix();
-  virtual long GetFixPrice() const;
+  virtual slong GetFixPrice() const;
   virtual truth IsFixableBySmith(ccharacter*) const;
   virtual truth IsFixableByTailor(ccharacter*) const;
   virtual void SignalMaterialChange();
@@ -190,8 +190,8 @@ ITEM(bodypart, item)
   void AddDamageID(int, int);
   festring OwnerDescription;
   character* Master;
-  long CarriedWeight;
-  long BodyPartVolume;
+  slong CarriedWeight;
+  slong BodyPartVolume;
   packv2 BitmapPos;
   packcol16 ColorB;
   packcol16 ColorC;
@@ -226,14 +226,14 @@ ITEM(head, bodypart)
   int GetBiteMinDamage() const;
   int GetBiteMaxDamage() const;
   double GetBiteToHitValue() const { return BiteToHitValue; }
-  long GetBiteAPCost() const { return BiteAPCost; }
+  slong GetBiteAPCost() const { return BiteAPCost; }
   virtual void InitSpecialAttributes();
   virtual item* GetEquipment(int) const;
   virtual int GetEquipments() const { return 2; }
   int GetBaseBiteStrength() const { return BaseBiteStrength; }
-  void SetBaseBiteStrength(long What) { BaseBiteStrength = What; }
+  void SetBaseBiteStrength(slong What) { BaseBiteStrength = What; }
   int GetBonusBiteStrength() const { return BonusBiteStrength; }
-  void SetBonusBiteStrength(long What) { BonusBiteStrength = What; }
+  void SetBonusBiteStrength(slong What) { BonusBiteStrength = What; }
   virtual void CalculateDamage();
   virtual void CalculateToHitValue();
   virtual void CalculateAPCost();
@@ -250,7 +250,7 @@ ITEM(head, bodypart)
   int BonusBiteStrength;
   double BiteToHitValue;
   double BiteDamage;
-  long BiteAPCost;
+  slong BiteAPCost;
 };
 
 ITEM(torso, bodypart)
@@ -325,12 +325,12 @@ ITEM(arm, bodypart)
   virtual void InitSpecialAttributes();
   virtual void Mutate();
   virtual arm* GetPairArm() const { return 0; }
-  long GetWieldedAPCost() const;
-  long GetUnarmedAPCost() const;
+  slong GetWieldedAPCost() const;
+  slong GetUnarmedAPCost() const;
   virtual item* GetEquipment(int) const;
   virtual int GetEquipments() const { return 3; }
   int GetBaseUnarmedStrength() const { return BaseUnarmedStrength; }
-  void SetBaseUnarmedStrength(long What) { BaseUnarmedStrength = What; }
+  void SetBaseUnarmedStrength(slong What) { BaseUnarmedStrength = What; }
   virtual void CalculateDamage();
   virtual void CalculateToHitValue();
   virtual void CalculateAPCost();
@@ -338,7 +338,7 @@ ITEM(arm, bodypart)
   int GetMinDamage() const;
   int GetMaxDamage() const;
   double GetToHitValue() const { return ToHitValue; }
-  long GetAPCost() const { return APCost; }
+  slong GetAPCost() const { return APCost; }
   truth PairArmAllowsMelee() const;
   virtual void SignalVolumeAndWeightChange();
   truth TwoHandWieldIsActive() const;
@@ -383,7 +383,7 @@ ITEM(arm, bodypart)
   int BaseUnarmedStrength;
   double Damage;
   double ToHitValue;
-  long APCost;
+  slong APCost;
   int StrengthBonus;
   int DexterityBonus;
   graphicdata WieldedGraphicData;
@@ -447,11 +447,11 @@ ITEM(leg, bodypart)
   void EditExperience(int, double, double);
   virtual void InitSpecialAttributes();
   virtual void Mutate();
-  long GetKickAPCost() const { return KickAPCost; }
+  slong GetKickAPCost() const { return KickAPCost; }
   virtual item* GetEquipment(int) const;
   virtual int GetEquipments() const { return 1; }
-  long GetBaseKickStrength() const { return BaseKickStrength; }
-  void SetBaseKickStrength(long What) { BaseKickStrength = What; }
+  slong GetBaseKickStrength() const { return BaseKickStrength; }
+  void SetBaseKickStrength(slong What) { BaseKickStrength = What; }
   virtual void CalculateDamage();
   virtual void CalculateToHitValue();
   virtual void CalculateAPCost();
@@ -478,7 +478,7 @@ ITEM(leg, bodypart)
   int BaseKickStrength;
   double KickDamage;
   double KickToHitValue;
-  long KickAPCost;
+  slong KickAPCost;
   int StrengthBonus;
   int AgilityBonus;
 };
@@ -518,7 +518,7 @@ ITEM(corpse, item)
   virtual void Save(outputfile&) const;
   virtual void Load(inputfile&);
   virtual truth IsDestroyable(ccharacter*) const { return true; }
-  virtual long GetTruePrice() const;
+  virtual slong GetTruePrice() const;
   virtual int GetMaterials() const { return 2; }
   virtual truth RaiseTheDead(character*);
   virtual void CalculateVolumeAndWeight();

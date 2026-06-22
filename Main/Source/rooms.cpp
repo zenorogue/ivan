@@ -49,7 +49,7 @@ truth shop::PickupItem(character* Customer, item* ForSale, int Amount)
     return false;
   }
 
-  long Price = ForSale->GetTruePrice();
+  slong Price = ForSale->GetTruePrice();
 
   if(Price)
   {
@@ -170,7 +170,7 @@ truth shop::DropItem(character* Customer, item* ForSale, int Amount)
     return false;
   }
 
-  long Price = ForSale->GetTruePrice() * Amount
+  slong Price = ForSale->GetTruePrice() * Amount
                * (100 + Customer->GetAttribute(CHARISMA)) / 400;
 
   // Decrease the selling price of very expensive items sold in black market.
@@ -514,7 +514,7 @@ truth library::PickupItem(character* Customer, item* ForSale, int Amount)
     return false;
   }
 
-  long Price = ForSale->GetTruePrice() * Amount
+  slong Price = ForSale->GetTruePrice() * Amount
                * 100 / (100 + Customer->GetAttribute(CHARISMA));
 
   if(!Customer->IsPlayer())
@@ -600,7 +600,7 @@ truth library::DropItem(character* Customer, item* ForSale, int Amount)
      || GetMaster()->GetRelation(Customer) == HOSTILE)
     return true;
 
-  long Price = ForSale->GetTruePrice() * Amount
+  slong Price = ForSale->GetTruePrice() * Amount
                * (100 + Customer->GetAttribute(CHARISMA)) / 400;
 
   if(!Customer->IsPlayer())

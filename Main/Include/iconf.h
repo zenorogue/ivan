@@ -25,18 +25,18 @@ class ivanconfig
   static cfestring& GetSelectedBkgColor() { return SelectedBkgColor.Value; }
   static cfestring& GetAutoPickUpMatching() { return AutoPickUpMatching.Value; }
   static truth IsAllWeightIsRelevant() { return AllWeightIsRelevant.Value; }
-  static long GetAutoSaveInterval() { return AutoSaveInterval.Value; }
-  static long GetContrast() { return Contrast.Value; }
-  static long GetHitIndicator() { return HitIndicator.Value; }
-  static long GetShowItemsAtPlayerSquare(){ return ShowItemsAtPlayerSquare.Value; }
-  static long GetStartingWindowWidth() { return iStartingWindowWidth; }
-  static long GetStartingWindowHeight() { return iStartingWindowHeight; }
-  static long GetFrameSkip() { return FrameSkip.Value; }
-  static long GetGoOnStopMode() { return GoOnStopMode.Value; }
-  static long GetHoldPosMaxDist() { return HoldPosMaxDist.Value; }
+  static slong GetAutoSaveInterval() { return AutoSaveInterval.Value; }
+  static slong GetContrast() { return Contrast.Value; }
+  static slong GetHitIndicator() { return HitIndicator.Value; }
+  static slong GetShowItemsAtPlayerSquare(){ return ShowItemsAtPlayerSquare.Value; }
+  static slong GetStartingWindowWidth() { return iStartingWindowWidth; }
+  static slong GetStartingWindowHeight() { return iStartingWindowHeight; }
+  static slong GetFrameSkip() { return FrameSkip.Value; }
+  static slong GetGoOnStopMode() { return GoOnStopMode.Value; }
+  static slong GetHoldPosMaxDist() { return HoldPosMaxDist.Value; }
   static truth IsShowVolume() { return ShowVolume.Value;}
   static truth IsAllowImportOldSavegame(){ return AllowImportOldSavegame.Value; }
-  static long GetAltSilhouette() { return AltSilhouette.Value; }
+  static slong GetAltSilhouette() { return AltSilhouette.Value; }
   static truth IsHideWeirdHitAnimationsThatLookLikeMiss(){return HideWeirdHitAnimationsThatLookLikeMiss.Value;}
   static truth IsUseLightEmiterBasedOnVolume(){return UseLightEmiterBasedOnVolume.Value;}
   static int GetAltSilhouettePreventColorGlitch(){return AltSilhouettePreventColorGlitch.Value;}
@@ -63,7 +63,7 @@ class ivanconfig
   static int GetStartingFontGfx() { return iStartingFontGfx; }
   static int GetSilhouetteScale() { return SilhouetteScale.Value; }
   static int GetRotateTimesPerSquare() { return RotateTimesPerSquare.Value; }
-  static long GetDirectionKeyMap() { return DirectionKeyMap.Value; }
+  static slong GetDirectionKeyMap() { return DirectionKeyMap.Value; }
   static int GetAltListItemWidth() { return AltListItemWidth.Value; }
   static int GetStackListPageLength() { return StackListPageLength.Value; }
   static truth GetSmartOpenCloseApply() { return SmartOpenCloseApply.Value; }
@@ -84,9 +84,9 @@ class ivanconfig
   static truth IsShowTurn() { return ShowTurn.Value; }
   static truth IsAllowMouseOnFelist(){ return AllowMouseOnFelist.Value; }
   static truth IsOutlinedGfx() { return OutlinedGfx.Value; }
-  static long GetVolume() { return Volume.Value; }
-  static long GetSfxVolume() { return SfxVolume.Value; }
-  static long GetMIDIOutputDevice() { return MIDIOutputDevice.Value; }
+  static slong GetVolume() { return Volume.Value; }
+  static slong GetSfxVolume() { return SfxVolume.Value; }
+  static slong GetMIDIOutputDevice() { return MIDIOutputDevice.Value; }
   static truth GetExtraMenuGraphics(){ return UseExtraMenuGraphics.Value; }
   static v2 GetWorldSizeConfig();
   static int GetLandTypeConfig() { return LandTypeConfig.Value; }
@@ -103,7 +103,7 @@ class ivanconfig
   static truth GetFullScreenMode() { return true; }
 #endif
 
-  static long ApplyContrastTo(long);
+  static slong ApplyContrastTo(slong);
   static void Save() { configsystem::Save(); }
   static void Load() { configsystem::Load(); }
   static void CalculateContrastLuminance();
@@ -146,23 +146,23 @@ class ivanconfig
   static truth ContrastChangeInterface(numberoption*);
   static void SelectedBkgColorChanger(stringoption* O, cfestring& What);
   static void AutoPickUpMatchingChanger(stringoption* O, cfestring& What);
-  static void AutoSaveIntervalChanger(numberoption*, long);
-  static void XBRZSquaresAroundPlayerChanger(numberoption* O, long What);
-  static void ShowItemsAtPlayerSquareChanger(cycleoption* O, long What);
-  static void WindowWidthChanger(numberoption* O, long What);
-  static void WindowHeightChanger(numberoption* O, long What);
-  static void StackListPageLengthChanger(numberoption* O, long What);
-  static void FrameSkipChanger(numberoption* O, long What);
-  static void AltListItemWidthChanger(numberoption* O, long What);
-  static void ContrastChanger(numberoption*, long);
+  static void AutoSaveIntervalChanger(numberoption*, slong);
+  static void XBRZSquaresAroundPlayerChanger(numberoption* O, slong What);
+  static void ShowItemsAtPlayerSquareChanger(cycleoption* O, slong What);
+  static void WindowWidthChanger(numberoption* O, slong What);
+  static void WindowHeightChanger(numberoption* O, slong What);
+  static void StackListPageLengthChanger(numberoption* O, slong What);
+  static void FrameSkipChanger(numberoption* O, slong What);
+  static void AltListItemWidthChanger(numberoption* O, slong What);
+  static void ContrastChanger(numberoption*, slong);
   static void MemorizeEquipmentModeDisplayer(const cycleoption* O, festring& Entry);
   static void MIDIOutputDeviceDisplayer(const cycleoption*, festring&);
   static void VolumeDisplayer(const numberoption*, festring&);
   static void SfxVolumeDisplayer(const numberoption*, festring&);
   static truth VolumeChangeInterface(numberoption*);
   static truth SfxVolumeChangeInterface(numberoption*);
-  static void VolumeChanger(numberoption*, long);
-  static void SfxVolumeChanger(numberoption*, long);
+  static void VolumeChanger(numberoption*, slong);
+  static void SfxVolumeChanger(numberoption*, slong);
   static void AltSilhouetteDisplayer(const cycleoption* O, festring& Entry);
   static void AllowMouseOnFelistChanger(truthoption*, truth);
   static void UseExtraMenuGraphicsChanger(truthoption*, truth);
@@ -171,13 +171,13 @@ class ivanconfig
   static void WorldShapeConfigDisplayer(const cycleoption* O, festring& Entry);
   static void WorldSeedConfigDisplayer(const numberoption* O, festring& Entry);
   static truth WorldSeedConfigChangeInterface(numberoption* O);
-  static void WorldSeedConfigChanger(numberoption* O, long What);
+  static void WorldSeedConfigChanger(numberoption* O, slong What);
 
 #ifndef __DJGPP__
   static void GraphicsScaleDisplayer(const cycleoption*, festring&);
   static void ScalingQualityDisplayer(const cycleoption*, festring&);
   static truth GraphicsScaleChangeInterface(cycleoption*);
-  static void GraphicsScaleChanger(cycleoption*, long);
+  static void GraphicsScaleChanger(cycleoption*, slong);
   static void FullScreenModeChanger(truthoption*, truth);
 #endif
 
@@ -189,15 +189,15 @@ class ivanconfig
   static truth DungeonGfxScaleChangeInterface(cycleoption*);
   static truth FontGfxChangeInterface(cycleoption*);
   static truth SilhouetteScaleChangeInterface(cycleoption*);
-  static void DungeonGfxScaleChanger(cycleoption*, long);
-  static void FontGfxChanger(cycleoption*, long);
-  static void SilhouetteScaleChanger(cycleoption*, long);
-  static void SaveGameSortModeChanger(cycleoption* O, long What);
+  static void DungeonGfxScaleChanger(cycleoption*, slong);
+  static void FontGfxChanger(cycleoption*, slong);
+  static void SilhouetteScaleChanger(cycleoption*, slong);
+  static void SaveGameSortModeChanger(cycleoption* O, slong What);
   static void XBRZScaleChanger(truthoption*, truth);
   static void SetupCustomKeysChanger(truthoption*, truth);
-  static void ContrastHandler(long);
-  static void VolumeHandler(long);
-  static void SfxVolumeHandler(long);
+  static void ContrastHandler(slong);
+  static void VolumeHandler(slong);
+  static void SfxVolumeHandler(slong);
   static void BackGroundDrawer();
 
   static stringoption DefaultName;
@@ -296,9 +296,9 @@ class ivanconfig
   static truthoption UseExtraMenuGraphics;
 };
 
-inline long ivanconfig::ApplyContrastTo(long L)
+inline slong ivanconfig::ApplyContrastTo(slong L)
 {
-  long C = Contrast.Value;
+  slong C = Contrast.Value;
 
   if(C == 100)
     return L;

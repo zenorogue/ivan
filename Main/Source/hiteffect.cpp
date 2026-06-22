@@ -415,7 +415,7 @@ truth hiteffect::DrawStep()
     }
   }
 
-  static long lTimeoutDelay = CLOCKS_PER_SEC*3.0; //prevent effects older than 3 seconds from continue playing, the glitch is most visible during wizard autoplay mode
+  static slong lTimeoutDelay = CLOCKS_PER_SEC*3.0; //prevent effects older than 3 seconds from continue playing, the glitch is most visible during wizard autoplay mode
   if( clock() > (lStartTime+lTimeoutDelay) ){
     End();
     bDraw=false;

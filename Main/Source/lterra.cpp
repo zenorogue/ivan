@@ -257,7 +257,7 @@ int olterrain::CalculateMaxHP()
 {
   if(GetMainMaterial())
   {
-    long SV = GetMainMaterial()->GetStrengthValue();
+    slong SV = GetMainMaterial()->GetStrengthValue();
     return SV * SV * GetHPModifier() / 6000;
   }
   else
@@ -502,7 +502,7 @@ void olterrain::SignalBurnLevelChange()
   HP = Min(HP, CalculateMaxHP());
 }
 
-void lterrain::TryToRust(long LiquidModifier)
+void lterrain::TryToRust(slong LiquidModifier)
 {
   if(MainMaterial->TryToRust(LiquidModifier * 10, 10000))
   {
@@ -518,7 +518,7 @@ void lterrain::TryToRust(long LiquidModifier)
   }
 }
 
-void olterrain::ReceiveAcid(material*, long Modifier)
+void olterrain::ReceiveAcid(material*, slong Modifier)
 {
   if(GetMainMaterial()->GetInteractionFlags() & CAN_DISSOLVE)
   {
@@ -532,7 +532,7 @@ void olterrain::ReceiveAcid(material*, long Modifier)
   }
 }
 
-void olterrain::ReceiveHeat(material*, long Modifier)
+void olterrain::ReceiveHeat(material*, slong Modifier)
 {
   if(GetMainMaterial()->GetInteractionFlags() & CAN_BURN)
   {
@@ -558,7 +558,7 @@ void lterrain::InitMaterials(material* FirstMaterial, truth CallUpdatePictures)
 void lterrain::GenerateMaterials()
 {
   int Chosen = RandomizeMaterialConfiguration();
-  const fearray<long>& MMC = GetMainMaterialConfig();
+  const fearray<slong>& MMC = GetMainMaterialConfig();
   InitMaterial(MainMaterial,
                MAKE_MATERIAL(MMC.Data[MMC.Size == 1 ? 0 : Chosen]),
                0);

@@ -825,19 +825,19 @@ truth ivanconfig::SfxVolumeChangeInterface(numberoption* O)
   return false;
 }
 
-void ivanconfig::XBRZSquaresAroundPlayerChanger(numberoption* O, long What)
+void ivanconfig::XBRZSquaresAroundPlayerChanger(numberoption* O, slong What)
 {
   if(What < 0) What = 0;
   O->Value = What;
 }
 
-void ivanconfig::AltListItemWidthChanger(numberoption* O, long What)
+void ivanconfig::AltListItemWidthChanger(numberoption* O, slong What)
 {
   if(What < 400) What = 400; //TODO find the best quality minimum value
   O->Value = What;
 }
 
-void ivanconfig::FrameSkipChanger(numberoption* O, long What)
+void ivanconfig::FrameSkipChanger(numberoption* O, slong What)
 {
   if(What <  -2) What =  -2;
   if(What > 100) What = 100;
@@ -847,7 +847,7 @@ void ivanconfig::FrameSkipChanger(numberoption* O, long What)
   globalwindowhandler::SetAddFrameSkip(What);
 }
 
-void ivanconfig::StackListPageLengthChanger(numberoption* O, long What)
+void ivanconfig::StackListPageLengthChanger(numberoption* O, slong What)
 {
   if(What < stack::GetDefaultPageLength()) What = stack::GetDefaultPageLength();
   if(O!=NULL)O->Value = What;
@@ -855,13 +855,13 @@ void ivanconfig::StackListPageLengthChanger(numberoption* O, long What)
   stack::SetStandardPageLength(What);
 }
 
-void ivanconfig::WindowHeightChanger(numberoption* O, long What)
+void ivanconfig::WindowHeightChanger(numberoption* O, slong What)
 {
   if(What < 480) What = 480;
   O->Value = What;
 }
 
-void ivanconfig::ShowItemsAtPlayerSquareChanger(cycleoption* O, long What)
+void ivanconfig::ShowItemsAtPlayerSquareChanger(cycleoption* O, slong What)
 {
 //  if(What==1 && GetStartingDungeonGfxScale()<3){ //above head asked
 //    What=2; //upgrade to 1st corner
@@ -870,7 +870,7 @@ void ivanconfig::ShowItemsAtPlayerSquareChanger(cycleoption* O, long What)
   O->Value = What;
 }
 
-void ivanconfig::WindowWidthChanger(numberoption* O, long What)
+void ivanconfig::WindowWidthChanger(numberoption* O, slong What)
 {
   if(What < 640) What = 640;
   O->Value = What;
@@ -922,14 +922,14 @@ void ivanconfig::AutoPickUpMatchingChanger(stringoption* O, cfestring& What)
   }
 }
 
-void ivanconfig::AutoSaveIntervalChanger(numberoption* O, long What)
+void ivanconfig::AutoSaveIntervalChanger(numberoption* O, slong What)
 {
   if(What < 0) What = 0;
   if(What > 50000) What = 50000;
   O->Value = What;
 }
 
-void ivanconfig::ContrastChanger(numberoption* O, long What)
+void ivanconfig::ContrastChanger(numberoption* O, slong What)
 {
   if(What < 0) What = 0;
   if(What > 200) What = 200;
@@ -938,7 +938,7 @@ void ivanconfig::ContrastChanger(numberoption* O, long What)
   CalculateContrastLuminance();
 }
 
-void ivanconfig::VolumeChanger(numberoption* O, long What)
+void ivanconfig::VolumeChanger(numberoption* O, slong What)
 {
   if(What < 0) What = 0;
   if(What > 127) What = 127;
@@ -947,7 +947,7 @@ void ivanconfig::VolumeChanger(numberoption* O, long What)
   audio::SetVolumeLevel(What);
 }
 
-void ivanconfig::SfxVolumeChanger(numberoption* O, long What)
+void ivanconfig::SfxVolumeChanger(numberoption* O, slong What)
 {
   if(What < 0) What = 0;
   if(What > 127) What = 127;
@@ -1030,7 +1030,7 @@ truth ivanconfig::WorldSeedConfigChangeInterface(numberoption* O)
   return false;
 }
 
-void ivanconfig::WorldSeedConfigChanger(numberoption* O, long What)
+void ivanconfig::WorldSeedConfigChanger(numberoption* O, slong What)
 {
   if(What < -1)
     What = 0;
@@ -1045,7 +1045,7 @@ void ivanconfig::GraphicsScaleDisplayer(const cycleoption* O, festring& Entry)
   Entry << O->Value << 'x';
 }
 
-void ivanconfig::GraphicsScaleChanger(cycleoption* O, long What)
+void ivanconfig::GraphicsScaleChanger(cycleoption* O, slong What)
 {
   O->Value = What;
   graphics::SetScale(What);
@@ -1094,24 +1094,24 @@ void ivanconfig::FontGfxDisplayer(const cycleoption* O, festring& Entry)
   Entry << O->Value;
 }
 
-void ivanconfig::SilhouetteScaleChanger(cycleoption* O, long What)
+void ivanconfig::SilhouetteScaleChanger(cycleoption* O, slong What)
 {
   O->Value = What;
 }
 
-void ivanconfig::SaveGameSortModeChanger(cycleoption* O, long What)
+void ivanconfig::SaveGameSortModeChanger(cycleoption* O, slong What)
 {
   if(O!=NULL)O->Value = What;
 
   iosystem::SetSaveGameSortMode(What);
 }
 
-void ivanconfig::DungeonGfxScaleChanger(cycleoption* O, long What)
+void ivanconfig::DungeonGfxScaleChanger(cycleoption* O, slong What)
 {
   O->Value = What;
 }
 
-void ivanconfig::FontGfxChanger(cycleoption* O, long What)
+void ivanconfig::FontGfxChanger(cycleoption* O, slong What)
 {
   O->Value = What;
 }
@@ -1168,7 +1168,7 @@ void ivanconfig::Show()
   game::SRegionAroundAllow();
 }
 
-void ivanconfig::ContrastHandler(long Value)
+void ivanconfig::ContrastHandler(slong Value)
 {
   ContrastChanger(&Contrast, Value);
 
@@ -1179,7 +1179,7 @@ void ivanconfig::ContrastHandler(long Value)
   }
 }
 
-void ivanconfig::VolumeHandler(long Value)
+void ivanconfig::VolumeHandler(slong Value)
 {
   VolumeChanger(&Volume, Value);
 
@@ -1189,7 +1189,7 @@ void ivanconfig::VolumeHandler(long Value)
     game::DrawEverythingNoBlit();
   }
 }
-void ivanconfig::SfxVolumeHandler(long Value)
+void ivanconfig::SfxVolumeHandler(slong Value)
 {
   SfxVolumeChanger(&SfxVolume, Value);
 
@@ -1214,7 +1214,7 @@ void ivanconfig::SwitchModeHandler()
 
 void ivanconfig::CalculateContrastLuminance()
 {
-  int Element = Min<long>((GetContrast() << 7) / 100, 255);
+  int Element = Min<slong>((GetContrast() << 7) / 100, 255);
   ContrastLuminance = MakeRGB24(Element, Element, Element);
 }
 

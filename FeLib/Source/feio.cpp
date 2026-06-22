@@ -612,7 +612,7 @@ int iosystem::StringQuestion(festring& Input,
    colored. If Fade is true the question is asked on a black background
    and the transition to that is a fade. */
 
-long iosystem::NumberQuestion(cfestring& Topic, v2 Pos, col16 Color,
+slong iosystem::NumberQuestion(cfestring& Topic, v2 Pos, col16 Color,
                               truth Fade, truth ReturnZeroOnEsc)
 {
   bInUse=true;
@@ -729,16 +729,16 @@ long iosystem::NumberQuestion(cfestring& Topic, v2 Pos, col16 Color,
    the screen is faded to black before drawing th scrollbar. If Handler is
    set it is called always when the value of the scroll bar changes. */
 
-long iosystem::ScrollBarQuestion(cfestring& Topic, v2 Pos,
-                                 long StartValue, long Step,
-                                 long Min, long Max, long AbortValue,
+slong iosystem::ScrollBarQuestion(cfestring& Topic, v2 Pos,
+                                 slong StartValue, slong Step,
+                                 slong Min, slong Max, slong AbortValue,
                                  col16 TopicColor, col16 Color1,
                                  col16 Color2, int LeftKey, int RightKey,
-                                 truth Fade, void (*Handler)(long))
+                                 truth Fade, void (*Handler)(slong))
 {
   bInUse=true;
 
-  long BarValue = StartValue;
+  slong BarValue = StartValue;
   festring Input;
   truth FirstTime = true;
   v2 V(RES.X, 20); ///???????????
@@ -1059,7 +1059,7 @@ festring iosystem::ContinueMenu(col16 TopicColor, col16 ListColor,
 
 #ifdef WIN32
   struct _finddata_t Found;
-  long hFile;
+  slong hFile;
   int Check = 0;
   hFile = _findfirst(festring(DirectoryName + "*").CStr(), &Found);
 

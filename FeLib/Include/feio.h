@@ -33,11 +33,11 @@ class iosystem
   static int StringQuestion(festring&, cfestring&, v2, col16,
                             festring::sizetype, festring::sizetype,
                             truth, truth, stringkeyhandler = 0);
-  static long NumberQuestion(cfestring&, v2, col16,
+  static slong NumberQuestion(cfestring&, v2, col16,
                              truth, truth = false);
-  static long ScrollBarQuestion(cfestring&, v2, long, long, long,
-                                long, long, col16, col16, col16, int,
-                                int, truth, void (*)(long) = 0);
+  static slong ScrollBarQuestion(cfestring&, v2, slong, slong, slong,
+                                slong, slong, col16, col16, col16, int,
+                                int, truth, void (*)(slong) = 0);
   static int Menu(std::vector<bitmap*> vBackGround, v2, cfestring&,
                   cfestring&, col16,
                   cfestring& = CONST_S(""),

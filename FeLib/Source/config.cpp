@@ -27,11 +27,11 @@ void configsystem::AddOption(festring fsCategory, configoption* O) {
 }
 void configsystem::NormalStringChanger(stringoption* O, cfestring& What)
 { O->Value = What; }
-void configsystem::NormalNumberChanger(numberoption* O, long What)
+void configsystem::NormalNumberChanger(numberoption* O, slong What)
 { O->Value = What; }
 void configsystem::NormalTruthChanger(truthoption* O, truth What)
 { O->Value = What; }
-void configsystem::NormalCycleChanger(cycleoption* O, long What)
+void configsystem::NormalCycleChanger(cycleoption* O, slong What)
 { O->Value = What; }
 
 configoption::configoption(cchar* Name, cchar* Description, cchar* HelpInfo)
@@ -49,22 +49,22 @@ stringoption::stringoption(cchar* Name, cchar* Desc,
   ChangeInterface(ChangeInterface),
   ValueChanger(ValueChanger) { }
 
-numberoption::numberoption(cchar* Name, cchar* Desc, cchar* HelpInfo, long Value,
+numberoption::numberoption(cchar* Name, cchar* Desc, cchar* HelpInfo, slong Value,
                            void (*ValueDisplayer)(const numberoption*,
                                                   festring&),
                            truth (*ChangeInterface)(numberoption*),
-                           void (*ValueChanger)(numberoption*, long))
+                           void (*ValueChanger)(numberoption*, slong))
 : configoption(Name, Desc, HelpInfo),
   Value(Value), ValueDisplayer(ValueDisplayer),
   ChangeInterface(ChangeInterface),
   ValueChanger(ValueChanger) { }
 
-scrollbaroption::scrollbaroption(cchar* Name, cchar* Desc, cchar* HelpInfo, long Value,
+scrollbaroption::scrollbaroption(cchar* Name, cchar* Desc, cchar* HelpInfo, slong Value,
                                  void (*ValueDisplayer)(const numberoption*,
                                                         festring&),
                                  truth (*ChangeInterface)(numberoption*),
-                                 void (*ValueChanger)(numberoption*, long),
-                                 void (*BarHandler)(long))
+                                 void (*ValueChanger)(numberoption*, slong),
+                                 void (*BarHandler)(slong))
 : numberoption(Name, Desc, HelpInfo, Value, ValueDisplayer,
                ChangeInterface, ValueChanger),
   BarHandler(BarHandler) { }
@@ -79,12 +79,12 @@ truthoption::truthoption(cchar* Name, cchar* Desc, cchar* HelpInfo, truth Value,
   ValueChanger(ValueChanger) { }
 
 cycleoption::cycleoption(cchar* Name, cchar* Desc, cchar* HelpInfo,
-                           long Value, long CycleCount,
+                           slong Value, slong CycleCount,
                            void (*ValueDisplayer)(const cycleoption*,
                                                   festring&),
                            truth (*ChangeInterface)(cycleoption*),
                            void (*ValueChanger)(cycleoption*,
-                                                long))
+                                                slong))
 : configoption(Name, Desc, HelpInfo),
   Value(Value), CycleCount(CycleCount),
   ValueDisplayer(ValueDisplayer),

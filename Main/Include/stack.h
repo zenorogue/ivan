@@ -108,9 +108,9 @@ class stack
   truth Open(character*);
   void SignalVolumeAndWeightChange();
   void CalculateVolumeAndWeight();
-  long GetVolume() const { return Volume; }
-  long GetWeight() const { return Weight; }
-  long GetWeight(ccharacter*, int) const;
+  slong GetVolume() const { return Volume; }
+  slong GetWeight() const { return Weight; }
+  slong GetWeight(ccharacter*, int) const;
   entity* GetMotherEntity() const { return MotherEntity; }
   void SetMotherEntity(entity* What) { MotherEntity = What; }
   area* GetArea() const { return GetSquareUnder()->GetArea(); }
@@ -129,11 +129,11 @@ class stack
   item* GetBottomVisibleItem(ccharacter*) const;
   item* GetBottomSideItem(ccharacter*, int, truth) const;
   void Pile(itemvectorvector&, ccharacter*, int, sorter = 0) const;
-  long GetTruePrice() const;
+  slong GetTruePrice() const;
   static int GetSelected() { return Selected; }
   static void SetSelected(int What) { Selected = What; }
   truth TakeSomethingFrom(character*, cfestring&);
-  truth PutSomethingIn(character*, cfestring&, long, ulong);
+  truth PutSomethingIn(character*, cfestring&, slong, ulong);
   truth IsVisible() const { return !(Flags & HIDDEN); }
   int GetSpoiledItems() const;
   void SortAllItems(const sortdata&) const;
@@ -143,7 +143,7 @@ class stack
   void PostProcessForBone();
   void FinalProcessForBone();
   void AddElement(item*, truth = false);
-  void SpillFluid(character*, liquid*, long);
+  void SpillFluid(character*, liquid*, slong);
   void AddItems(const itemvector&);
   void MoveItemsTo(itemvector&, int);
   void Freeze() { Flags |= FREEZED; }
@@ -169,8 +169,8 @@ class stack
   stackslot* Top;
   square* MotherSquare;
   entity* MotherEntity;
-  long Volume;
-  long Weight;
+  slong Volume;
+  slong Weight;
   col24 Emitation : 24;
   ulong Flags : 8;
   int Items;

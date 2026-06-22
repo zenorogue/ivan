@@ -38,35 +38,35 @@ template <class type> struct fearray;
 class femath
 {
  public:
-  static long Rand();
+  static slong Rand();
   static void SetSeed(ulong);
-  static long RandN(long N) { return long(double(N) * Rand() / 0x80000000); }
-  static long RandGood(long N) { return long(double(N) * Rand() / 0x80000000); }
+  static slong RandN(slong N) { return slong(double(N) * Rand() / 0x80000000); }
+  static slong RandGood(slong N) { return slong(double(N) * Rand() / 0x80000000); }
   static double RandReal(double N = 1.) { return Rand() * (1. / 0x80000000) * N; }
   static double NormalDistributedRand(double StandardDeviation = 1.);
-  static int WeightedRand(long*, long);
-  static int WeightedRand(const std::vector<long>&, long);
+  static int WeightedRand(slong*, slong);
+  static int WeightedRand(const std::vector<slong>&, slong);
   static double CalculateAngle(v2);
   static void CalculateEnvironmentRectangle(rect&, const rect&, v2, int);
   static truth Clip(int&, int&, int&, int&, int&, int&, int, int, int, int);
   static void SaveSeed();
   static void LoadSeed();
-  static long SumArray(const fearray<long>&);
+  static slong SumArray(const fearray<slong>&);
   static int LoopRoll(int, int);
   static void GenerateFractalMap(int**, int, int, int);
  protected:
   static ulong mt[];
-  static long mti;
+  static slong mti;
   static ulong mtb[];
-  static long mtib;
+  static slong mtib;
 };
 
 struct interval
 {
-  long Randomize() const
+  slong Randomize() const
   { return Min < Max ? Min + RAND() % (Max - Min + 1) : Min; }
-  long Min;
-  long Max;
+  slong Min;
+  slong Max;
 };
 
 struct region

@@ -42,7 +42,7 @@ class square
   festring GetMemorizedDescription() const { return MemorizedDescription; }
   void SetMemorizedDescription(cfestring& What) { MemorizedDescription = What; }
   virtual truth CanBeSeenByPlayer(truth = false) const = 0;
-  virtual truth CanBeSeenFrom(v2, long, truth = false) const = 0;
+  virtual truth CanBeSeenFrom(v2, slong, truth = false) const = 0;
   void SendNewDrawRequest() { Flags |= NEW_DRAW_REQUEST; }
   void SendStrongNewDrawRequest() { Flags |= STRONG_NEW_DRAW_REQUEST; }
   cchar* SurviveMessage(character*) const;

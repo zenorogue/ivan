@@ -430,7 +430,7 @@ void level::CreateItems(int Amount)
 {
   if(Amount)
   {
-    long MinPrice = *LevelScript->GetItemMinPriceBase() + *LevelScript->GetItemMinPriceDelta() * Index;
+    slong MinPrice = *LevelScript->GetItemMinPriceBase() + *LevelScript->GetItemMinPriceDelta() * Index;
 
     for(int x = 0; x < Amount; ++x)
     {
@@ -1572,7 +1572,7 @@ void level::GenerateRectangularRoom(std::vector<v2>& OKForDoor, std::vector<v2>&
   }
 
   int Room = RoomClass->GetIndex();
-  long Counter = 0;
+  slong Counter = 0;
   truth AllowLanterns = *RoomScript->GenerateLanterns();
   truth AllowWindows = *RoomScript->GenerateWindows();
   int x, y;
@@ -2193,7 +2193,7 @@ void level::GenerateDungeon(int Index)
                         + *LevelScript->GetEnchantmentPlusChanceDelta() * Index;
   const contentscript<glterrain>* GTerrain = LevelScript->GetFillSquare()->GetGTerrain();
   const contentscript<olterrain>* OTerrain = LevelScript->GetFillSquare()->GetOTerrain();
-  long Counter = 0;
+  slong Counter = 0;
   int x;
   game::BusyAnimation();
 
@@ -2617,7 +2617,7 @@ void node::CalculateNextNodes()
         /* We use the heuristic max(abs(distance.x), abs(distance.y)) here,
            which is exact in the current geometry if the path is open */
 
-        long Remaining = To.X - NodePos.X;
+        slong Remaining = To.X - NodePos.X;
 
         if(Remaining < NodePos.X - To.X)
           Remaining = NodePos.X - To.X;
@@ -2945,7 +2945,7 @@ struct loscontroller : public tickcontroller, public stackcontroller
   }
   static void ProcessStack()
   {
-    for(long c = 0; c < StackIndex; ++c)
+    for(slong c = 0; c < StackIndex; ++c)
       Stack[c]->SignalSeen(Tick);
   }
 };
@@ -3165,7 +3165,7 @@ truth sunbeamcontroller::Handler(int x, int y)
 
 void sunbeamcontroller::ProcessStack()
 {
-  long c;
+  slong c;
 
   for(c = 0; c < StackIndex; ++c)
   {
@@ -3210,7 +3210,7 @@ int level::RevealDistantLightsToPlayer() //based on Draw() code
   cint YMax = Min(YSize, game::GetCamera().Y + game::GetScreenYSize());
   culong LOSTick = game::GetLOSTick();
 
-  long lMaxDist = v2(PLAYER->GetAttribute(PERCEPTION),0).GetLengthSquare();
+  slong lMaxDist = v2(PLAYER->GetAttribute(PERCEPTION),0).GetLengthSquare();
   int tot=0;
   for(int x = XMin; x < XMax; ++x){
     lsquare** SquarePtr = &Map[x][YMin];
@@ -3351,12 +3351,12 @@ struct areacontroller : public stackcontroller
   }
   static int GetStartX(int) { return Center.X; }
   static int GetStartY(int) { return Center.Y; }
-  static long RadiusSquare;
+  static slong RadiusSquare;
 };
 
-long areacontroller::RadiusSquare;
+slong areacontroller::RadiusSquare;
 
-int level::AddRadiusToSquareStack(v2 Center, long RadiusSquare) const
+int level::AddRadiusToSquareStack(v2 Center, slong RadiusSquare) const
 {
   stackcontroller::Map = Map;
   stackcontroller::Stack = SquareStack;

@@ -43,7 +43,7 @@ void god::Pray()
       }
       else if(Relation > 100 && !(RAND() % 20))
       {
-        long Category = RAND() & ANY_CATEGORY;
+        slong Category = RAND() & ANY_CATEGORY;
 
         if(!Category)
           Category = ANY_CATEGORY;
@@ -181,7 +181,7 @@ void god::AdjustRelation(int Amount)
     Relation = 1000;
 }
 
-void god::AdjustTimer(long Amount)
+void god::AdjustTimer(slong Amount)
 {
   Timer += Amount;
 
@@ -532,12 +532,12 @@ void god::SignalRandomAltarGeneration(const std::vector<v2>& RoomSquare)
 
   for(int c = 0; c < Times; ++c)
   {
-    long Category = RAND() & ANY_CATEGORY;
+    slong Category = RAND() & ANY_CATEGORY;
 
     if(!Category)
       Category = ANY_CATEGORY;
 
-    long MaxPrice = 250 + femath::LoopRoll(95, 500) * 10;
+    slong MaxPrice = 250 + femath::LoopRoll(95, 500) * 10;
     item* Item = protosystem::BalancedCreateItem(0, MaxPrice, Category, 0, 0, GetType());
 
     if(Item)

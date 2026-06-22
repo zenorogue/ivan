@@ -137,7 +137,7 @@ int inputfile::HandlePunct(festring& String, int Char, int Mode)
 
       if(Char == '*')
       {
-        long StartPos = TellPos();
+        slong StartPos = TellPos();
         int OldChar = 0, CommentLevel = 1;
 
         for(;;)
@@ -193,7 +193,7 @@ int inputfile::HandlePunct(festring& String, int Char, int Mode)
   if(Char == '"')
   {
     lastWordWasString = true;
-    long StartPos = TellPos();
+    slong StartPos = TellPos();
     int OldChar = 0;
 
     for(;;)
@@ -290,7 +290,7 @@ char inputfile::ReadLetter(truth AbortOnEOF)
 
           if(Char == '*')
           {
-            long StartPos = TellPos();
+            slong StartPos = TellPos();
             int OldChar = 0, CommentLevel = 1;
 
             for(;;)
@@ -343,9 +343,9 @@ char inputfile::ReadLetter(truth AbortOnEOF)
 /* Reads a number or a formula from inputfile. Valid values could be for
    instance "3", "5 * 4+5", "2+Variable%4" etc. */
 
-festring inputfile::ReadNumberIntr(int CallLevel, long *num, truth *isString, truth allowStr, truth PreserveTerminator)
+festring inputfile::ReadNumberIntr(int CallLevel, slong *num, truth *isString, truth allowStr, truth PreserveTerminator)
 {
-  long Value = 0;
+  slong Value = 0;
   /*static*/ festring Word;
   truth NumberCorrect = false;
   truth firstWord = true;
@@ -552,15 +552,15 @@ festring inputfile::ReadNumberIntr(int CallLevel, long *num, truth *isString, tr
   }
 }
 
-long inputfile::ReadNumber(int CallLevel, truth PreserveTerminator)
+slong inputfile::ReadNumber(int CallLevel, truth PreserveTerminator)
 {
-  long num = 0;
+  slong num = 0;
   truth isString = false;
   ReadNumberIntr(CallLevel, &num, &isString, false, PreserveTerminator);
   return num;
 }
 
-festring inputfile::ReadStringOrNumber(long *num, truth *isString, truth PreserveTerminator)
+festring inputfile::ReadStringOrNumber(slong *num, truth *isString, truth PreserveTerminator)
 {
   return ReadNumberIntr(0xFF, num, isString, true, PreserveTerminator);
 }
@@ -653,7 +653,7 @@ void ReadData(festring& String, inputfile& SaveFile)
   SaveFile.ReadWord();
 }
 
-void ReadData(fearray<long>& Array, inputfile& SaveFile)
+void ReadData(fearray<slong>& Array, inputfile& SaveFile)
 {
   Array.Clear();
   /*static*/ festring Word;
@@ -673,10 +673,10 @@ void ReadData(fearray<long>& Array, inputfile& SaveFile)
     ABORT("Array syntax error \"%s\" found in file %s, line %ld!",
           Word.CStr(), SaveFile.GetFileName().CStr(), SaveFile.TellLine());
 
-  fearray<long>::sizetype Size = SaveFile.ReadNumber();
+  fearray<slong>::sizetype Size = SaveFile.ReadNumber();
   Array.Allocate(Size);
 
-  for(fearray<long>::sizetype c = 0; c < Size; ++c)
+  for(fearray<slong>::sizetype c = 0; c < Size; ++c)
     Array.Data[c] = SaveFile.ReadNumber();
 
   if(SaveFile.ReadWord() != "}")
@@ -731,10 +731,10 @@ void ReadData(fearray<festring>& Array, inputfile& SaveFile)
           SaveFile.TellLine());
 }
 
-ulong inputfile::TellLineOfPos(long Pos)
+ulong inputfile::TellLineOfPos(slong Pos)
 {
   ulong Line = 1;
-  long BackupPos = TellPos();
+  slong BackupPos = TellPos();
   SeekPosBegin(0);
 
   while(TellPos() != Pos)

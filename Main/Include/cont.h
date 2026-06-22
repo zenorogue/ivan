@@ -31,7 +31,7 @@ class continent
   void Add(v2);
   void Save(outputfile&) const;
   void Load(inputfile&);
-  long GetSize() const;
+  slong GetSize() const;
   int GetIndex() const { return Index; }
   void GenerateInfo();
   festring GetName() const { return Name; }
@@ -46,7 +46,7 @@ class continent
   static uchar** PossibleLocationBuffer;
   festring Name;
   std::vector<v2> Member;
-  std::vector<long> GTerrainAmount;
+  std::vector<slong> GTerrainAmount;
   int Index;
 };
 

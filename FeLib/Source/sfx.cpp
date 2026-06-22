@@ -37,7 +37,7 @@ int soundeffects::SoundState = 0;
 std::vector<SoundFile> soundeffects::files;
 std::vector<SoundInfo> soundeffects::patterns;
 bool soundeffects::bIsEnabled=false;
-long soundeffects::lSfxVol=0;
+slong soundeffects::lSfxVol=0;
 festring soundeffects::fsDataDir="";
 
 struct SoundFile

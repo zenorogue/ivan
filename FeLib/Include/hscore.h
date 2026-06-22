@@ -32,26 +32,26 @@ class highscore
 {
  public:
   highscore(cfestring&);
-  truth Add(long, cfestring&);
+  truth Add(slong, cfestring&);
   void Draw() const;
   void Save(cfestring& = CONST_S("")) const;
   void Load(cfestring& = CONST_S(""));
   truth LastAddFailed() const;
   void AddToFile(highscore*) const;
   truth MergeToFile(highscore*) const;
-  int Find(long, cfestring&, time_t, long);
+  int Find(slong, cfestring&, time_t, slong);
   cfestring& GetEntry(int) const;
-  long GetScore(int) const;
-  long GetSize() const;
+  slong GetScore(int) const;
+  slong GetSize() const;
   ushort GetVersion() const { return Version; }
   void Clear();
   truth CheckVersion() const;
  private:
-  truth Add(long, cfestring&, time_t, long);
+  truth Add(slong, cfestring&, time_t, slong);
   std::vector<festring> Entry;
-  std::vector<long> Score;
+  std::vector<slong> Score;
   std::vector<time_t> Time;
-  std::vector<long> RandomID;
+  std::vector<slong> RandomID;
   int LastAdd;
   ushort Version;
   cfestring DefaultFile;

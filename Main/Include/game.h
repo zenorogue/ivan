@@ -52,7 +52,7 @@ class olterrain;
 struct explosion;
 class bonesghost;
 
-typedef std::map<festring, long> valuemap;
+typedef std::map<festring, slong> valuemap;
 typedef truth (*stringkeyhandler)(int, festring&);
 typedef v2 (*positionkeyhandler)(v2, int);
 typedef void (*positionhandler)(v2);
@@ -270,7 +270,7 @@ class game
   static void Hostility(team*, team*);
   static void CreateTeams();
   static int StringQuestion(festring&, cfestring&, col16, festring::sizetype, festring::sizetype, truth, stringkeyhandler = 0);
-  static long NumberQuestion(cfestring&, int, truth = false);
+  static slong NumberQuestion(cfestring&, int, truth = false);
   static ulong IncreaseLOSTick();
   static ulong GetLOSTick() { return LOSTick; }
   static void SendLOSUpdateRequest() { LOSUpdateRequested = true; }
@@ -309,7 +309,7 @@ class game
   static v2 NameKeyHandler(v2, int);
   static void End(festring, truth = true, truth = true);
   static int CalculateRoughDirection(v2);
-  static long ScrollBarQuestion(cfestring&, long, long, long, long, long, col16, col16, col16, void (*)(long) = 0);
+  static slong ScrollBarQuestion(cfestring&, slong, slong, slong, slong, slong, col16, col16, col16, void (*)(slong) = 0);
   static truth IsGenerating() { return Generating; }
   static void SetIsGenerating(truth What) { Generating = What; }
   static void CalculateNextDanger();
@@ -382,7 +382,7 @@ class game
   static festring& GetDefaultDetectMaterial() { return DefaultDetectMaterial; }
   static void SignalDeath(ccharacter*, ccharacter*, festring);
   static void DisplayMassacreLists();
-  static void DisplayMassacreList(const massacremap&, cchar*, long);
+  static void DisplayMassacreList(const massacremap&, cchar*, slong);
   static truth MassacreListsEmpty();
   static void PlayVictoryMusic();
   static void PlayDefeatMusic();
@@ -436,7 +436,7 @@ class game
   static truth TooGreatDangerFound() { return TooGreatDangerFoundTruth; }
   static void SetTooGreatDangerFound(truth What) { TooGreatDangerFoundTruth = What; }
   static void CreateBusyAnimationCache();
-  static long GetScore();
+  static slong GetScore();
   static truth TweraifIsFree();
   static truth IsXMas();
   static int AddToItemDrawVector(const itemvector&);
@@ -470,7 +470,7 @@ class game
   static int Wish(character*, cchar*, cchar*, truth);
   static int DefaultQuestion(festring&, festring, festring&, truth, stringkeyhandler = 0);
   static void GetTime(ivantime&);
-  static long GetTurn() { return Turn; }
+  static slong GetTurn() { return Turn; }
   static void IncreaseTurn() { ++Turn; ++iCurrentDungeonTurn; }
   static int GetTotalMinutes() { return Tick * 60 / 2000; }
   static truth PolymorphControlKeyHandler(int, festring&);
@@ -496,7 +496,7 @@ class game
   static void SetMonsterPortal(olterrain* What) { MonsterPortal = What; }
   static truth GetCausePanicFlag() { return CausePanicFlag; }
   static void SetCausePanicFlag(truth What) { CausePanicFlag = What; }
-  static long GetTimeSpent();
+  static slong GetTimeSpent();
   static void AddSpecialCursor(v2, int);
   static void RemoveSpecialCursors();
   static void LearnAbout(god*);
@@ -591,9 +591,9 @@ class game
   static massacremap PlayerMassacreMap;
   static massacremap PetMassacreMap;
   static massacremap MiscMassacreMap;
-  static long PlayerMassacreAmount;
-  static long PetMassacreAmount;
-  static long MiscMassacreAmount;
+  static slong PlayerMassacreAmount;
+  static slong PetMassacreAmount;
+  static slong MiscMassacreAmount;
   static truth WizardMode;
   static int AutoPlayMode;
   static int SeeWholeMapCheatMode;
@@ -610,14 +610,14 @@ class game
   static festring CurrentBaseSaveFileName;
   static liquid* GlobalRainLiquid;
   static v2 GlobalRainSpeed;
-  static long GlobalRainTimeModifier;
+  static slong GlobalRainTimeModifier;
   static truth PlayerSumoChampion;
   static truth PlayerIsChampion; // This marks the player as a champion of some god.
   static truth HasBoat; // Whether the player can sail the oceans of world map.
   static truth TouristHasSpider;
   static ulong SquarePartEmitationTick;
   static cint LargeMoveDirection[];
-  static long Turn;
+  static slong Turn;
   static ulong EquipmentMemory[MAX_EQUIPMENT_SLOTS];
   static truth PlayerRunning;
   static character* LastPetUnderCursor;
@@ -651,11 +651,11 @@ inline void game::CombineLights(col24& L1, col24 L2)
   {
     if(L1)
     {
-      long Red1 = L1 & 0xFF0000, Red2 = L2 & 0xFF0000;
-      long New = Red1 >= Red2 ? Red1 : Red2;
-      long Green1 = L1 & 0xFF00, Green2 = L2 & 0xFF00;
+      slong Red1 = L1 & 0xFF0000, Red2 = L2 & 0xFF0000;
+      slong New = Red1 >= Red2 ? Red1 : Red2;
+      slong Green1 = L1 & 0xFF00, Green2 = L2 & 0xFF00;
       New |= Green1 >= Green2 ? Green1 : Green2;
-      long Blue1 = L1 & 0xFF, Blue2 = L2 & 0xFF;
+      slong Blue1 = L1 & 0xFF, Blue2 = L2 & 0xFF;
       L1 = Blue1 >= Blue2 ? New | Blue1 : New | Blue2;
     }
     else

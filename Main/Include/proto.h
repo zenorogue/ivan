@@ -26,7 +26,7 @@ class god;
 template <class type> class databasecreator;
 struct itemdatabase;
 
-typedef std::map<festring, long> valuemap;
+typedef std::map<festring, slong> valuemap;
 typedef std::vector<item*> itemvector;
 typedef std::vector<itemvector> itemvectorvector;
 typedef std::vector<character*> charactervector;
@@ -57,7 +57,7 @@ inline int protocontainer<type>::Add(prototype* Proto)
 
   int Index = GetSizeRef()++;
   GetProtoData()[Index] = Proto;
-  std::pair<festring, long> Pair(Proto->GetClassID(), Index);
+  std::pair<festring, slong> Pair(Proto->GetClassID(), Index);
   GetCodeNameMap().insert(Pair);
   return Index;
 }
@@ -73,12 +73,12 @@ class protosystem
 {
  public:
   static character* BalancedCreateMonster();
-  static item* BalancedCreateItem(long = 0, long = MAX_PRICE, long = ANY_CATEGORY, int = 0, int = 0, int = 0, truth = false);
+  static item* BalancedCreateItem(slong = 0, slong = MAX_PRICE, slong = ANY_CATEGORY, int = 0, int = 0, int = 0, truth = false);
   static character* CreateMonster(int = 1, int = 999999, int = 0);
   static character* CreateMonster(cfestring&, int = 0, truth = true);
   static item* CreateItem(cfestring&, truth = true);
   static item* CreateItemToCraft(cfestring& What);
-  static material* CreateMaterial(cfestring&, long = 0, truth = true, truth = false);
+  static material* CreateMaterial(cfestring&, slong = 0, truth = true, truth = false);
   static material* CreateMaterialForDetection(cfestring& What);
   static void CreateEveryNormalEnemy(charactervector&);
 #ifdef WIZARD
@@ -97,8 +97,8 @@ class protosystem
   static int ItemConfigDataSize;
   static itemdatabase** ItemCategoryData[ITEM_CATEGORIES];
   static int ItemCategorySize[ITEM_CATEGORIES];
-  static long ItemCategoryPossibility[ITEM_CATEGORIES];
-  static long TotalItemPossibility;
+  static slong ItemCategoryPossibility[ITEM_CATEGORIES];
+  static slong TotalItemPossibility;
 };
 
 template <class type> inline outputfile& operator<<(outputfile& SaveFile, const type* Class)

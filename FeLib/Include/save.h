@@ -38,14 +38,14 @@ inline inputfile& operator>>(inputfile& SaveFile, type& Value)\
   return SaveFile;\
 }
 
-typedef std::map<festring, long> valuemap;
+typedef std::map<festring, slong> valuemap;
 
 class outputfile
 {
  public:
   outputfile(cfestring&, truth = true);
   void Put(char What) { File.put(What); }
-  void Write(cchar* Data, long Size) { File.write(Data, Size); }
+  void Write(cchar* Data, slong Size) { File.write(Data, Size); }
   truth IsOpen() { return File.is_open(); }
   void Close();
   ~outputfile(){Close();}
@@ -66,25 +66,25 @@ class inputfile
   festring ReadWord(truth = true);
   void ReadWord(festring&, truth = true);
   char ReadLetter(truth = true);
-  long ReadNumber(int = 0xFF, truth = false);
-  festring ReadStringOrNumber (long *num, truth *isString, truth PreserveTerminator=false);
+  slong ReadNumber(int = 0xFF, truth = false);
+  festring ReadStringOrNumber (slong *num, truth *isString, truth PreserveTerminator=false);
   v2 ReadVector2d();
   rect ReadRect();
   int Get() { return File.get(); }
-  void Read(char* Data, long Size) { File.read(Data, Size); }
+  void Read(char* Data, slong Size) { File.read(Data, Size); }
   truth IsOpen() { return File.is_open(); }
   truth Eof() { return File.eof(); }
-  void SeekPosBegin(long Offset) { File.seekg(Offset, std::ios::beg); }
-  void SeekPosCurrent(long Offset) { File.seekg(Offset, std::ios::cur); }
-  void SeekPosEnd(long Offset) { File.seekg(Offset, std::ios::end); }
-  long TellPos() { return File.tellg(); }
+  void SeekPosBegin(slong Offset) { File.seekg(Offset, std::ios::beg); }
+  void SeekPosCurrent(slong Offset) { File.seekg(Offset, std::ios::cur); }
+  void SeekPosEnd(slong Offset) { File.seekg(Offset, std::ios::end); }
+  slong TellPos() { return File.tellg(); }
   ulong TellLine() { return TellLineOfPos(TellPos()); }
-  ulong TellLineOfPos(long);
+  ulong TellLineOfPos(slong);
   cfestring& GetFileName() const { return FileName; }
   void Close() { File.close(); }
   festring GetFullFilename(){return FileName;}
  private:
-  festring ReadNumberIntr (int CallLevel, long *num, truth *isString, truth allowStr, truth PreserveTerminator);
+  festring ReadNumberIntr (int CallLevel, slong *num, truth *isString, truth allowStr, truth PreserveTerminator);
   int HandlePunct(festring&, int, int);
   std::ifstream File;
   festring FileName;
@@ -116,7 +116,7 @@ inline void ReadData(short& Type, inputfile& SaveFile)
 { Type = SaveFile.ReadNumber(); }
 inline void ReadData(ushort& Type, inputfile& SaveFile)
 { Type = SaveFile.ReadNumber(); }
-inline void ReadData(long& Type, inputfile& SaveFile)
+inline void ReadData(slong& Type, inputfile& SaveFile)
 { Type = SaveFile.ReadNumber(); }
 inline void ReadData(ulong& Type, inputfile& SaveFile)
 { Type = SaveFile.ReadNumber(); }
@@ -129,7 +129,7 @@ inline void ReadData(v2& Type, inputfile& SaveFile)
 inline void ReadData(rect& Type, inputfile& SaveFile)
 { Type = SaveFile.ReadRect(); }
 void ReadData(festring&, inputfile&);
-void ReadData(fearray<long>&, inputfile&);
+void ReadData(fearray<slong>&, inputfile&);
 void ReadData(fearray<festring>&, inputfile&);
 
 template <class type>
@@ -229,7 +229,7 @@ inline inputfile& operator>>(inputfile& SaveFile, ushort& Value)
   return SaveFile;
 }
 
-RAW_SAVE_LOAD(long)
+RAW_SAVE_LOAD(slong)
 RAW_SAVE_LOAD(ulong)
 RAW_SAVE_LOAD(int)
 RAW_SAVE_LOAD(uint)

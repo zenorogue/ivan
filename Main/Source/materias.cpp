@@ -312,7 +312,7 @@ void powder::Load(inputfile& SaveFile)
   SaveFile >> Wetness;
 }
 
-material* organic::EatEffect(character* Eater, long Amount)
+material* organic::EatEffect(character* Eater, slong Amount)
 {
   Amount = Volume > Amount ? Amount : Volume;
   if(GetMotherEntity())
@@ -501,14 +501,14 @@ void liquid::TouchEffect(character* Char, int BodyPartIndex)
 
 /* Doesn't do the actual rusting, just returns whether it should happen */
 
-truth ironalloy::TryToRust(long Modifier, long Volume)
+truth ironalloy::TryToRust(slong Modifier, slong Volume)
 {
   if(GetRustLevel() != VERY_RUSTED)
   {
     if(!Volume)
       Volume = GetVolume();
 
-    long Chance = long(30000000. * sqrt(Volume) / (Modifier * GetRustModifier()));
+    slong Chance = slong(30000000. * sqrt(Volume) / (Modifier * GetRustModifier()));
 
     if(Chance <= 1 || !(RAND() % Chance))
       return true;

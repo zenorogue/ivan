@@ -68,12 +68,12 @@ truth basequadricontroller::SectorCompletelyClear;
 #define TEMPERING_SHIFT_L(y) (y >> 18)
 
 ulong femath::mt[N1]; /* the array for the state vector  */
-long femath::mti = N1+1; /* mti==N+1 means mt[N] is not initialized */
+slong femath::mti = N1+1; /* mti==N+1 means mt[N] is not initialized */
 
 /* backups */
 
 ulong femath::mtb[N1];
-long femath::mtib;
+slong femath::mtib;
 
 void femath::SetSeed(ulong Seed)
 {
@@ -88,7 +88,7 @@ void femath::SetSeed(ulong Seed)
     mt[mti] = (69069 * mt[mti-1]) & 0xffffffff;
 }
 
-long femath::Rand()
+slong femath::Rand()
 {
   ulong y;
   static ulong mag01[2]={0x0, MATRIX_A};
@@ -141,9 +141,9 @@ double femath::NormalDistributedRand(double StandardDeviation)
     return z1 * StandardDeviation;
 }
 
-int femath::WeightedRand(long* Possibility, long TotalPossibility)
+int femath::WeightedRand(slong* Possibility, slong TotalPossibility)
 {
-  long Rand = RAND() % TotalPossibility, PartialSum = 0;
+  slong Rand = RAND() % TotalPossibility, PartialSum = 0;
 
   for(int c = 0;; ++c)
   {
@@ -154,10 +154,10 @@ int femath::WeightedRand(long* Possibility, long TotalPossibility)
   }
 }
 
-int femath::WeightedRand(const std::vector<long>& Possibility,
-                         long TotalPossibility)
+int femath::WeightedRand(const std::vector<slong>& Possibility,
+                         slong TotalPossibility)
 {
-  long Rand = RAND() % TotalPossibility, PartialSum = 0;
+  slong Rand = RAND() % TotalPossibility, PartialSum = 0;
 
   for(int c = 0;; ++c)
   {
@@ -337,9 +337,9 @@ inputfile& operator>>(inputfile& SaveFile, region& R)
   return SaveFile;
 }
 
-long femath::SumArray(const fearray<long>& Vector)
+slong femath::SumArray(const fearray<slong>& Vector)
 {
-  long Sum = 0;
+  slong Sum = 0;
 
   for(uint c = 0; c < Vector.Size; ++c)
     Sum += Vector.Data[c];

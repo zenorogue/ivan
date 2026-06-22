@@ -48,7 +48,7 @@ class rain : public entity
   liquid* Liquid;
   lsquare* LSquareUnder;
   v2 Speed;
-  long SpeedAbs;
+  slong SpeedAbs;
   mutable int Drops : 8;
   int BeCounter : 7;
   truth OwnLiquid : 1;

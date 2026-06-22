@@ -97,7 +97,7 @@ CHARACTER(humanoid, character)
   virtual int CheckForBlock(character*, item*, double, int, int, int);
   virtual truth AddSpecialSkillInfo(felist&) const;
   virtual truth CheckBalance(double);
-  virtual long GetMoveAPRequirement(int) const;
+  virtual slong GetMoveAPRequirement(int) const;
   virtual v2 GetEquipmentPanelPos(int) const;
   virtual truth EquipmentEasilyRecognized(int) const;
   sweaponskill* GetCurrentRightSWeaponSkill() const { return CurrentRightSWeaponSkill; }
@@ -183,8 +183,8 @@ CHARACTER(humanoid, character)
   virtual col16 GetBodyPartColorC(int, truth = false) const;
   virtual col16 GetBodyPartColorD(int, truth = false) const;
   virtual int GetBodyPartSparkleFlags(int) const;
-  virtual long GetBodyPartSize(int, int) const;
-  virtual long GetBodyPartVolume(int) const;
+  virtual slong GetBodyPartSize(int, int) const;
+  virtual slong GetBodyPartVolume(int) const;
   virtual bodypart* MakeBodyPart(int) const;
   virtual cfestring& GetDeathMessage() const;
   truth HasAUsableArm() const;
@@ -349,7 +349,7 @@ CHARACTER(skeleton, humanoid)
   virtual void BeTalkedTo();
   virtual item* SevereBodyPart(int, truth = false, stack* = 0);
   virtual truth BodyPartIsVital(int) const;
-  virtual long GetBodyPartVolume(int) const;
+  virtual slong GetBodyPartVolume(int) const;
  protected:
   virtual void CreateCorpse(lsquare*);
 };
@@ -369,12 +369,12 @@ CHARACTER(golem, humanoid)
   virtual void BeTalkedTo();
   virtual void Save(outputfile&) const;
   virtual void Load(inputfile&);
-  void SetItemVolume(long What) { ItemVolume = What; }
+  void SetItemVolume(slong What) { ItemVolume = What; }
  protected:
   virtual truth AddAdjective(festring&, truth) const;
-  virtual material* CreateBodyPartMaterial(int, long) const;
+  virtual material* CreateBodyPartMaterial(int, slong) const;
   virtual void CreateCorpse(lsquare*);
-  long ItemVolume;
+  slong ItemVolume;
 };
 
 CHARACTER(communist, humanoid)

@@ -314,7 +314,7 @@ void craft::Handle()
   character* ActorLocal = GetActor();
 
   ActorLocal->EditExperience(DEXTERITY, 200, 1 << 5);DBGLN; //TODO are these values good for crafting?
-  long lEdAP = -200000 / APBonus(craftcore::CraftSkill(ActorLocal));
+  slong lEdAP = -200000 / APBonus(craftcore::CraftSkill(ActorLocal));
   if(ActorLocal->StateIsActivated(HASTE))
     lEdAP/=2;
   ActorLocal->EditAP(lEdAP);

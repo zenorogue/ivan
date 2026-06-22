@@ -67,7 +67,7 @@ class festring
   festring& operator<<(ushort Int) { return AppendInt(Int); }
   festring& operator<<(int Int) { return AppendInt(Int); }
   festring& operator<<(uint Int) { return AppendInt(Int); }
-  festring& operator<<(long Int) { return AppendInt(Int); }
+  festring& operator<<(slong Int) { return AppendInt(Int); }
   festring& operator<<(ulong Int) { return AppendInt(Int); }
   bool operator<(cfestring&) const;
   truth operator==(cfestring&) const;
@@ -117,7 +117,7 @@ class festring
   void PostProcessForFebot();
   void SwapData(festring&);
   void ExtractWord(festring&);
-  long GetCheckSum() const;
+  slong GetCheckSum() const;
   void EnsureOwnsData(bool = false);
  private:
   static void InstallIntegerMap();
@@ -125,7 +125,7 @@ class festring
   static void CheckNull(cchar*);
   void CreateNewData(sizetype);
   void CreateOwnData(cchar*, sizetype);
-  festring& AppendInt(long);
+  festring& AppendInt(slong);
   festring& Append(char);
   festring& Append(cchar*, sizetype);
   festring& Append(cfestring&);

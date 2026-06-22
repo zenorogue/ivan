@@ -62,7 +62,7 @@ truth nihil::BodyPartIsVital(int I) const { return I == TORSO_INDEX || I == HEAD
 
 truth genie::BodyPartIsVital(int I) const { return I == TORSO_INDEX || I == HEAD_INDEX; }
 
-material* golem::CreateBodyPartMaterial(int, long Volume) const { return MAKE_MATERIAL(GetConfig(), Volume); }
+material* golem::CreateBodyPartMaterial(int, slong Volume) const { return MAKE_MATERIAL(GetConfig(), Volume); }
 
 truth sumowrestler::EquipmentIsAllowed(int I) const { return I == BELT_INDEX; }
 
@@ -504,7 +504,7 @@ truth humanoid::Hit(character* Enemy, v2 HitPos, int Direction, int Flags)
     {
       msgsystem::EnterBigMessageMode();
       Hostility(Enemy);
-      long FirstAPCost = 0, SecondAPCost = 0;
+      slong FirstAPCost = 0, SecondAPCost = 0;
       arm* FirstArm, * SecondArm;
 
       if(RAND() & 1)
@@ -819,7 +819,7 @@ void priest::BeTalkedTo()
   }
   else if(!GetPos().IsAdjacent(PLAYER->GetPos()))
   {
-    static long Said;
+    static slong Said;
 
     if(GetConfig() != SILVA)
       humanoid::BeTalkedTo();
@@ -833,7 +833,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->IsBurning())
   {
-    long Price = GetConfig() == VALPURUS ? 25 : 5;
+    slong Price = GetConfig() == VALPURUS ? 25 : 5;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -864,7 +864,7 @@ void priest::BeTalkedTo()
         if(OldBodyPart)
         {
           HasOld = true;
-          long Price = GetConfig() == VALPURUS ? 50 : 10;
+          slong Price = GetConfig() == VALPURUS ? 50 : 10;
 
           if(PLAYER->GetMoney() >= Price)
           {
@@ -894,7 +894,7 @@ void priest::BeTalkedTo()
         }
       }
 
-      long Price = GetConfig() == VALPURUS ? 100 : 20;
+      slong Price = GetConfig() == VALPURUS ? 100 : 20;
 
       if(PLAYER->GetMoney() >= Price)
       {
@@ -926,7 +926,7 @@ void priest::BeTalkedTo()
 
       if(BodyPart->CanRegenerate() && BodyPart->IsBurnt())
       {
-        long Price = GetConfig() == VALPURUS ? 25 : 5;
+        slong Price = GetConfig() == VALPURUS ? 25 : 5;
 
         if(PLAYER->GetMoney() >= Price)
         {
@@ -954,7 +954,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->TemporaryStateIsActivated(POISONED))
   {
-    long Price = GetConfig() == VALPURUS ? 25 : 5;
+    slong Price = GetConfig() == VALPURUS ? 25 : 5;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -976,7 +976,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->TemporaryStateIsActivated(LEPROSY))
   {
-    long Price = GetConfig() == VALPURUS ? 100 : 20;
+    slong Price = GetConfig() == VALPURUS ? 100 : 20;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -998,7 +998,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->TemporaryStateIsActivated(LYCANTHROPY))
   {
-    long Price = GetConfig() == VALPURUS ? 100 : 20;
+    slong Price = GetConfig() == VALPURUS ? 100 : 20;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -1023,7 +1023,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->TemporaryStateIsActivated(VAMPIRISM))
   {
-    long Price = GetConfig() == VALPURUS ? 100 : 20;
+    slong Price = GetConfig() == VALPURUS ? 100 : 20;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -1048,7 +1048,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->TemporaryStateIsActivated(PARASITE_TAPE_WORM))
   {
-    long Price = GetConfig() == VALPURUS ? 100 : 20;
+    slong Price = GetConfig() == VALPURUS ? 100 : 20;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -1072,7 +1072,7 @@ void priest::BeTalkedTo()
 
   if(PLAYER->TemporaryStateIsActivated(PARASITE_MIND_WORM))
   {
-    long Price = GetConfig() == VALPURUS ? 100 : 20;
+    slong Price = GetConfig() == VALPURUS ? 100 : 20;
 
     if(PLAYER->GetMoney() >= Price)
     {
@@ -1094,7 +1094,7 @@ void priest::BeTalkedTo()
                   "I need %ldgp for a ritual of cleansing.\"", Price);
   }
 
-  static long Said;
+  static slong Said;
 
   if(GetConfig() != SILVA)
     humanoid::BeTalkedTo();
@@ -1169,7 +1169,7 @@ void tourist::BeTalkedTo()
           Spider = p;
     }
 
-    static long Said;
+    static slong Said;
 
     if(GetRelation(PLAYER) == HOSTILE) // hostile response
     {
@@ -1316,7 +1316,7 @@ void librarian::BeTalkedTo()
 
   // TODO: Replies for TX and Aslona!
 
-  static long Said;
+  static slong Said;
 
   switch(RandomizeReply(Said, 12))
   {
@@ -1626,7 +1626,7 @@ int humanoid::GetSize() const
   return Size;
 }
 
-long humanoid::GetBodyPartSize(int I, int TotalSize) const
+slong humanoid::GetBodyPartSize(int I, int TotalSize) const
 {
   switch(I)
   {
@@ -1643,7 +1643,7 @@ long humanoid::GetBodyPartSize(int I, int TotalSize) const
   return 0;
 }
 
-long humanoid::GetBodyPartVolume(int I) const
+slong humanoid::GetBodyPartVolume(int I) const
 {
   switch(I)
   {
@@ -1711,19 +1711,19 @@ truth humanoid::ReceiveDamage(character* Damager, int Damage, int Type, int Targ
   if(Divide)
   {
     int c;
-    long TotalVolume = 0;
+    slong TotalVolume = 0;
 
     for(c = 0; c < BodyParts; ++c)
       TotalVolume += GetBodyPart(ChooseFrom[c])->GetBodyPartVolume();
 
     for(c = 0; c < BodyParts; ++c)
-      if(ReceiveBodyPartDamage(Damager, long(Damage) * GetBodyPart(ChooseFrom[c])->GetBodyPartVolume() / TotalVolume,
+      if(ReceiveBodyPartDamage(Damager, slong(Damage) * GetBodyPart(ChooseFrom[c])->GetBodyPartVolume() / TotalVolume,
                                Type, ChooseFrom[c], Direction, PenetrateArmor, Critical, false))
         Affected = true;
   }
   else
   {
-    long Possibility[MAX_BODYPARTS], PossibilitySum = 0;
+    slong Possibility[MAX_BODYPARTS], PossibilitySum = 0;
     int Index = 0;
 
     for(int c = 0; c < BodyParts; ++c)
@@ -2679,7 +2679,7 @@ truth humanoid::CheckBalance(double KickDamage)
         && KickDamage * 5 < RAND() % GetSize());
 }
 
-long humanoid::GetMoveAPRequirement(int Difficulty) const
+slong humanoid::GetMoveAPRequirement(int Difficulty) const
 {
   if(IsFlying())
     return (!StateIsActivated(PANIC) ? 10000000 : 8000000) * Difficulty
@@ -3281,7 +3281,7 @@ void bananagrower::BeTalkedTo()
   if(!GetPos().IsAdjacent(PLAYER->GetPos()))
     return;
 
-  static long Said;
+  static slong Said;
 
   if(GetRelation(PLAYER) == HOSTILE)
     ProcessAndAddMessage(GetHostileReplies()[RandomizeReply(Said, GetHostileReplies().Size)]);
@@ -3388,7 +3388,7 @@ void smith::BeTalkedTo()
 
     /** update messages */
 
-    long FixPrice = Item->GetFixPrice();
+    slong FixPrice = Item->GetFixPrice();
 
     if(PLAYER->GetMoney() < FixPrice)
     {
@@ -3653,7 +3653,7 @@ void encourager::Load(inputfile& SaveFile)
   SaveFile >> LastHit;
 }*/
 
-long skeleton::GetBodyPartVolume(int I) const
+slong skeleton::GetBodyPartVolume(int I) const
 {
   switch(I)
   {
@@ -4052,7 +4052,7 @@ void darkmage::GetAICommand()
     return;
 
   character* NearestEnemy = 0;
-  long NearestEnemyDistance = 0x7FFFFFFF;
+  slong NearestEnemyDistance = 0x7FFFFFFF;
   character* RandomFriend = 0;
   charactervector Friend;
   v2 Pos = GetPos();
@@ -4064,7 +4064,7 @@ void darkmage::GetAICommand()
       for(character* p : game::GetTeam(c)->GetMember())
         if(p->IsEnabled())
         {
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
 
           if((ThisDistance < NearestEnemyDistance
               || (ThisDistance == NearestEnemyDistance && !(RAND() % 3))) && p->CanBeSeenBy(this))
@@ -4373,7 +4373,7 @@ int humanoid::GetRandomApplyBodyPart() const
 
 void golem::BeTalkedTo()
 {
-  static long Said;
+  static slong Said;
 
   if(GetRelation(PLAYER) == HOSTILE)
     Engrave(GetHostileReplies()[RandomizeReply(Said, GetHostileReplies().Size)]);
@@ -4696,7 +4696,7 @@ void playerkind::BeTalkedTo()
       return;
     }
 
-    static long Said;
+    static slong Said;
 
     switch(RandomizeReply(Said, 4))
     {
@@ -4722,7 +4722,7 @@ void playerkind::BeTalkedTo()
       return;
     }
 
-    static long Said;
+    static slong Said;
 
     switch(RandomizeReply(Said, 4))
     {
@@ -4748,7 +4748,7 @@ void playerkind::BeTalkedTo()
       return;
     }
 
-    static long Said;
+    static slong Said;
 
     switch(RandomizeReply(Said, 4))
     {
@@ -4900,7 +4900,7 @@ truth humanoid::CanConsume(material* Material) const
 
 void femaleslave::BeTalkedTo()
 {
-  static long Said;
+  static slong Said;
 
   if(GetConfig() != NEW_ATTNAM || GetRelation(PLAYER) == HOSTILE)
     humanoid::BeTalkedTo();
@@ -4918,7 +4918,7 @@ void necromancer::GetAICommand()
     return;
 
   character* NearestEnemy = 0;
-  long NearestEnemyDistance = 0x7FFFFFFF;
+  slong NearestEnemyDistance = 0x7FFFFFFF;
   v2 Pos = GetPos();
 
   for(int c = 0; c < game::GetTeams(); ++c)
@@ -4927,7 +4927,7 @@ void necromancer::GetAICommand()
       for(character* p : game::GetTeam(c)->GetMember())
         if(p->IsEnabled())
         {
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
 
           if((ThisDistance < NearestEnemyDistance
               || (ThisDistance == NearestEnemyDistance && !(RAND() % 3))) && p->CanBeSeenBy(this))
@@ -5440,7 +5440,7 @@ void sumowrestler::GetAICommand()
 
 void sumowrestler::BeTalkedTo()
 {
-  static long Said;
+  static slong Said;
 
   if(GetRelation(PLAYER) == HOSTILE)
     ProcessAndAddMessage(GetHostileReplies()[RandomizeReply(Said, GetHostileReplies().Size)]);
@@ -5526,7 +5526,7 @@ void imperialist::BeTalkedTo()
       }
     }
 
-    static long Said;
+    static slong Said;
 
     if(GetRelation(PLAYER) == HOSTILE)
       ProcessAndAddMessage(GetHostileReplies()[RandomizeReply(Said, GetHostileReplies().Size)]);
@@ -6015,7 +6015,7 @@ void tailor::BeTalkedTo()
 
     /** update messages */
 
-    long FixPrice = Item->GetFixPrice();
+    slong FixPrice = Item->GetFixPrice();
 
     if(PLAYER->GetMoney() < FixPrice)
     {
@@ -7196,7 +7196,7 @@ void aslonawizard::GetAICommand()
    */
 
   character* NearestEnemy = 0;
-  long NearestEnemyDistance = 0x7FFFFFFF;
+  slong NearestEnemyDistance = 0x7FFFFFFF;
   character* RandomFriend = 0;
   charactervector Friend;
   v2 Pos = GetPos();
@@ -7208,7 +7208,7 @@ void aslonawizard::GetAICommand()
       for(character* p : game::GetTeam(c)->GetMember())
         if(p->IsEnabled())
         {
-          long ThisDistance = Max<long>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
+          slong ThisDistance = Max<slong>(abs(p->GetPos().X - Pos.X), abs(p->GetPos().Y - Pos.Y));
 
           if((ThisDistance < NearestEnemyDistance
               || (ThisDistance == NearestEnemyDistance && !(RAND() % 3))) && p->CanBeSeenBy(this))
@@ -7839,9 +7839,9 @@ void lordregent::BeTalkedTo()
 
 struct distancepair
 {
-  distancepair(long Distance, character* Char) : Distance(Distance), Char(Char) { }
+  distancepair(slong Distance, character* Char) : Distance(Distance), Char(Char) { }
   bool operator<(const distancepair& D) const { return Distance > D.Distance; }
-  long Distance;
+  slong Distance;
   character* Char;
 };
 

@@ -20,13 +20,13 @@
 #define HIGH_SCORE_VERSION 129
 
 cfestring& highscore::GetEntry(int I) const { return Entry[I]; }
-long highscore::GetScore(int I) const { return Score[I]; }
-long highscore::GetSize() const { return Entry.size(); }
+slong highscore::GetScore(int I) const { return Score[I]; }
+slong highscore::GetSize() const { return Entry.size(); }
 
 highscore::highscore(cfestring& File) : LastAdd(0xFF), Version(HIGH_SCORE_VERSION), DefaultFile(File) { Load(File); }
 
-truth highscore::Add(long NewScore, cfestring& NewEntry,
-                     time_t NewTime, long NewRandomID)
+truth highscore::Add(slong NewScore, cfestring& NewEntry,
+                     time_t NewTime, slong NewRandomID)
 {
   for(uint c = 0; c < Score.size(); ++c)
     if(Score[c] < NewScore)
@@ -102,7 +102,7 @@ void highscore::Draw() const
 void highscore::Save(cfestring& File) const
 {
   outputfile HighScore(File.IsEmpty() ? DefaultFile : File);
-  long CheckSum = HIGH_SCORE_VERSION + LastAdd;
+  ulong CheckSum = HIGH_SCORE_VERSION + LastAdd;
   for(size_t c = 0; c < Score.size(); ++c)
   {
     CheckSum += Score[c] + Entry[c].GetCheckSum() + RandomID[c];
@@ -148,7 +148,7 @@ truth highscore::MergeToFile(highscore* To) const
   return MergedSomething;
 }
 
-truth highscore::Add(long NewScore, cfestring& NewEntry)
+truth highscore::Add(slong NewScore, cfestring& NewEntry)
 {
   return Add(NewScore, NewEntry, time(0), RAND());
 }
@@ -156,8 +156,8 @@ truth highscore::Add(long NewScore, cfestring& NewEntry)
 /* Because of major stupidity this return the number of NEXT
    from the right entry, 0 = not found */
 
-int highscore::Find(long AScore, cfestring& AEntry,
-                    time_t ATime, long ARandomID)
+int highscore::Find(slong AScore, cfestring& AEntry,
+                    time_t ATime, slong ARandomID)
 {
   for(uint c = 0; c < Score.size(); ++c)
   {

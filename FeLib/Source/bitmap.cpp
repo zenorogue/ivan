@@ -1054,17 +1054,17 @@ void bitmap::CreateAlphaMap(alpha InitialValue)
   memset(AlphaMap[0], InitialValue, XSizeTimesYSize);
 }
 
-truth bitmap::Fade(long& AlphaSum, packalpha& AlphaAverage, int Amount)
+truth bitmap::Fade(slong& AlphaSum, packalpha& AlphaAverage, int Amount)
 {
   if(!AlphaMap)
     ABORT("No alpha map to fade.");
 
   truth Changes = false;
-  long Alphas = 0;
-  long NewAlphaSum = 0;
-  long Size = XSizeTimesYSize;
+  slong Alphas = 0;
+  slong NewAlphaSum = 0;
+  slong Size = XSizeTimesYSize;
 
-  for(long c = 0; c < Size; ++c)
+  for(slong c = 0; c < Size; ++c)
   {
     packalpha* AlphaPtr = &AlphaMap[0][c];
 
@@ -2150,12 +2150,12 @@ void bitmap::FastBlitAndCopyAlpha(bitmap* Bitmap) const
   memcpy(Bitmap->AlphaMap[0], AlphaMap[0], XSizeTimesYSize * sizeof(packalpha));
 }
 
-void bitmap::UpdateRandMap(long Index, truth Value)
+void bitmap::UpdateRandMap(slong Index, truth Value)
 {
-  long c1 = XSizeTimesYSize + Index;
+  slong c1 = XSizeTimesYSize + Index;
   RandMap[c1] = Value;
 
-  for(long c2 = c1 >> 1; c2; c1 = c2, c2 >>= 1)
+  for(slong c2 = c1 >> 1; c2; c1 = c2, c2 >>= 1)
   {
     Value |= RandMap[c1 ^ 1];
 
@@ -2179,7 +2179,7 @@ v2 bitmap::RandomizePixel() const
   if(!RandMap[1])
     return ERROR_V2;
 
-  long Rand = RAND();
+  slong Rand = RAND();
   ulong c, RandMask = 1;
   ulong MapSize = XSizeTimesYSize << 1;
 
@@ -2223,8 +2223,8 @@ alpha bitmap::CalculateAlphaAverage() const
   if(!AlphaMap)
     ABORT("Alpha map needed to calculate alpha average!");
 
-  long Alphas = 0;
-  long AlphaSum = 0;
+  slong Alphas = 0;
+  slong AlphaSum = 0;
   ulong Size = XSizeTimesYSize;
 
   for(ulong c = 0; c < Size; ++c)

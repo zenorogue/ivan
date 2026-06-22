@@ -283,7 +283,7 @@ const int globalwindowhandler::iRestWaitKey = '.';
 
 int iTimeoutDelay=0; // must init with 0
 int iTimeoutDefaultKey = globalwindowhandler::iRestWaitKey;
-long keyTimeoutRequestedAt;
+slong keyTimeoutRequestedAt;
 /**
  * This is intended to remain active ONLY until the user hits any key.
  * iTimeoutMillis can be 0 or >=10
@@ -333,11 +333,11 @@ truth globalwindowhandler::HasKeysOnBuffer(){
 }
 
 void ShowFPS(){ //TODO still flickers sometimes cuz of silhouette?
-  static long lTimePrevious=clock();
+  static slong lTimePrevious=clock();
   static bool bShowFPS = [](){const char* c=std::getenv("IVAN_SHOWFPS");return c!=NULL && strcmp(c,"true")==0;}();
   if(bShowFPS){
 //    if(clock()%(CLOCKS_PER_SEC*3)<CLOCKS_PER_SEC){
-    long lTime=clock();
+    slong lTime=clock();
     if(clock()-lTimePrevious > CLOCKS_PER_SEC*1){
       static int iMargin=2;
       static v2 v2Margin(iMargin,iMargin);

@@ -1028,11 +1028,11 @@ truth door::TryKey(item* Thingy, character* Applier)
 void fountain::GenerateMaterials()
 {
   int Chosen = RandomizeMaterialConfiguration();
-  const fearray<long>& MMC = GetMainMaterialConfig();
+  const fearray<slong>& MMC = GetMainMaterialConfig();
   InitMaterial(MainMaterial,
                MAKE_MATERIAL(MMC.Data[MMC.Size == 1 ? 0 : Chosen]),
                0);
-  const fearray<long>& SMC = GetSecondaryMaterialConfig();
+  const fearray<slong>& SMC = GetSecondaryMaterialConfig();
   InitMaterial(SecondaryMaterial,
                MAKE_MATERIAL(SMC.Data[SMC.Size == 1 ? 0 : Chosen]),
                0);
@@ -1581,12 +1581,12 @@ void coffin::GenerateUndead()
 void coffin::PostConstruct()
 {
   // Some grave goods to make the players steal from the dead.
-  long ItemNumber = RAND() % 6;
+  slong ItemNumber = RAND() % 6;
 
   for(int c = 0; c < ItemNumber; ++c)
   {
     item* NewItem = protosystem::BalancedCreateItem();
-    long Volume = NewItem->GetVolume();
+    slong Volume = NewItem->GetVolume();
 
     if(NewItem->HandleInPairs())
       Volume <<= 1;

@@ -80,7 +80,7 @@ struct stackcontroller
 {
   static lsquare*** Map;
   static lsquare** Stack;
-  static long StackIndex;
+  static slong StackIndex;
   static int LevelXSize, LevelYSize;
   static v2 Center;
 };
@@ -142,7 +142,7 @@ class lsquare : public square
   void SetLTerrain(glterrain*, olterrain*);
   void ApplyScript(const squarescript*, room*);
   virtual truth CanBeSeenByPlayer(truth = false) const;
-  virtual truth CanBeSeenFrom(v2, long, truth = false) const ;
+  virtual truth CanBeSeenFrom(v2, slong, truth = false) const ;
   void StepOn(character*, lsquare**);
   uint GetRoomIndex() const { return RoomIndex; }
   void SetRoomIndex(uint What) { RoomIndex = What; }
@@ -151,8 +151,8 @@ class lsquare : public square
   void SetTemporaryEmitation(col24);
   col24 GetTemporaryEmitation() const { return TemporaryEmitation; }
   void ChangeOLTerrainAndUpdateLights(olterrain*);
-  void DrawParticles(long, truth = true);
-  v2 DrawLightning(v2, long, int, truth = true);
+  void DrawParticles(slong, truth = true);
+  v2 DrawLightning(v2, slong, int, truth = true);
   truth DipInto(item*, character*);
   truth TryKey(item*, character*);
   void SignalSeen(ulong);

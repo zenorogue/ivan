@@ -21,7 +21,7 @@ ccharacter* pathcontroller::Character;
 
 lsquare*** stackcontroller::Map;
 lsquare** stackcontroller::Stack;
-long stackcontroller::StackIndex;
+slong stackcontroller::StackIndex;
 int stackcontroller::LevelXSize, stackcontroller::LevelYSize;
 v2 stackcontroller::Center;
 
@@ -435,7 +435,7 @@ struct emitationcontroller : public tickcontroller, public stackcontroller
   }
   static void ProcessStack()
   {
-    for(long c1 = 0; c1 < StackIndex; ++c1)
+    for(slong c1 = 0; c1 < StackIndex; ++c1)
     {
       lsquare* Square = Stack[c1];
       culong SquareTick = Square->SquarePartEmitationTick;
@@ -1055,7 +1055,7 @@ truth lsquare::CanBeSeenByPlayer(truth IgnoreDarkness) const
   return (IgnoreDarkness || !IsDark()) && LastSeen == game::GetLOSTick();
 }
 
-truth lsquare::CanBeSeenFrom(v2 FromPos, long MaxDistance, truth IgnoreDarkness) const
+truth lsquare::CanBeSeenFrom(v2 FromPos, slong MaxDistance, truth IgnoreDarkness) const
 {
   if((Pos - FromPos).GetLengthSquare() <= MaxDistance
      && (IgnoreDarkness || !IsDark()))
@@ -1172,7 +1172,7 @@ void lsquare::ChangeOLTerrainAndUpdateLights(olterrain* NewTerrain)
     Noxified = true;
   }
 
-  long OldEmit = OLTerrain ? OLTerrain->GetEmitation() : 0;
+  slong OldEmit = OLTerrain ? OLTerrain->GetEmitation() : 0;
   ChangeOLTerrain(NewTerrain);
 
   if(NewTerrain)
@@ -1206,7 +1206,7 @@ void lsquare::ChangeOLTerrainAndUpdateLights(olterrain* NewTerrain)
   }
 }
 
-void lsquare::DrawParticles(long Color, truth DrawHere)
+void lsquare::DrawParticles(slong Color, truth DrawHere)
 {
   if(GetPos().X < game::GetCamera().X
      || GetPos().Y < game::GetCamera().Y
@@ -1426,7 +1426,7 @@ void lsquare::AddItem(item* Item)
   Stack->AddItem(Item);
 }
 
-v2 lsquare::DrawLightning(v2 StartPos, long Color, int Direction, truth DrawHere)
+v2 lsquare::DrawLightning(v2 StartPos, slong Color, int Direction, truth DrawHere)
 {
   if(GetPos().X < game::GetCamera().X
      || GetPos().Y < game::GetCamera().Y
@@ -2439,13 +2439,13 @@ void lsquare::SpillFluid(character* Spiller, liquid* Liquid, truth ForceHit, tru
       if(Spiller && !GetCharacter()->IsAlly(Spiller))
         Spiller->Hostility(GetCharacter());
 
-      long CharVolume = GetCharacter()->GetVolume();
+      slong CharVolume = GetCharacter()->GetVolume();
       double ChanceMultiplier = 1. / (300 + sqrt(GetStack()->GetVolume() + CharVolume));
       double Root = sqrt(CharVolume);
 
       if(ForceHit || Root > RAND() % 400 || Root > RAND() % 400)
       {
-        long SpillVolume = long(Liquid->GetVolume() * Root * ChanceMultiplier);
+        slong SpillVolume = slong(Liquid->GetVolume() * Root * ChanceMultiplier);
 
         if(SpillVolume)
         {

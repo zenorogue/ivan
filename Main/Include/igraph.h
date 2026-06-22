@@ -74,7 +74,7 @@ struct tile
   tile() = default;
   tile(bitmap* Bitmap) : Bitmap(Bitmap), Users(1) { }
   bitmap* Bitmap;
-  long Users;
+  slong Users;
 };
 
 typedef std::map<graphicid, tile> tilemap;

@@ -22,8 +22,8 @@ itemdatabase** protosystem::ItemConfigData;
 int protosystem::ItemConfigDataSize;
 itemdatabase** protosystem::ItemCategoryData[ITEM_CATEGORIES];
 int protosystem::ItemCategorySize[ITEM_CATEGORIES];
-long protosystem::ItemCategoryPossibility[ITEM_CATEGORIES];
-long protosystem::TotalItemPossibility;
+slong protosystem::ItemCategoryPossibility[ITEM_CATEGORIES];
+slong protosystem::TotalItemPossibility;
 
 character* protosystem::BalancedCreateMonster()
 {
@@ -137,16 +137,16 @@ character* protosystem::BalancedCreateMonster()
   return NULL;
 }
 
-item* protosystem::BalancedCreateItem(long MinPrice, long MaxPrice, long RequiredCategory,
+item* protosystem::BalancedCreateItem(slong MinPrice, slong MaxPrice, slong RequiredCategory,
                                       int SpecialFlags, int ConfigFlags, int RequiredGod, truth Polymorph)
 {
   typedef item::database database;
   database** PossibleCategory[ITEM_CATEGORIES];
   int PossibleCategorySize[ITEM_CATEGORIES];
-  long PartialCategoryPossibilitySum[ITEM_CATEGORIES];
+  slong PartialCategoryPossibilitySum[ITEM_CATEGORIES];
   int PossibleCategories = 0;
-  long TotalPossibility = 0;
-  long database::*PartialPossibilitySumPtr;
+  slong TotalPossibility = 0;
+  slong database::*PartialPossibilitySumPtr;
 
   if(RequiredCategory == ANY_CATEGORY)
   {
@@ -161,7 +161,7 @@ item* protosystem::BalancedCreateItem(long MinPrice, long MaxPrice, long Require
   {
     PartialPossibilitySumPtr = &database::PartialCategoryPossibilitySum;
 
-    for(long CategoryIndex = 0, Category = 1; CategoryIndex < ITEM_CATEGORIES; ++CategoryIndex, Category <<= 1)
+    for(slong CategoryIndex = 0, Category = 1; CategoryIndex < ITEM_CATEGORIES; ++CategoryIndex, Category <<= 1)
       if(Category & RequiredCategory)
       {
         PossibleCategory[PossibleCategories] = ItemCategoryData[CategoryIndex];
@@ -176,7 +176,7 @@ item* protosystem::BalancedCreateItem(long MinPrice, long MaxPrice, long Require
   {
     for(int c1 = 0; c1 < BALANCED_CREATE_ITEM_ITERATIONS; ++c1)
     {
-      long Rand = RAND_GOOD(TotalPossibility);
+      slong Rand = RAND_GOOD(TotalPossibility);
       int Category;
 
       if(RequiredCategory == ANY_CATEGORY)
@@ -201,12 +201,12 @@ item* protosystem::BalancedCreateItem(long MinPrice, long MaxPrice, long Require
         ChosenDataBase = ChosenCategory[0];
       else
       {
-        long A = 0;
-        long B = PossibleCategorySize[Category] - 1;
+        slong A = 0;
+        slong B = PossibleCategorySize[Category] - 1;
 
         for(;;)
         {
-          long C = (A + B) >> 1;
+          slong C = (A + B) >> 1;
 
           if(A != C)
           {
@@ -253,7 +253,7 @@ item* protosystem::BalancedCreateItem(long MinPrice, long MaxPrice, long Require
             || (Config & BROKEN && ConfigFlags & IGNORE_BROKEN_PRICE)) && GodOK)
           return Item;
 
-        long Price = Item->GetTruePrice();
+        slong Price = Item->GetTruePrice();
 
         if(Item->HandleInPairs())
           Price <<= 1;
@@ -584,7 +584,7 @@ material* protosystem::CreateMaterialForDetection(cfestring& What)
   return CreateMaterial(What,0,true,true);
 }
 
-material* protosystem::CreateMaterial(cfestring& What, long Volume, truth Output, truth DetectMode)
+material* protosystem::CreateMaterial(cfestring& What, slong Volume, truth Output, truth DetectMode)
 {
   for(int c1 = 1; c1 < protocontainer<material>::GetSize(); ++c1)
   {
@@ -702,7 +702,7 @@ void protosystem::Initialize()
 
   for(int CategoryIndex = 0, Category = 1; CategoryIndex < ITEM_CATEGORIES; ++CategoryIndex, Category <<= 1)
   {
-    long TotalPossibility = 0;
+    slong TotalPossibility = 0;
     int CSize = 0;
 
     for(int c = 0; c < ItemConfigDataSize; ++c)

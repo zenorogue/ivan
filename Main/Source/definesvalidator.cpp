@@ -84,7 +84,7 @@ void DefinesValidatorTop()
   DefinesValidatorAppend("  std::bitset<32> bsA, bsB;");
   DefinesValidatorAppend("");
 }
-void DefinesValidatorAppendCode(std::string sDefineId, long valueReadFromDatFile)
+void DefinesValidatorAppendCode(std::string sDefineId, slong valueReadFromDatFile)
 {
   static std::stringstream ssMsg;ssMsg.str(std::string());ssMsg.clear(); //actually clear/empty it = ""
 

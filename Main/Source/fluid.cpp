@@ -15,7 +15,7 @@
 /* Used to determine how pixels are distributed when fluid over bodyarmors
    is shown */
 
-const long fluid::BodyArmorPartPixels[] = { 34, 7, 7, 8, 6, 6 };
+const slong fluid::BodyArmorPartPixels[] = { 34, 7, 7, 8, 6, 6 };
 
 fluid::fluid() : entity(HAS_BE), Next(0), MotherItem(0), GearImage(0) { }
 
@@ -60,9 +60,9 @@ fluid::~fluid()
   delete [] GearImage;
 }
 
-void fluid::AddLiquid(long Volume)
+void fluid::AddLiquid(slong Volume)
 {
-  long Pixels = Volume >> 2;
+  slong Pixels = Volume >> 2;
 
   if(Pixels && UseImage())
   {
@@ -89,7 +89,7 @@ void fluid::AddLiquid(long Volume)
   }
 }
 
-void fluid::AddLiquidAndVolume(long Volume)
+void fluid::AddLiquidAndVolume(slong Volume)
 {
   AddLiquid(Volume);
   Liquid->SetVolumeNoSignals(Liquid->GetVolume() + Volume);
@@ -97,7 +97,7 @@ void fluid::AddLiquidAndVolume(long Volume)
 
 void fluid::Be()
 {
-  long Rand = RAND();
+  slong Rand = RAND();
 
   if(!(Rand & 7))
   {
@@ -120,8 +120,8 @@ void fluid::Be()
 
   if(MotherItem ? !(Rand & 15) && MotherItem->Exists() && MotherItem->AllowFluidBe() : !(Rand & 63))
   {
-    long OldVolume = Liquid->GetVolume();
-    long NewVolume = ((OldVolume << 6) - OldVolume) >> 6;
+    slong OldVolume = Liquid->GetVolume();
+    slong NewVolume = ((OldVolume << 6) - OldVolume) >> 6;
     Liquid->SetVolumeNoSignals(NewVolume);
 
     if(UseImage())
@@ -224,7 +224,7 @@ inputfile& operator>>(inputfile& SaveFile, fluid*& Fluid)
 
 void fluid::SignalVolumeAndWeightChange()
 {
-  long Volume = Liquid->GetVolume();
+  slong Volume = Liquid->GetVolume();
 
   if(UseImage())
   {
@@ -360,7 +360,7 @@ void fluid::CheckGearPicture(v2 ShadowPos, int SpecialFlags, truth BodyArmor)
   }
 
   imagedata* ImagePtr;
-  long Pixels;
+  slong Pixels;
 
   if(BodyArmor)
   {
@@ -495,7 +495,7 @@ void fluid::imagedata::Animate(blitdata& BlitData, int CurrentFlags) const
       BlitData.Bitmap->AlphaPutPixel(TrueDripPos + BlitData.Dest, DripColor, BlitData.Luminance, DripAlpha);
     }
     else
-      DripTimer = Min<long>(RAND() % (500000 / AlphaSum), 25000);
+      DripTimer = Min<slong>(RAND() % (500000 / AlphaSum), 25000);
   }
 
   --DripTimer;
@@ -533,7 +533,7 @@ void fluid::imagedata::Load(inputfile& SaveFile)
    to determine whether pixels of the Shadow are allowed to be covered
    by the fluid. It is not used if Shadow == 0. */
 
-void fluid::imagedata::AddLiquidToPicture(const rawbitmap* Shadow, long Pixels, long AlphaSuggestion,
+void fluid::imagedata::AddLiquidToPicture(const rawbitmap* Shadow, slong Pixels, slong AlphaSuggestion,
                                           col16 Color, pixelpredicate PixelPredicate)
 {
   if(ShadowPos == ERROR_V2)
@@ -556,8 +556,8 @@ void fluid::imagedata::AddLiquidToPicture(const rawbitmap* Shadow, long Pixels, 
       return;
   }
 
-  long Lumps = Pixels - (Pixels << 3) / 9; // ceil[Pixels/9]
-  long RoomForPixels = (Lumps << 3) + Lumps;
+  slong Lumps = Pixels - (Pixels << 3) / 9; // ceil[Pixels/9]
+  slong RoomForPixels = (Lumps << 3) + Lumps;
   int Red = GetRed16(Color);
   int Green = GetGreen16(Color);
   int Blue = GetBlue16(Color);
@@ -565,7 +565,7 @@ void fluid::imagedata::AddLiquidToPicture(const rawbitmap* Shadow, long Pixels, 
   if(AlphaSuggestion < 25)
     AlphaSuggestion = 25;
 
-  for(long c = 0; c < Lumps; ++c)
+  for(slong c = 0; c < Lumps; ++c)
   {
     v2 Cords;
 
@@ -575,7 +575,7 @@ void fluid::imagedata::AddLiquidToPicture(const rawbitmap* Shadow, long Pixels, 
       Cords = v2(1 + RAND() % 14, 1 + RAND() % 14);
 
     Picture->PutPixel(Cords, Color);
-    long Alpha = Limit<long>(AlphaSuggestion - 25 + RAND() % 50, 0, 0xFF);
+    slong Alpha = Limit<slong>(AlphaSuggestion - 25 + RAND() % 50, 0, 0xFF);
     AlphaSum += Alpha - Picture->GetAlpha(Cords);
     Picture->SetAlpha(Cords, Alpha);
     Picture->SafeUpdateRandMap(Cords, true);
@@ -596,7 +596,7 @@ void fluid::imagedata::AddLiquidToPicture(const rawbitmap* Shadow, long Pixels, 
                                            Limit<int>(Green - 25 + RAND() % 51, 0, 0xFF),
                                            Limit<int>(Blue - 25 + RAND() % 51, 0, 0xFF)));
 
-          long Alpha = Limit<long>(AlphaSuggestion - 25 + RAND() % 50, 0, 0xFF);
+          slong Alpha = Limit<slong>(AlphaSuggestion - 25 + RAND() % 50, 0, 0xFF);
           AlphaSum += Alpha - Picture->GetAlpha(Pos);
           Picture->SetAlpha(Pos, Alpha);
           Picture->SafeUpdateRandMap(Pos, true);

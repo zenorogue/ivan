@@ -50,19 +50,19 @@ truth bananapeels::IsDangerous(ccharacter* Stepper) const { return Stepper->HasA
 
 truth brokenbottle::IsDangerous(ccharacter* Stepper) const { return Stepper->HasALeg(); }
 
-long wand::GetPrice() const { return Charges > TimesUsed ? item::GetPrice() : 0; }
+slong wand::GetPrice() const { return Charges > TimesUsed ? item::GetPrice() : 0; }
 
 truth backpack::IsExplosive() const { return GetSecondaryMaterial() && GetSecondaryMaterial()->IsExplosive(); }
-long backpack::GetTotalExplosivePower() const
+slong backpack::GetTotalExplosivePower() const
 { return GetSecondaryMaterial() ? GetSecondaryMaterial()->GetTotalExplosivePower() : 0; }
 
 truth nuke::IsExplosive() const { return GetSecondaryMaterial() && GetSecondaryMaterial()->IsExplosive(); }
-long nuke::GetTotalExplosivePower() const
+slong nuke::GetTotalExplosivePower() const
 { return GetSecondaryMaterial() ? GetSecondaryMaterial()->GetTotalExplosivePower() : 0; }
 
-long stone::GetTruePrice() const { return item::GetTruePrice() << 1; }
+slong stone::GetTruePrice() const { return item::GetTruePrice() << 1; }
 
-//long ingot::GetTruePrice() const { return item::GetTruePrice() << 1; }
+//slong ingot::GetTruePrice() const { return item::GetTruePrice() << 1; }
 
 col16 whistle::GetMaterialColorB(int) const { return MakeRGB16(80, 32, 16); }
 
@@ -529,12 +529,12 @@ void brokenbottle::StepOnEffect(character* Stepper)
   }
 }
 
-liquid* can::CreateDipLiquid(long MaxVolume)
+liquid* can::CreateDipLiquid(slong MaxVolume)
 {
   return static_cast<liquid*>(GetSecondaryMaterial()->TakeDipVolumeAway(MaxVolume));
 }
 
-liquid* potion::CreateDipLiquid(long MaxVolume)
+liquid* potion::CreateDipLiquid(slong MaxVolume)
 {
   return static_cast<liquid*>(GetSecondaryMaterial()->TakeDipVolumeAway(MaxVolume));
 }
@@ -1276,9 +1276,9 @@ void whistle::BlowEffect(character* Whistler)
 
 struct distancepair
 {
-  distancepair(long Distance, character* Char) : Distance(Distance), Char(Char) { }
+  distancepair(slong Distance, character* Char) : Distance(Distance), Char(Char) { }
   bool operator<(const distancepair& D) const { return Distance > D.Distance; }
-  long Distance;
+  slong Distance;
   character* Char;
 };
 
@@ -1340,12 +1340,12 @@ void itemcontainer::PostConstruct()
   if((GetConfig()&LOCK_BITS)&BROKEN_LOCK)
     SetIsLocked(false);
 
-  long ItemNumber = RAND() % (GetMaxGeneratedContainedItems() + 1);
+  slong ItemNumber = RAND() % (GetMaxGeneratedContainedItems() + 1);
 
   for(int c = 0; c < ItemNumber; ++c)
   {
     item* NewItem = protosystem::BalancedCreateItem();
-    long Volume = NewItem->GetVolume();
+    slong Volume = NewItem->GetVolume();
 
     if(NewItem->HandleInPairs())
       Volume <<= 1;
@@ -1364,11 +1364,11 @@ void itemcontainer::PostConstruct()
 void materialcontainer::GenerateMaterials()
 {
   int Chosen = RandomizeMaterialConfiguration();
-  const fearray<long>& MMC = GetMainMaterialConfig();
+  const fearray<slong>& MMC = GetMainMaterialConfig();
   InitMaterial(MainMaterial,
                MAKE_MATERIAL(MMC.Data[MMC.Size == 1 ? 0 : Chosen]),
                GetDefaultMainVolume());
-  const fearray<long>& SMC = GetSecondaryMaterialConfig();
+  const fearray<slong>& SMC = GetSecondaryMaterialConfig();
   InitMaterial(SecondaryMaterial,
                MAKE_MATERIAL(SMC.Data[SMC.Size == 1 ? 0 : Chosen]),
                GetDefaultSecondaryVolume());
@@ -1883,7 +1883,7 @@ truth materialcontainer::CanBePiledWith(citem* Item, ccharacter* Viewer) const
     && SecondaryMaterial->GetSpoilLevel() == Weapon->SecondaryMaterial->GetSpoilLevel();
 }
 
-long itemcontainer::GetTruePrice() const
+slong itemcontainer::GetTruePrice() const
 {
   return GetContained()->GetTruePrice() + item::GetTruePrice();
 }
@@ -1920,7 +1920,7 @@ void potion::Break(character* Breaker, int Dir)
 
       if(Remains->GetLevel()->IsValidPos(Pos))
       {
-        long HalfVolume = GetSecondaryMaterial()->GetVolume() >> 1;
+        slong HalfVolume = GetSecondaryMaterial()->GetVolume() >> 1;
         Liquid->EditVolume(-HalfVolume);
         Remains->GetNearLSquare(Pos)->SpillFluid(Breaker, Liquid->SpawnMoreLiquid(HalfVolume));
       }
@@ -3049,7 +3049,7 @@ v2 lantern::GetBitmapPos(int Frame) const
                               : item::GetWallBitmapPos(Frame);
 }
 
-long materialcontainer::GetMaterialPrice() const
+slong materialcontainer::GetMaterialPrice() const
 {
   return MainMaterial->GetRawPrice()
     + (SecondaryMaterial ? SecondaryMaterial->GetRawPrice() : 0);
@@ -3297,7 +3297,7 @@ void scrollofgolemcreation::FinishReading(character* Reader)
 
       int MaterialConfig = MainPossible ? Main->GetConfig() : Sec->GetConfig();
       golem* Golem = golem::Spawn(MaterialConfig);
-      long Volume = MainPossible ? Sec && Sec->IsSameAs(Main)
+      slong Volume = MainPossible ? Sec && Sec->IsSameAs(Main)
                     ? Main->GetVolume() + Sec->GetVolume()
                     : Main->GetVolume() : Sec->GetVolume();
       Golem->SetItemVolume(Volume);
@@ -3346,7 +3346,7 @@ void itemcontainer::CalculateEnchantment()
 
 int itemcontainer::GetTeleportPriority() const
 {
-  long Priority = item::GetTeleportPriority();
+  slong Priority = item::GetTeleportPriority();
 
   for(stackiterator i = Contained->GetBottom(); i.HasItem(); ++i)
     Priority += i->GetTeleportPriority();

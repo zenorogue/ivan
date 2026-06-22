@@ -82,7 +82,7 @@ template void scriptmember< type >::Load(inputfile&)
 INST_SCRIPT_MEMBER(uchar);
 INST_SCRIPT_MEMBER(short);
 INST_SCRIPT_MEMBER(int);
-INST_SCRIPT_MEMBER(long);
+INST_SCRIPT_MEMBER(slong);
 INST_SCRIPT_MEMBER(v2);
 INST_SCRIPT_MEMBER(festring);
 INST_SCRIPT_MEMBER(fearray<v2>);
@@ -135,7 +135,7 @@ template void fastscriptmember< type >::Load(inputfile&)
 INST_FAST_SCRIPT_MEMBER(char);
 INST_FAST_SCRIPT_MEMBER(uchar);
 INST_FAST_SCRIPT_MEMBER(int);
-INST_FAST_SCRIPT_MEMBER(long);
+INST_FAST_SCRIPT_MEMBER(slong);
 INST_FAST_SCRIPT_MEMBER(ulong);
 INST_FAST_SCRIPT_MEMBER(packv2);
 
@@ -537,7 +537,7 @@ item* contentscript<item>::InstantiateBasedOnMaterial(int MaterialConfig, int Sp
   if(ContentType == NATURAL_MATERIAL_FORM)
   {
     const materialscript* MainMaterial = GetMainMaterial();
-    long Volume = MainMaterial && MainMaterial->GetVolume()
+    slong Volume = MainMaterial && MainMaterial->GetVolume()
                   ? MainMaterial->GetVolume()->Randomize() : 0;
     return material::CreateNaturalForm(MaterialConfig, Volume);
   }

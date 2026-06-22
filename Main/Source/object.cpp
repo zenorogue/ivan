@@ -68,8 +68,8 @@ void object::Load(inputfile& SaveFile)
   LoadMaterial(SaveFile, MainMaterial);
 }
 
-void object::ObjectInitMaterials(material*& FirstMaterial, material* FirstNewMaterial, long FirstDefaultVolume,
-                                 material*& SecondMaterial, material* SecondNewMaterial, long SecondDefaultVolume,
+void object::ObjectInitMaterials(material*& FirstMaterial, material* FirstNewMaterial, slong FirstDefaultVolume,
+                                 material*& SecondMaterial, material* SecondNewMaterial, slong SecondDefaultVolume,
                                  truth CallUpdatePictures)
 {
   InitMaterial(FirstMaterial, FirstNewMaterial, FirstDefaultVolume);
@@ -80,7 +80,7 @@ void object::ObjectInitMaterials(material*& FirstMaterial, material* FirstNewMat
     UpdatePictures();
 }
 
-void object::InitMaterial(material*& Material, material* NewMaterial, long DefaultVolume)
+void object::InitMaterial(material*& Material, material* NewMaterial, slong DefaultVolume)
 {
   Material = NewMaterial;
 
@@ -97,7 +97,7 @@ void object::InitMaterial(material*& Material, material* NewMaterial, long Defau
   }
 }
 
-material* object::SetMaterial(material*& Material, material* NewMaterial, long DefaultVolume, int SpecialFlags)
+material* object::SetMaterial(material*& Material, material* NewMaterial, slong DefaultVolume, int SpecialFlags)
 {
   material* OldMaterial = Material;
   Material = NewMaterial;
@@ -442,7 +442,7 @@ void object::LoadMaterial(inputfile& SaveFile, material*& Material)
 
 int object::RandomizeMaterialConfiguration()
 {
-  const fearray<long>& MCC = GetMaterialConfigChances();
+  const fearray<slong>& MCC = GetMaterialConfigChances();
   return MCC.Size > 1
     ? femath::WeightedRand(MCC.Data, GetMaterialConfigChanceSum())
     : 0;

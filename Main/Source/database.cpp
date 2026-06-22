@@ -16,7 +16,7 @@
 #include "error.h"
 
 int CreateConfigTable(databasebase*** ConfigTable, databasebase*** TempTable, databasebase** ConfigArray,
-                      long* TempTableInfo, int Type, int Configs, int TempTables)
+                      slong* TempTableInfo, int Type, int Configs, int TempTables)
 {
   memset(ConfigTable, 0, CONFIG_TABLE_SIZE * sizeof(databasebase**));
 
@@ -63,11 +63,11 @@ template <class type> void databasecreator<type>::ReadFrom(inputfile& SaveFile)
   festring Word;
   database* TempConfig[1024];
   databasebase** TempTable[1024];
-  long TempTableInfo[CONFIG_TABLE_SIZE];
+  slong TempTableInfo[CONFIG_TABLE_SIZE];
   int TempTables = 1;
   databasebase* FirstTempTable[CONFIG_TABLE_SIZE];
   TempTable[0] = FirstTempTable;
-  memset(TempTableInfo, 0, CONFIG_TABLE_SIZE * sizeof(long));
+  memset(TempTableInfo, 0, CONFIG_TABLE_SIZE * sizeof(slong));
   CreateDataBaseMemberMap();
 //
   std::stack<inputfile *> infStack;
@@ -130,7 +130,7 @@ template <class type> void databasecreator<type>::ReadFrom(inputfile& SaveFile)
         //
         if (Word == "Config")
         {
-          long ConfigNumber = -1;
+          slong ConfigNumber = -1;
           truth isString = false;
           festring fname;
           fname = inFile->ReadStringOrNumber(&ConfigNumber, &isString);
@@ -278,50 +278,50 @@ template void AddMember<type##database, member type##database::*>\
 (std::map<festring, databasememberbase<type##database>*>&, cchar*, member type##database::*)
 
 INST_ADD_MEMBER(character, int);
-INST_ADD_MEMBER(character, long);
+INST_ADD_MEMBER(character, slong);
 INST_ADD_MEMBER(character, packcol16);
 INST_ADD_MEMBER(character, col24);
 INST_ADD_MEMBER(character, packv2);
 INST_ADD_MEMBER(character, festring);
-INST_ADD_MEMBER(character, fearray<long>);
+INST_ADD_MEMBER(character, fearray<slong>);
 INST_ADD_MEMBER(character, fearray<festring>);
 INST_ADD_MEMBER(character, contentscript<item>);
 
 INST_ADD_MEMBER(item, int);
-INST_ADD_MEMBER(item, long);
+INST_ADD_MEMBER(item, slong);
 INST_ADD_MEMBER(item, col24);
 INST_ADD_MEMBER(item, v2);
 INST_ADD_MEMBER(item, festring);
-INST_ADD_MEMBER(item, fearray<long>);
+INST_ADD_MEMBER(item, fearray<slong>);
 INST_ADD_MEMBER(item, fearray<festring>);
 
 INST_ADD_MEMBER(glterrain, int);
-INST_ADD_MEMBER(glterrain, long);
+INST_ADD_MEMBER(glterrain, slong);
 INST_ADD_MEMBER(glterrain, v2);
 INST_ADD_MEMBER(glterrain, festring);
-INST_ADD_MEMBER(glterrain, fearray<long>);
+INST_ADD_MEMBER(glterrain, fearray<slong>);
 
 INST_ADD_MEMBER(olterrain, int);
-INST_ADD_MEMBER(olterrain, long);
+INST_ADD_MEMBER(olterrain, slong);
 INST_ADD_MEMBER(olterrain, v2);
 INST_ADD_MEMBER(olterrain, festring);
-INST_ADD_MEMBER(olterrain, fearray<long>);
+INST_ADD_MEMBER(olterrain, fearray<slong>);
 INST_ADD_MEMBER(olterrain, fearray<contentscript<item>>);
 
 INST_ADD_MEMBER(gwterrain, int);
-INST_ADD_MEMBER(gwterrain, long);
+INST_ADD_MEMBER(gwterrain, slong);
 INST_ADD_MEMBER(gwterrain, v2);
 INST_ADD_MEMBER(gwterrain, festring);
-INST_ADD_MEMBER(gwterrain, fearray<long>);
+INST_ADD_MEMBER(gwterrain, fearray<slong>);
 
 INST_ADD_MEMBER(owterrain, int);
-INST_ADD_MEMBER(owterrain, long);
+INST_ADD_MEMBER(owterrain, slong);
 INST_ADD_MEMBER(owterrain, v2);
 INST_ADD_MEMBER(owterrain, festring);
-INST_ADD_MEMBER(owterrain, fearray<long>);
+INST_ADD_MEMBER(owterrain, fearray<slong>);
 
 INST_ADD_MEMBER(material, int);
-INST_ADD_MEMBER(material, long);
+INST_ADD_MEMBER(material, slong);
 INST_ADD_MEMBER(material, col24);
 INST_ADD_MEMBER(material, festring);
 INST_ADD_MEMBER(material, contentscript<item>);

@@ -44,7 +44,7 @@ ITEM(materialcontainer, item)
   virtual int GetSparkleFlags() const;
   virtual void SignalBurn(material*);
  protected:
-  virtual long GetMaterialPrice() const;
+  virtual slong GetMaterialPrice() const;
   virtual truth CalculateHasBe() const;
   virtual void GenerateMaterials();
   virtual col16 GetMaterialColorB(int) const;
@@ -113,11 +113,11 @@ ITEM(can, materialcontainer)
   virtual void DipInto(liquid*, character*);
   virtual truth IsDippable(ccharacter*) const { return !SecondaryMaterial; }
   virtual truth IsDipDestination(ccharacter*) const;
-  virtual liquid* CreateDipLiquid(long);
+  virtual liquid* CreateDipLiquid(slong);
   virtual truth AllowSpoil() const { return false; } // temporary
   virtual truth Spoils() const { return false; } // temporary
   virtual truth HasBetterVersion() const { return !SecondaryMaterial; }
-  virtual long DipIntoVolume() const { return GetDefaultSecondaryVolume(); }
+  virtual slong DipIntoVolume() const { return GetDefaultSecondaryVolume(); }
  protected:
   virtual void AddPostFix(festring& String, int) const { AddContainerPostFix(String); }
   virtual truth AddAdjective(festring&, truth) const;
@@ -138,7 +138,7 @@ ITEM(potion, materialcontainer)
  public:
   virtual item* BetterVersion() const;
   virtual void DipInto(liquid*, character*);
-  virtual liquid* CreateDipLiquid(long);
+  virtual liquid* CreateDipLiquid(slong);
   virtual truth IsDippable(ccharacter*) const { return !SecondaryMaterial; }
   virtual void Break(character*, int);
   virtual truth IsDipDestination(ccharacter*) const;
@@ -147,7 +147,7 @@ ITEM(potion, materialcontainer)
   virtual truth HasBetterVersion() const { return !SecondaryMaterial; }
   virtual truth EffectIsGood() const;
   virtual truth IsKamikazeWeapon(ccharacter*) const { return IsExplosive(); }
-  virtual long DipIntoVolume() const { return GetDefaultSecondaryVolume(); }
+  virtual slong DipIntoVolume() const { return GetDefaultSecondaryVolume(); }
  protected:
   virtual void AddPostFix(festring& String, int) const { AddContainerPostFix(String); }
   virtual truth AddAdjective(festring&, truth) const;
@@ -268,7 +268,7 @@ ITEM(wand, item)
   virtual truth ReceiveDamage(character*, int, int, int);
   virtual truth Zap(character*, v2, int);
   virtual void AddInventoryEntry(ccharacter*, festring&, int, truth) const;
-  virtual long GetPrice() const;
+  virtual slong GetPrice() const;
   virtual truth IsExplosive() const { return true; }
  protected:
   virtual void PostConstruct();
@@ -314,7 +314,7 @@ ITEM(backpack, materialcontainer)
   virtual truth IsCloak(ccharacter*) const { return true; }
   virtual truth ReceiveDamage(character*, int, int, int);
   virtual truth IsExplosive() const;
-  virtual long GetTotalExplosivePower() const;
+  virtual slong GetTotalExplosivePower() const;
   virtual void SpillFluid(character*, liquid*, int = 0);
  protected:
   virtual void AddPostFix(festring& String, int) const { AddContainerPostFix(String); }
@@ -357,7 +357,7 @@ ITEM(oillamp, item)
 ITEM(stone, item)
 {
  public:
-  virtual long GetTruePrice() const;
+  virtual slong GetTruePrice() const;
   virtual truth IsLuxuryItem(ccharacter*) const { return GetTruePrice() > 0; }
  protected:
   virtual truth WeightIsIrrelevant() const { return true; }
@@ -366,7 +366,7 @@ ITEM(stone, item)
 //ITEM(ingot, item)
 //{
 // public:
-//  virtual long GetTruePrice() const;
+//  virtual slong GetTruePrice() const;
 //  virtual truth IsLuxuryItem(ccharacter*) const { return GetTruePrice() > 0; }
 // protected:
 //  virtual truth WeightIsIrrelevant() const { return true; }
@@ -449,7 +449,7 @@ ITEM(itemcontainer, lockableitem)
   virtual truth Polymorph(character*, stack*);
   virtual void CalculateVolumeAndWeight();
   virtual truth ContentsCanBeSeenBy(ccharacter*) const;
-  virtual long GetTruePrice() const;
+  virtual slong GetTruePrice() const;
   virtual truth ReceiveDamage(character*, int, int, int);
   virtual void DrawContents(ccharacter*);
   virtual truth Apply(character* Applier) { return Open(Applier); }
@@ -798,7 +798,7 @@ ITEM(nuke, materialcontainer)
   virtual truth IsAppliable(ccharacter*) const { return true; }
   virtual truth IsNuke() const { return true; }
   virtual truth IsExplosive() const;
-  virtual long GetTotalExplosivePower() const;
+  virtual slong GetTotalExplosivePower() const;
 };
 
 ITEM(weepobsidian, stone)

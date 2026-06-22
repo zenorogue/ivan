@@ -103,7 +103,7 @@ class bitmap
   v2 GetSize() const { return Size; }
   void DrawPolygon(int, int, int, int, col16, truth = true, truth = false, double = 0);
   void CreateAlphaMap(alpha);
-  truth Fade(long&, packalpha&, int);
+  truth Fade(slong&, packalpha&, int);
   void SetAlpha(int X, int Y, alpha Alpha) { AlphaMap[Y][X] = Alpha; }
   void SetAlpha(v2 Pos, alpha Alpha) { AlphaMap[Pos.Y][Pos.X] = Alpha; }
   alpha GetAlpha(int X, int Y) const { return AlphaMap[Y][X]; }
@@ -119,14 +119,14 @@ class bitmap
   truth CreateLightning(v2, v2, int, col16);
   packcol16** GetImage() const { return Image; }
   packalpha** GetAlphaMap() const { return AlphaMap; }
-  static truth PixelVectorHandler(long, long);
+  static truth PixelVectorHandler(slong, slong);
   void FillAlpha(alpha);
   void InitPriorityMap(priority);
   void FillPriority(priority);
   void SafeSetPriority(int, int, priority);
   void SafeSetPriority(v2 Pos, priority What) { SafeSetPriority(Pos.X, Pos.Y, What); }
   void SafeUpdateRandMap(v2, truth);
-  void UpdateRandMap(long, truth);
+  void UpdateRandMap(slong, truth);
   void InitRandMap();
   v2 RandomizePixel() const;
   void AlphaPutPixel(int, int, col16, col24, alpha);

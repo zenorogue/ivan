@@ -14,7 +14,7 @@
 
 rain::rain(liquid* Liquid, lsquare* LSquareUnder, v2 Speed, int Team, truth OwnLiquid)
 : entity(OwnLiquid ? HAS_BE : 0), Next(0), Drop(0), Liquid(Liquid), LSquareUnder(LSquareUnder),
-  Speed(Speed), SpeedAbs(long(sqrt(Speed.GetLengthSquare()))), Drops(0), OwnLiquid(OwnLiquid), Team(Team)
+  Speed(Speed), SpeedAbs(slong(sqrt(Speed.GetLengthSquare()))), Drops(0), OwnLiquid(OwnLiquid), Team(Team)
 {
   Emitation = Liquid->GetEmitation();
   BeCounter = RAND_N(50);
@@ -30,7 +30,7 @@ rain::~rain()
 
 void rain::Draw(blitdata& BlitData) const
 {
-  long Volume = Liquid->GetVolume();
+  slong Volume = Liquid->GetVolume();
   int Drops = this->Drops;
 
   if(!Volume && !Drops)
@@ -128,18 +128,18 @@ void rain::Be()
     return;
 
   BeCounter = 0;
-  long Volume = Liquid->GetVolume();
+  slong Volume = Liquid->GetVolume();
 
   if(Volume && !Liquid->IsPowder()) // gum
   {
-    long Rand = 5000000 / (Volume * SpeedAbs);
+    slong Rand = 5000000 / (Volume * SpeedAbs);
 
     if(OwnLiquid)
       Rand >>= 3;
 
     if(Rand < 1 || !(RAND() % Rand))
     {
-      long DropVolume = Min(Volume, 50L);
+      slong DropVolume = Min<slong>(Volume, 50L);
       /* Gum */
       LSquareUnder->SpillFluid(Team == PLAYER_TEAM ? PLAYER : 0, Liquid->SpawnMoreLiquid(DropVolume), true, OwnLiquid);
 
@@ -171,7 +171,7 @@ void rain::Load(inputfile& SaveFile)
   Emitation = Liquid->GetEmitation();
   SaveFile >> Speed;
   Team = ReadType<uchar>(SaveFile);
-  SpeedAbs = long(sqrt(Speed.GetLengthSquare()));
+  SpeedAbs = slong(sqrt(Speed.GetLengthSquare()));
 }
 
 outputfile& operator<<(outputfile& SaveFile, const rain* Rain)

@@ -1572,7 +1572,7 @@ truth commandsystem::Rest(character* Char)
 
   if(Error)
   {
-    long MinutesToRest = game::NumberQuestion(CONST_S("How many minutes to wait?"), WHITE, true);
+    slong MinutesToRest = game::NumberQuestion(CONST_S("How many minutes to wait?"), WHITE, true);
 
     if(MinutesToRest > 0)
     {
@@ -1591,7 +1591,7 @@ truth commandsystem::Rest(character* Char)
       return false;
   }
 
-  long HPToRest = game::ScrollBarQuestion(CONST_S("How many hit points you desire?"),
+  slong HPToRest = game::ScrollBarQuestion(CONST_S("How many hit points you desire?"),
                                           Char->GetMaxHP(), 1, 0, Char->GetMaxHP(), 0,
                                           WHITE, LIGHT_GRAY, DARK_GRAY);
 
@@ -2309,7 +2309,7 @@ truth commandsystem::SummonMonster(character* Char)
 
 truth commandsystem::LevelTeleport(character*)
 {
-  long Level = game::NumberQuestion(CONST_S("To which level?"), WHITE);
+  slong Level = game::NumberQuestion(CONST_S("To which level?"), WHITE);
 
   if(Level <= 0 || Level > game::GetLevels())
   {

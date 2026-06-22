@@ -48,7 +48,7 @@ class wsquare : public square
   int GetWalkability() const;
   virtual int GetSquareWalkability() const { return GetWalkability(); }
   virtual truth CanBeSeenByPlayer(truth = false) const;
-  virtual truth CanBeSeenFrom(v2, long, truth = false) const;
+  virtual truth CanBeSeenFrom(v2, slong, truth = false) const;
  protected:
   gwterrain* GWTerrain;
   owterrain* OWTerrain;

@@ -41,9 +41,9 @@ class configsystem
   static truth NormalTruthChangeInterface(truthoption*);
   static truth NormalCycleChangeInterface(cycleoption*);
   static void NormalStringChanger(stringoption*, cfestring&);
-  static void NormalNumberChanger(numberoption*, long);
+  static void NormalNumberChanger(numberoption*, slong);
   static void NormalTruthChanger(truthoption*, truth);
-  static void NormalCycleChanger(cycleoption*, long);
+  static void NormalCycleChanger(cycleoption*, slong);
   static void SetConfigFileName(cfestring& What)
   { ConfigFileName = What; }
  private:
@@ -92,34 +92,34 @@ struct stringoption : public configoption
 
 struct numberoption : public configoption
 {
-  numberoption(cchar*, cchar*, cchar*, long,
+  numberoption(cchar*, cchar*, cchar*, slong,
                void (*)(const numberoption*, festring&)
                = &configsystem::NormalNumberDisplayer,
                truth (*)(numberoption*)
                = &configsystem::NormalNumberChangeInterface,
-               void (*)(numberoption*, long)
+               void (*)(numberoption*, slong)
                = &configsystem::NormalNumberChanger);
   virtual void SaveValue(std::ofstream&) const;
   virtual void LoadValue(inputfile&);
   virtual void DisplayValue(festring& Entry) const
   { ValueDisplayer(this, Entry); }
   virtual truth ActivateChangeInterface() { return ChangeInterface(this); }
-  void ChangeValue(long What) { ValueChanger(this, What); }
-  long Value;
+  void ChangeValue(slong What) { ValueChanger(this, What); }
+  slong Value;
   void (*ValueDisplayer)(const numberoption*, festring&);
   truth (*ChangeInterface)(numberoption*);
-  void (*ValueChanger)(numberoption*, long);
+  void (*ValueChanger)(numberoption*, slong);
 };
 
 struct scrollbaroption : public numberoption
 {
-  scrollbaroption(cchar*, cchar*, cchar*, long,
+  scrollbaroption(cchar*, cchar*, cchar*, slong,
                   void (*)(const numberoption*, festring&),
                   truth (*)(numberoption*),
-                  void (*)(numberoption*, long)
+                  void (*)(numberoption*, slong)
                   = &configsystem::NormalNumberChanger,
-                  void (*)(long) = 0);
-  void (*BarHandler)(long);
+                  void (*)(slong) = 0);
+  void (*BarHandler)(slong);
 };
 
 struct truthoption : public configoption
@@ -145,24 +145,24 @@ struct truthoption : public configoption
 
 struct cycleoption : public configoption
 {
-  cycleoption(cchar*, cchar*, cchar*, long, long,
+  cycleoption(cchar*, cchar*, cchar*, slong, slong,
               void (*)(const cycleoption*, festring&)
               = &configsystem::NormalCycleDisplayer,
               truth (*)(cycleoption*)
               = &configsystem::NormalCycleChangeInterface,
-              void (*)(cycleoption*, long)
+              void (*)(cycleoption*, slong)
               = &configsystem::NormalCycleChanger);
   virtual void SaveValue(std::ofstream&) const;
   virtual void LoadValue(inputfile&);
   virtual void DisplayValue(festring& Entry) const
   { ValueDisplayer(this, Entry); }
   virtual truth ActivateChangeInterface() { return ChangeInterface(this); }
-  void ChangeValue(long What) { ValueChanger(this, What); }
-  long Value;
-  long CycleCount; // Number of options to cycle through
+  void ChangeValue(slong What) { ValueChanger(this, What); }
+  slong Value;
+  slong CycleCount; // Number of options to cycle through
   void (*ValueDisplayer)(const cycleoption*, festring&);
   truth (*ChangeInterface)(cycleoption*);
-  void (*ValueChanger)(cycleoption*, long);
+  void (*ValueChanger)(cycleoption*, slong);
 };
 
 #endif

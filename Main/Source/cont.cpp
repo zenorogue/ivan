@@ -18,7 +18,7 @@ uchar** continent::ContinentBuffer;
 uchar** continent::PossibleLocationBuffer;
 
 continent::continent(int Index) : Index(Index) { }
-long continent::GetSize() const { return Member.size(); }
+slong continent::GetSize() const { return Member.size(); }
 int continent::GetGTerrainAmount(int Type) const { return GTerrainAmount[Type]; }
 v2 continent::GetMember(int I) const { return Member[I]; }
 
@@ -63,7 +63,7 @@ v2 continent::GetRandomMember(int Type)
     ABORT("Shortage of terrain!");
 
   v2* TypeContainer = new v2[Member.size()];
-  long Index = 0;
+  slong Index = 0;
 
   for(ulong c = 0; c < Member.size(); ++c)
     if(TypeBuffer[Member[c].X][Member[c].Y] == Type)

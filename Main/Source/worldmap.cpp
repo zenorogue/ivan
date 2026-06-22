@@ -808,7 +808,7 @@ void worldmap::SmoothAltitude()
 
 void worldmap::FastSmooth(int x, int y)
 {
-  long HeightNear = 0;
+  slong HeightNear = 0;
   int d;
 
   for(d = 0; d < 4; ++d)
@@ -823,7 +823,7 @@ void worldmap::FastSmooth(int x, int y)
 
 void worldmap::SafeSmooth(int x, int y)
 {
-  long HeightNear = 0;
+  slong HeightNear = 0;
   int d, SquaresNear = 0;
 
   for(d = 0; d < 4; ++d)
@@ -1165,7 +1165,7 @@ void worldmap::UpdateLOS()
 {
   game::RemoveLOSUpdateRequest();
   int Radius = PLAYER->GetLOSRange();
-  long RadiusSquare = Radius * Radius;
+  slong RadiusSquare = Radius * Radius;
   v2 Pos = PLAYER->GetPos();
   rect Rect;
   femath::CalculateEnvironmentRectangle(Rect, Border, Pos, Radius);
@@ -1176,7 +1176,7 @@ void worldmap::UpdateLOS()
         Map[x][y]->SignalSeen();
 }
 
-truth worldmap::PoissonDiscSamplerCheckDistance(int XPos, int YPos, double CellSize, int GridCellWidth, int GridCellHeight, long RadiusSquared, std::vector<v2> Grid)
+truth worldmap::PoissonDiscSamplerCheckDistance(int XPos, int YPos, double CellSize, int GridCellWidth, int GridCellHeight, slong RadiusSquared, std::vector<v2> Grid)
 {
   int x = int(XPos / CellSize);
   int y = int(YPos / CellSize);
@@ -1211,8 +1211,8 @@ truth worldmap::PoissonDiscSamplerCheckDistance(int XPos, int YPos, double CellS
 void worldmap::AllocateGlobalPossibleLocations(int XSize, int YSize, int Radius, int TestPoints)
 {
   // Disc metrics
-  long RadiusSquared = Radius * Radius;
-  long A = 3*RadiusSquared;
+  slong RadiusSquared = Radius * Radius;
+  slong A = 3*RadiusSquared;
   double CellSize = Radius / sqrt(2);
 
   // Grid cell width and height

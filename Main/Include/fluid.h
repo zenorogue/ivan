@@ -41,8 +41,8 @@ class fluid : public entity
   void SetLSquareUnder(lsquare* What) { LSquareUnder = What; }
   lsquare* GetLSquareUnder() const { return LSquareUnder; }
   virtual truth IsOnGround() const { return true; }
-  void AddLiquid(long);
-  void AddLiquidAndVolume(long);
+  void AddLiquid(slong);
+  void AddLiquidAndVolume(slong);
   virtual void SignalVolumeAndWeightChange();
   void SetMotherItem(item*);
   static truth AddFluidInfo(const fluid*, festring&);
@@ -75,7 +75,7 @@ class fluid : public entity
     imagedata(truth = true);
     ~imagedata();
     void Animate(blitdata&, int) const;
-    void AddLiquidToPicture(const rawbitmap*, long, long, col16, pixelpredicate);
+    void AddLiquidToPicture(const rawbitmap*, slong, slong, col16, pixelpredicate);
     void Save(outputfile&) const;
     void Load(inputfile&);
     truth Fade();
@@ -91,7 +91,7 @@ class fluid : public entity
     /* Sum of all alphas of Picture. The volume of the liquid is currently
        proportional to AlphaSum of the fluid's Image, limiting it
        considerably. */
-    long AlphaSum;
+    slong AlphaSum;
     /* AlphaSum / (non-transparent pixels in Picture), used to synchronise
        gear pictures with the main image */
     packalpha AlphaAverage;
@@ -116,7 +116,7 @@ class fluid : public entity
   imagedata* GearImage;
   ulong Flags;
   festring LocationName;
-  static const long BodyArmorPartPixels[];
+  static const slong BodyArmorPartPixels[];
 };
 
 outputfile& operator<<(outputfile&, const fluid*);

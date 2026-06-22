@@ -67,10 +67,10 @@ struct node
   lsquare* Square;
   node* Last;
   v2 Pos;
-  long Distance;
-  long Remaining;
-  long TotalDistanceEstimate;
-  long Diagonals;
+  slong Distance;
+  slong Remaining;
+  slong TotalDistanceEstimate;
+  slong Diagonals;
   truth InNodeQueue;
   truth Processed;
   static node*** NodeMap;
@@ -254,7 +254,7 @@ class level : public area
   int RevealDistantLightsToPlayer();
   void BlurMemory();
   void CalculateLuminances();
-  int AddRadiusToSquareStack(v2, long) const;
+  int AddRadiusToSquareStack(v2, slong) const;
   olterrain* GetRandomFountainWithWater(olterrain*) const;
   int GetEnchantmentMinusChance() { return EnchantmentMinusChance; }
   int GetEnchantmentPlusChance() { return EnchantmentPlusChance; }

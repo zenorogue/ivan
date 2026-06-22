@@ -49,15 +49,15 @@ class object : public entity, public id
   static col24 CalcEmitationBasedOnVolume(col24 BaseEmit,col24 Emit,ulong vol);
   virtual void CalculateEmitation();
   void LoadMaterial(inputfile&, material*&);
-  virtual const fearray<long>& GetMaterialConfigChances() const = 0;
-  virtual long GetMaterialConfigChanceSum() const = 0;
+  virtual const fearray<slong>& GetMaterialConfigChances() const = 0;
+  virtual slong GetMaterialConfigChanceSum() const = 0;
   virtual void CalculateAll() = 0;
   virtual int GetSpoilLevel() const { return 0; }
   void CreateWieldedBitmap(graphicid&) const;
   virtual int GetSpecialFlags() const;
   static void InitSparkleValidityArrays();
   void UpdatePictures(graphicdata&, v2, int, alpha, int, bposretriever) const;
-  void InitMaterial(material*&, material*, long);
+  void InitMaterial(material*&, material*, slong);
   virtual truth DetectMaterial(cmaterial*) const;
   virtual int GetSparkleFlags() const;
   virtual void SignalMaterialChange() { }
@@ -65,8 +65,8 @@ class object : public entity, public id
   virtual int IsBurning() const;
  protected:
   void CopyMaterial(material* const&, material*&);
-  void ObjectInitMaterials(material*&, material*, long, material*&, material*, long, truth);
-  material* SetMaterial(material*&, material*, long, int);
+  void ObjectInitMaterials(material*&, material*, slong, material*&, material*, slong, truth);
+  material* SetMaterial(material*&, material*, slong, int);
   virtual truth CalculateHasBe() const;
   virtual int GetGraphicsContainerIndex() const = 0;
   virtual col16 GetMaterialColorA(int) const;

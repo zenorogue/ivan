@@ -110,9 +110,9 @@ truth game::HasBoat;
 massacremap game::PlayerMassacreMap;
 massacremap game::PetMassacreMap;
 massacremap game::MiscMassacreMap;
-long game::PlayerMassacreAmount = 0;
-long game::PetMassacreAmount = 0;
-long game::MiscMassacreAmount = 0;
+slong game::PlayerMassacreAmount = 0;
+slong game::PetMassacreAmount = 0;
+slong game::MiscMassacreAmount = 0;
 boneidmap game::BoneItemIDMap;
 boneidmap game::BoneCharacterIDMap;
 truth game::TooGreatDangerFoundTruth;
@@ -121,11 +121,11 @@ charactervector game::CharacterDrawVector;
 truth game::SumoWrestling;
 liquid* game::GlobalRainLiquid;
 v2 game::GlobalRainSpeed;
-long game::GlobalRainTimeModifier;
+slong game::GlobalRainTimeModifier;
 truth game::PlayerSumoChampion;
 truth game::TouristHasSpider;
 ulong game::SquarePartEmitationTick = 0;
-long game::Turn;
+slong game::Turn;
 truth game::PlayerRunning;
 character* game::LastPetUnderCursor;
 charactervector game::PetVector;
@@ -1023,8 +1023,8 @@ void game::Run()
           || CurrentDungeonIndex == ATTNAM)
          && CurrentLevelIndex == 0)
       {
-        long OldVolume = GlobalRainLiquid->GetVolume();
-        long NewVolume = Max(long(sin((Tick + GlobalRainTimeModifier) * 0.0003) * 300 - 150), 0L);
+        slong OldVolume = GlobalRainLiquid->GetVolume();
+        slong NewVolume = Max<slong>(slong(sin((Tick + GlobalRainTimeModifier) * 0.0003) * 300 - 150), 0L);
 
         if(NewVolume && !OldVolume)
           CurrentLevel->EnableGlobalRain();
@@ -2534,12 +2534,12 @@ void game::UpdateAltSilhouette(bool AnimationDraw){
         fStepsPerSecond/=2;
         iMoveStep=1;
       }
-      long lFlyStepDelay = CLOCKS_PER_SEC/fStepsPerSecond;
+      slong lFlyStepDelay = CLOCKS_PER_SEC/fStepsPerSecond;
 
       static v2 v2PtoSAmoveTo;
-      long lTimeNow=clock(); //this is animation based on real time.
+      slong lTimeNow=clock(); //this is animation based on real time.
       bool bDoStepNow=false;
-      static long lPreviousFlyStepTime=0;
+      static slong lPreviousFlyStepTime=0;
       if(lTimeNow-lPreviousFlyStepTime > lFlyStepDelay){
         bDoStepNow=true;
         lPreviousFlyStepTime=lTimeNow;
@@ -2769,7 +2769,7 @@ void game::UpdateAltSilhouette(bool AnimationDraw){
       bldLum.Dest = bldLum.Src = v2StretchedPos;
       bldLum.Border = v2StretchedBorder; return bldLum;}();
 
-    static long iNextAlignBkgMove=0;
+    static slong iNextAlignBkgMove=0;
     if(clock()>iNextAlignBkgMove){
       static v2 v2DisplTargetNext=v2(0,0); DBGSV2(v2DisplTargetNext);
       static v2 v2Displacement=v2(0,0); DBGSV2(v2Displacement);
@@ -2782,7 +2782,7 @@ void game::UpdateAltSilhouette(bool AnimationDraw){
         if(v2Diff.Y!=0)v2Displacement.Y += v2Diff.Y>0 ? 1 : -1;
       }
       bldLum.Src = v2StretchedPos+v2Displacement; DBGSV2(v2Displacement);
-      long iDisplDelay = CLOCKS_PER_SEC/iAbsPA;
+      slong iDisplDelay = CLOCKS_PER_SEC/iAbsPA;
       iNextAlignBkgMove = clock()+iDisplDelay;
     }
 
@@ -3492,7 +3492,7 @@ truth game::Save(cfestring& SaveName)
   SaveFile << WizardMode << SeeWholeMapCheatMode << GoThroughWallsCheat;
   SaveFile << Tick << Turn << InWilderness << NextCharacterID << NextItemID << NextTrapID << NecroCounter;
   SaveFile << SumoWrestling << PlayerSumoChampion << TouristHasSpider << GlobalRainTimeModifier;
-  long Seed = RAND();
+  slong Seed = RAND();
   femath::SetSeed(Seed);
   SaveFile << Seed;
   SaveFile << AveragePlayerArmStrengthExperience;
@@ -3574,7 +3574,7 @@ int game::Load(cfestring& saveName)
   SaveFile >> WizardMode >> SeeWholeMapCheatMode >> GoThroughWallsCheat;
   SaveFile >> Tick >> Turn >> InWilderness >> NextCharacterID >> NextItemID >> NextTrapID >> NecroCounter;
   SaveFile >> SumoWrestling >> PlayerSumoChampion >> TouristHasSpider >> GlobalRainTimeModifier;
-  femath::SetSeed(ReadType<long>(SaveFile));
+  femath::SetSeed(ReadType<slong>(SaveFile));
   SaveFile >> AveragePlayerArmStrengthExperience;
   SaveFile >> AveragePlayerLegStrengthExperience;
   SaveFile >> AveragePlayerDexterityExperience;
@@ -3807,7 +3807,7 @@ v2 game::GetDirectionVectorForKey(int Key)
 double game::GetMinDifficulty()
 {
   double Base = CurrentLevel->GetDifficulty() * 0.2;
-  long MultiplierExponent = 0;
+  slong MultiplierExponent = 0;
   ivantime Time;
   GetTime(Time);
   int Modifier = Time.Day - DANGER_PLUS_DAY_MIN;
@@ -4048,24 +4048,24 @@ int game::StringQuestion(festring& Answer, cfestring& Topic, col16 Color,
   return Return;
 }
 
-long game::NumberQuestion(cfestring& Topic, col16 Color, truth ReturnZeroOnEsc)
+slong game::NumberQuestion(cfestring& Topic, col16 Color, truth ReturnZeroOnEsc)
 {
   DrawEverythingNoBlit();
   igraph::BlitBackGround(v2(16, 6), v2(GetMaxScreenXSize() << 4, 23));
   SRegionAroundDeny();
-  long Return = iosystem::NumberQuestion(Topic, v2(16, 6), Color, false, ReturnZeroOnEsc);
+  slong Return = iosystem::NumberQuestion(Topic, v2(16, 6), Color, false, ReturnZeroOnEsc);
   SRegionAroundAllow();
   igraph::BlitBackGround(v2(16, 6), v2(GetMaxScreenXSize() << 4, 23));
   return Return;
 }
 
-long game::ScrollBarQuestion(cfestring& Topic, long BeginValue, long Step, long Min, long Max, long AbortValue,
-                             col16 TopicColor, col16 Color1, col16 Color2, void (*Handler)(long))
+slong game::ScrollBarQuestion(cfestring& Topic, slong BeginValue, slong Step, slong Min, slong Max, slong AbortValue,
+                             col16 TopicColor, col16 Color1, col16 Color2, void (*Handler)(slong))
 {
   DrawEverythingNoBlit();
   igraph::BlitBackGround(v2(16, 6), v2(GetMaxScreenXSize() << 4, 23));
   SRegionAroundDeny();
-  long Return = iosystem::ScrollBarQuestion(Topic, v2(16, 6), BeginValue, Step, Min, Max, AbortValue,
+  slong Return = iosystem::ScrollBarQuestion(Topic, v2(16, 6), BeginValue, Step, Min, Max, AbortValue,
                                             TopicColor, Color1, Color2, GetMoveCommandKey(KEY_LEFT_INDEX),
                                             GetMoveCommandKey(KEY_RIGHT_INDEX), false, Handler);
   SRegionAroundAllow();
@@ -4147,7 +4147,7 @@ int game::GetDirectionForVector(v2 Vector)
 }
 
 int GetPlayerAlignmentSum(){
-  long Sum = 0;
+  slong Sum = 0;
 
   for(int c = 1; c <= GODS; ++c)
   {
@@ -4160,7 +4160,7 @@ int GetPlayerAlignmentSum(){
 
 int game::GetPlayerAlignment()
 {
-  long Sum = GetPlayerAlignmentSum();
+  slong Sum = GetPlayerAlignmentSum();
 
   if(Sum >  15000)return  4;
   if(Sum >  10000)return  3;
@@ -4192,7 +4192,7 @@ cchar* game::GetVerbalPlayerAlignment()
   return NULL; //return just to let it compile
 
   /* //kept just in case something changes...
-  long Sum = GetPlayerAlignment();
+  slong Sum = GetPlayerAlignment();
   if(Sum >  15000)return "extremely lawful";
   if(Sum >  10000)return "very lawful";
   if(Sum >   5000)return "lawful";
@@ -4543,7 +4543,7 @@ void game::InitGlobalValueMap()
 
     SaveFile.ReadWord(Word);DBG1(Word.CStr());
 
-    long value = SaveFile.ReadNumber();DBG1(value);
+    slong value = SaveFile.ReadNumber();DBG1(value);
     GlobalValueMap.insert(std::make_pair(Word, value));
   }
 
@@ -5240,7 +5240,7 @@ void game::CallForAttention(v2 Pos, int RangeSquare)
       for(character* p : GetTeam(c)->GetMember())
         if(p->IsEnabled())
         {
-          long ThisDistance = HypotSquare(long(p->GetPos().X) - Pos.X, long(p->GetPos().Y) - Pos.Y);
+          slong ThisDistance = HypotSquare(slong(p->GetPos().X) - Pos.X, slong(p->GetPos().Y) - Pos.Y);
 
           if(ThisDistance <= RangeSquare && !p->IsGoingSomeWhere())
             p->SetGoingTo(Pos);
@@ -5501,7 +5501,7 @@ struct massacresetentry
   int ImageKey;
 };
 
-void game::DisplayMassacreList(const massacremap& MassacreMap, cchar* Reason, long Amount)
+void game::DisplayMassacreList(const massacremap& MassacreMap, cchar* Reason, slong Amount)
 {
   std::set<massacresetentry> MassacreSet;
   festring FirstPronoun;
@@ -5560,7 +5560,7 @@ void game::DisplayMassacreList(const massacremap& MassacreMap, cchar* Reason, lo
     MassacreSet.insert(Entry);
   }
 
-  long Total = PlayerMassacreAmount + PetMassacreAmount + MiscMassacreAmount;
+  slong Total = PlayerMassacreAmount + PetMassacreAmount + MiscMassacreAmount;
   festring MainTopic;
 
   if(Total == 1)
@@ -6182,7 +6182,7 @@ int game::GetMoveCommandKey(int I)
   }
 }
 
-long game::GetScore()
+slong game::GetScore()
 {
   double Counter = 0;
   massacremap SumMap = PlayerMassacreMap;
@@ -6202,7 +6202,7 @@ long game::GetScore()
     delete Char;
   }
 
-  return long(0.01 * Counter);
+  return slong(0.01 * Counter);
 }
 
 /* Only works if New Attnam is loaded */
@@ -7106,7 +7106,7 @@ double game::GetGameSituationDanger()
   return SituationDanger;
 }
 
-long game::GetTimeSpent()
+slong game::GetTimeSpent()
 {
   return time::TimeAdd(time::TimeDifference(time(0), LastLoad), TimePlayedBeforeLastLoad);
 }

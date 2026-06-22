@@ -243,8 +243,8 @@ class contentscript<item> : public contentscripttemplate<item>
   SCRIPT_MEMBER(interval, Times);
   SCRIPT_MEMBER(interval, LifeExpectancy);
   FAST_SCRIPT_MEMBER(ulong, Category);
-  FAST_SCRIPT_MEMBER(long, MinPrice);
-  FAST_SCRIPT_MEMBER(long, MaxPrice);
+  FAST_SCRIPT_MEMBER(slong, MinPrice);
+  FAST_SCRIPT_MEMBER(slong, MaxPrice);
   FAST_SCRIPT_MEMBER(uchar, Team);
   FAST_SCRIPT_MEMBER(uchar, SquarePosition);
   FAST_SCRIPT_MEMBER(uchar, Chance);

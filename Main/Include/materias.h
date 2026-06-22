@@ -61,7 +61,7 @@ MATERIAL(organic, solid)
   virtual truth IsVeryCloseToSpoiling() const { return SpoilLevel == 8; }
   virtual int GetSpoilLevel() const { return SpoilLevel; }
   virtual void ResetSpoiling();
-  virtual material* EatEffect(character*, long);
+  virtual material* EatEffect(character*, slong);
   virtual void AddConsumeEndMessage(character*) const;
   virtual void SetSpoilCounter(int);
   virtual ushort GetSpoilCounter();
@@ -90,7 +90,7 @@ MATERIAL(liquid, material)
   void TouchEffect(item*, cfestring&);
   void TouchEffect(character*, int);
   void TouchEffect(lterrain*);
-  liquid* SpawnMoreLiquid(long Volume) const { return static_cast<liquid*>(SpawnMore(Volume)); }
+  liquid* SpawnMoreLiquid(slong Volume) const { return static_cast<liquid*>(SpawnMore(Volume)); }
   virtual int IsBurning() const { return 0; }
 };
 
@@ -119,13 +119,13 @@ MATERIAL(powder, liquid)
   powder() : Wetness(0) { }
   virtual truth IsPowder() const { return true; }
   virtual truth IsExplosive() const;
-  virtual void AddWetness(long What) { Wetness += What; }
+  virtual void AddWetness(slong What) { Wetness += What; }
   virtual void Be(ulong);
   virtual truth HasBe() const { return true; }
   virtual void Save(outputfile&) const;
   virtual void Load(inputfile&);
  protected:
-  long Wetness;
+  slong Wetness;
 };
 
 /* Materials that can rust */
@@ -141,7 +141,7 @@ MATERIAL(ironalloy, solid)
   virtual void Save(outputfile&) const;
   virtual void Load(inputfile&);
   virtual int GetRustData() const { return RustData; }
-  virtual truth TryToRust(long, long = 0);
+  virtual truth TryToRust(slong, slong = 0);
   virtual truth AddRustLevelDescription(festring&, truth) const;
  protected:
   int RustData;

@@ -14,6 +14,7 @@
 #define __TYPEDEF_H__
 
 #include "pragmas.h"
+#include "stdint.h"
 
 class bitmap;
 class festring;
@@ -24,7 +25,8 @@ typedef bool truth;
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
-typedef unsigned long ulong;
+typedef uint64_t ulong;
+typedef int64_t slong;
 typedef int col16;
 typedef ushort packcol16;
 typedef ulong col24;
@@ -40,7 +42,7 @@ typedef const int cint;
 typedef const unsigned char cuchar;
 typedef const unsigned short cushort;
 typedef const unsigned int cuint;
-typedef const unsigned long culong;
+typedef const uint64_t culong;
 typedef const int ccol16;
 typedef const ushort cpackcol16;
 typedef const ulong ccol24;

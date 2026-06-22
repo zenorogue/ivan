@@ -26,7 +26,7 @@ class soundeffects
   static void playSound(festring Buffer);
   
   static void SetEnableSfx(bool b){bIsEnabled=b;}
-  static void SetSfxVolume(long l){lSfxVol=l;}
+  static void SetSfxVolume(slong l){lSfxVol=l;}
   static void SetDataDir(festring fs){fsDataDir=fs;}
  
  private:
@@ -40,7 +40,7 @@ class soundeffects
   static std::vector<struct SoundFile> files;
   static std::vector<struct SoundInfo> patterns;
   static bool bIsEnabled;
-  static long lSfxVol;
+  static slong lSfxVol;
   static festring fsDataDir;
 };
 #endif

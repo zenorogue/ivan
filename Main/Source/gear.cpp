@@ -55,14 +55,14 @@ truth armor::IsDippable(ccharacter*) const { return !!IsBurning() && !Fluid; }
 cfestring& armor::GetNameSingular() const
 { return GetMainMaterial()->GetFlexibility() >= 5 ? item::GetFlexibleNameSingular() : item::GetNameSingular(); }
 
-long bodyarmor::GetPrice() const { return (armor::GetPrice() << 3) + GetEnchantedPrice(Enchantment); }
+slong bodyarmor::GetPrice() const { return (armor::GetPrice() << 3) + GetEnchantedPrice(Enchantment); }
 truth bodyarmor::IsInCorrectSlot(int I) const { return I == BODY_ARMOR_INDEX; }
 cchar* bodyarmor::GetBreakVerb() const
 { return GetMainMaterial()->GetFlexibility() >= 5 ? "is torn apart" : "breaks"; }
 
 col16 goldeneagleshirt::GetOutlineColor(int) const { return MakeRGB16(0, 255, 255); }
 
-long cloak::GetPrice() const { return armor::GetPrice() * 10 + GetEnchantedPrice(Enchantment); }
+slong cloak::GetPrice() const { return armor::GetPrice() * 10 + GetEnchantedPrice(Enchantment); }
 truth cloak::IsInCorrectSlot(int I) const { return I == CLOAK_INDEX; }
 col16 cloak::GetMaterialColorB(int) const { return MakeRGB16(111, 64, 37); }
 cchar* cloak::GetBreakVerb() const { return GetMainMaterial()->GetFlexibility() >= 5 ? "is torn apart" : "breaks"; }
@@ -77,13 +77,13 @@ truth cloak::IsShadowVeil() const
     return false;
 }
 
-long boot::GetPrice() const { return armor::GetPrice() / 5 + GetEnchantedPrice(Enchantment); }
+slong boot::GetPrice() const { return armor::GetPrice() / 5 + GetEnchantedPrice(Enchantment); }
 truth boot::IsInCorrectSlot(int I) const { return I == RIGHT_BOOT_INDEX || I == LEFT_BOOT_INDEX; }
 
-long gauntlet::GetPrice() const { return armor::GetPrice() / 3 + GetEnchantedPrice(Enchantment); }
+slong gauntlet::GetPrice() const { return armor::GetPrice() / 3 + GetEnchantedPrice(Enchantment); }
 truth gauntlet::IsInCorrectSlot(int I) const { return I == RIGHT_GAUNTLET_INDEX || I == LEFT_GAUNTLET_INDEX; }
 
-long belt::GetPrice() const { return armor::GetPrice() * 5 + GetEnchantedPrice(Enchantment); }
+slong belt::GetPrice() const { return armor::GetPrice() * 5 + GetEnchantedPrice(Enchantment); }
 truth belt::IsInCorrectSlot(int I) const { return I == BELT_INDEX; }
 
 truth ring::IsInCorrectSlot(int I) const { return I == RIGHT_RING_INDEX || I == LEFT_RING_INDEX; }
@@ -93,7 +93,7 @@ truth amulet::IsInCorrectSlot(int I) const { return I == AMULET_INDEX; }
 col16 amulet::GetMaterialColorB(int) const { return MakeRGB16(111, 64, 37); }
 
 truth helmet::IsGorovitsFamilyRelic() const { return GetConfig() == GOROVITS_FAMILY_GAS_MASK; }
-long helmet::GetPrice() const { return armor::GetPrice() + GetEnchantedPrice(Enchantment); }
+slong helmet::GetPrice() const { return armor::GetPrice() + GetEnchantedPrice(Enchantment); }
 truth helmet::IsInCorrectSlot(int I) const { return I == HELMET_INDEX; }
 col16 helmet::GetMaterialColorB(int) const
 { return GetConfig() != GOROVITS_FAMILY_GAS_MASK ? (GetConfig() & ~BROKEN) ?
@@ -213,13 +213,13 @@ truth pickaxe::Apply(character* User)
   return false;
 }
 
-long meleeweapon::GetPrice() const
+slong meleeweapon::GetPrice() const
 {
   double WeaponStrengthModifier = GetFormModifier() * GetMainMaterial()->GetStrengthValue();
   WeaponStrengthModifier *= WeaponStrengthModifier;
   WeaponStrengthModifier *= GetMainMaterial()->GetWeight();
   WeaponStrengthModifier *= Max((10 + Enchantment) * 0.1, 0.1);
-  return long(WeaponStrengthModifier / (20000000.0 * sqrt(GetWeight())))
+  return slong(WeaponStrengthModifier / (20000000.0 * sqrt(GetWeight())))
     + GetEnchantedPrice(Enchantment);
 }
 
@@ -522,7 +522,7 @@ void meleeweapon::Be()
     SecondaryMaterial->Be(ItemFlags);
 }
 
-long whipofthievery::GetPrice() const
+slong whipofthievery::GetPrice() const
 {
   /* If intact but not flexible enough to work, special thievery bonus must be removed */
 
@@ -550,7 +550,7 @@ void meleeweapon::EditEnchantment(int Amount)
 
 int meleeweapon::GetStrengthValue() const
 {
-  return Max<int>(long(GetStrengthModifier()) * GetMainMaterial()->GetStrengthValue() / 2000 + Enchantment, 0);
+  return Max<int>(slong(GetStrengthModifier()) * GetMainMaterial()->GetStrengthValue() / 2000 + Enchantment, 0);
 }
 
 void meleeweapon::PostConstruct()
@@ -624,10 +624,10 @@ truth thunderhammer::ReceiveDamage(character* Damager, int Damage, int Type, int
   return Type & ELECTRICITY ? false : meleeweapon::ReceiveDamage(Damager, Damage, Type, Dir);
 }
 
-long armor::GetPrice() const
+slong armor::GetPrice() const
 {
   double StrengthValue = GetStrengthValue();
-  return long(StrengthValue * StrengthValue * StrengthValue * 20 / sqrt(GetWeight()));
+  return slong(StrengthValue * StrengthValue * StrengthValue * 20 / sqrt(GetWeight()));
 }
 
 int belt::GetFormModifier() const
@@ -680,10 +680,10 @@ truth armor::CanBePiledWith(citem* Item, ccharacter* Viewer) const
   return item::CanBePiledWith(Item, Viewer) && Enchantment == static_cast<const armor*>(Item)->Enchantment;
 }
 
-long shield::GetPrice() const /* temporary... */
+slong shield::GetPrice() const /* temporary... */
 {
   double StrengthValue = GetStrengthValue();
-  return long(sqrt(GetBaseBlockValue()) * StrengthValue * StrengthValue) + item::GetPrice();
+  return slong(sqrt(GetBaseBlockValue()) * StrengthValue * StrengthValue) + item::GetPrice();
 }
 
 void armor::Save(outputfile& SaveFile) const
@@ -728,7 +728,7 @@ void armor::EditEnchantment(int Amount)
 
 int armor::GetStrengthValue() const
 {
-  return Max<long>(long(GetStrengthModifier()) * GetMainMaterial()->GetStrengthValue() / 2000 + Enchantment, 0);
+  return Max<slong>(slong(GetStrengthModifier()) * GetMainMaterial()->GetStrengthValue() / 2000 + Enchantment, 0);
 }
 
 void armor::PostConstruct()
@@ -744,11 +744,11 @@ int armor::GetInElasticityPenalty(int Attribute) const
 void meleeweapon::GenerateMaterials()
 {
   int Chosen = RandomizeMaterialConfiguration();
-  const fearray<long>& MMC = GetMainMaterialConfig();
+  const fearray<slong>& MMC = GetMainMaterialConfig();
   InitMaterial(MainMaterial,
                MAKE_MATERIAL(MMC.Data[MMC.Size == 1 ? 0 : Chosen]),
                GetDefaultMainVolume());
-  const fearray<long>& SMC = GetSecondaryMaterialConfig();
+  const fearray<slong>& SMC = GetSecondaryMaterialConfig();
   InitMaterial(SecondaryMaterial,
                MAKE_MATERIAL(SMC.Data[SMC.Size == 1 ? 0 : Chosen]),
                GetDefaultSecondaryVolume());
@@ -947,7 +947,7 @@ int meleeweapon::GetBurnDataB() const
   return SecondaryMaterial->GetBurnData();
 }
 
-void meleeweapon::TryToRust(long LiquidModifier)
+void meleeweapon::TryToRust(slong LiquidModifier)
 {
   item::TryToRust(LiquidModifier);
 
@@ -1070,7 +1070,7 @@ item* meleeweapon::Fix()
   return item::Fix();
 }
 
-long meleeweapon::GetMaterialPrice() const
+slong meleeweapon::GetMaterialPrice() const
 {
   return MainMaterial->GetRawPrice() + SecondaryMaterial->GetRawPrice();
 }

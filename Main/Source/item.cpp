@@ -129,7 +129,7 @@ void item::Fly(character* Thrower, int Direction, int Force, bool bTryStartThrow
   }
   lsquare* LandingSquare=NULL;
 
-  int Range = Force * 25 / Max(long(sqrt(GetWeight())), 1L);
+  int Range = Force * 25 / Max<slong>(slong(sqrt(GetWeight())), 1L);
 
   lsquare* LSquareUnder = GetLSquareUnder();
   RemoveFromSlot();
@@ -402,7 +402,7 @@ truth item::Alchemize(character* Midas, stack* CurrentStack)
         Room->HostileAction(Midas);
     }
 
-    long Price = GetTruePrice();
+    slong Price = GetTruePrice();
 
     if(Price)
     {
@@ -455,7 +455,7 @@ truth item::SoftenMaterial()
 
 /* Returns whether the Eater must stop eating the item */
 
-truth item::Consume(character* Eater, long Amount)
+truth item::Consume(character* Eater, slong Amount)
 {
   material* ConsumeMaterial = GetConsumeMaterial(Eater);
 
@@ -598,7 +598,7 @@ void item::TeleportRandomly()
 
 int item::GetStrengthValue() const
 {
-  return long(GetStrengthModifier()) * GetMainMaterial()->GetStrengthValue() / 2000;
+  return slong(GetStrengthModifier()) * GetMainMaterial()->GetStrengthValue() / 2000;
 }
 
 void item::RemoveFromSlot()
@@ -626,7 +626,7 @@ void item::MoveTo(stack* Stack)
   Stack->AddItem(this);
 }
 
-cchar* item::GetItemCategoryName(long Category) // convert to array
+cchar* item::GetItemCategoryName(slong Category) // convert to array
 {
   switch(Category)
   {
@@ -735,7 +735,7 @@ truth item::ShowMaterial() const
     return true;
 }
 
-long item::GetBlockModifier() const
+slong item::GetBlockModifier() const
 {
   if(!IsShield(0))
     return GetSize() * GetRoundness() << 1;
@@ -957,9 +957,9 @@ void itemdatabase::InitDefaults(const itemprototype* NewProtoType, int NewConfig
   }
 }
 
-long item::GetNutritionValue() const
+slong item::GetNutritionValue() const
 {
-  long NV = 0;
+  slong NV = 0;
 
   for(int c = 0; c < GetMaterials(); ++c)
     if(GetMaterial(c))
@@ -1101,7 +1101,7 @@ void item::SignalEnchantmentChange()
       Slot[c]->SignalEnchantmentChange();
 }
 
-long item::GetEnchantedPrice(int Enchantment) const
+slong item::GetEnchantedPrice(int Enchantment) const
 {
   if(!PriceIsProportionalToEnchantment())
     return item::GetPrice();
@@ -1323,17 +1323,17 @@ int item::GetAttachedGod() const
   return DataBase->AttachedGod ? DataBase->AttachedGod : MainMaterial->GetAttachedGod();
 }
 
-long item::GetMaterialPrice() const
+slong item::GetMaterialPrice() const
 {
   return MainMaterial->GetRawPrice();
 }
 
-long item::GetTruePrice() const
+slong item::GetTruePrice() const
 {
   if(LifeExpectancy)
     return 0;
 
-  long Price = Max(GetPrice(), GetMaterialPrice());
+  slong Price = Max(GetPrice(), GetMaterialPrice());
 
   if(Spoils())
     Price = Price * (100 - GetMaxSpoilPercentage()) / 500;
@@ -1749,7 +1749,7 @@ void item::SpillFluid(character*, liquid* Liquid, int SquareIndex)
     delete Liquid;
 }
 
-void item::TryToRust(long LiquidModifier)
+void item::TryToRust(slong LiquidModifier)
 {
   if(MainMaterial->TryToRust(LiquidModifier))
   {
@@ -1884,7 +1884,7 @@ void item::DrawFluids(blitdata& BlitData) const
     F->Draw(BlitData);
 }
 
-void item::ReceiveAcid(material*, cfestring&, long Modifier)
+void item::ReceiveAcid(material*, cfestring&, slong Modifier)
 {
   if(GetMainMaterial()->GetInteractionFlags() & CAN_DISSOLVE)
   {
@@ -1898,7 +1898,7 @@ void item::ReceiveAcid(material*, cfestring&, long Modifier)
   }
 }
 
-void item::ReceiveHeat(material*, cfestring&, long Modifier)
+void item::ReceiveHeat(material*, cfestring&, slong Modifier)
 {
   if(GetMainMaterial()->GetInteractionFlags() & CAN_BURN)
   {
@@ -1912,7 +1912,7 @@ void item::ReceiveHeat(material*, cfestring&, long Modifier)
   }
 }
 
-void item::FightFire(material*, cfestring&, long Volume)
+void item::FightFire(material*, cfestring&, slong Volume)
 {
   int Amount = sqrt(Volume);
   GetMainMaterial()->RemoveFromThermalEnergy(Amount);
@@ -2009,7 +2009,7 @@ void item::InitMaterials(material* FirstMaterial, truth CallUpdatePictures)
 void item::GenerateMaterials()
 {
   int Chosen = RandomizeMaterialConfiguration();
-  const fearray<long>& MMC = GetMainMaterialConfig();
+  const fearray<slong>& MMC = GetMainMaterialConfig();
   InitMaterial(MainMaterial,
                MAKE_MATERIAL(MMC.Data[MMC.Size == 1 ? 0 : Chosen]),
                GetDefaultMainVolume());
@@ -2095,15 +2095,15 @@ int item::GetHinderVisibilityBonus(ccharacter* Char) const
   return Bonus;
 }
 
-long item::GetFixPrice() const
+slong item::GetFixPrice() const
 {
   item* Clone = GetProtoType()->Clone(this);
   Clone = Clone->Fix();
   Clone->RemoveRust();
   Clone->RemoveBurns();
-  long FixPrice = Clone->GetTruePrice();
+  slong FixPrice = Clone->GetTruePrice();
   Clone->SendToHell();
-  return Max(long(3.5 * sqrt(FixPrice)), 10L);
+  return Max<slong>(slong(3.5 * sqrt(FixPrice)), 10L);
 }
 
 void item::AddTrapName(festring& String, int Amount) const

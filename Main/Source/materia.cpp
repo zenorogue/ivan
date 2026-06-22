@@ -19,12 +19,12 @@ materialprototype::materialprototype(const materialprototype* Base,
 : Base(Base), Spawner(Spawner), Cloner(Cloner), ClassID(ClassID)
 { Index = protocontainer<material>::Add(this); }
 
-long material::GetRawPrice() const
+slong material::GetRawPrice() const
 { return GetPriceModifier() * GetWeight() / 10000; }
 truth material::CanBeDug(material* ShovelMaterial) const
 { return ShovelMaterial->GetStrengthValue() > GetStrengthValue(); }
-long material::GetTotalExplosivePower() const
-{ return long(double(Volume) * GetExplosivePower() / 1000000); }
+slong material::GetTotalExplosivePower() const
+{ return slong(double(Volume) * GetExplosivePower() / 1000000); }
 cchar* material::GetConsumeVerb() const { return "eating"; }
 
 materialpredicate TrueMaterialPredicate = &material::True;
@@ -50,7 +50,7 @@ festring material::GetName(truth Articled, truth Adjective) const
   return Name;
 }
 
-material* material::TakeDipVolumeAway(long MaxVolume)
+material* material::TakeDipVolumeAway(slong MaxVolume)
 {
   if(Volume > MaxVolume)
   {
@@ -74,7 +74,7 @@ void material::Load(inputfile& SaveFile)
   databasecreator<material>::InstallDataBase(this, ReadType<ushort>(SaveFile));
 }
 
-truth material::Effect(character* Char, int BodyPart, long Amount)
+truth material::Effect(character* Char, int BodyPart, slong Amount)
 {
   /* Receivexxx should return truth! */
 
@@ -207,7 +207,7 @@ truth material::Effect(character* Char, int BodyPart, long Amount)
   return true;
 }
 
-material* material::EatEffect(character* Eater, long Amount)
+material* material::EatEffect(character* Eater, slong Amount)
 {
   Amount = Volume > Amount ? Amount : Volume;
 
@@ -236,7 +236,7 @@ material* material::EatEffect(character* Eater, long Amount)
   if(GetInteractionFlags() & AFFECT_INSIDE)
   {
     head* Head = Eater->GetVirtualHead();
-    long NewAmount = Amount;
+    slong NewAmount = Amount;
 
     if(Head && Amount >= 8)
     {
@@ -285,7 +285,7 @@ truth material::HitEffect(character* Enemy, bodypart* BodyPart)
    case HM_HOLY_BANANA: Enemy->AddHolyBananaConsumeEndMessage(); break;
   }
 
-  long Amount = Max<long>(GetVolume() >> 1, 1);
+  slong Amount = Max<slong>(GetVolume() >> 1, 1);
   truth Success;
 
   if(GetInteractionFlags() & AFFECT_INSIDE)
@@ -350,7 +350,7 @@ material* materialprototype::SpawnAndLoad(inputfile& SaveFile) const
   return Material;
 }
 
-material* material::MakeMaterial(int Config, long Volume)
+material* material::MakeMaterial(int Config, slong Volume)
 {
   if(!Config)
     return 0;
@@ -371,7 +371,7 @@ material* material::MakeMaterial(int Config, long Volume)
   return 0;
 }
 
-void material::SetVolume(long What)
+void material::SetVolume(slong What)
 {
   Volume = What;
 
@@ -379,7 +379,7 @@ void material::SetVolume(long What)
     MotherEntity->SignalVolumeAndWeightChange();
 }
 
-void material::Initialize(int NewConfig, long InitVolume, truth Load)
+void material::Initialize(int NewConfig, slong InitVolume, truth Load)
 {
   if(!Load)
   {
@@ -389,7 +389,7 @@ void material::Initialize(int NewConfig, long InitVolume, truth Load)
   }
 }
 
-long material::GetTotalNutritionValue() const
+slong material::GetTotalNutritionValue() const
 {
   return GetNutritionValue() * GetVolume() / 50;
 }
@@ -403,10 +403,10 @@ truth material::CanBeEatenByAI(ccharacter* Eater) const
 
 truth material::BreatheEffect(character* Enemy)
 {
-  return Effect(Enemy, TORSO_INDEX, Max<long>(GetVolume() / 10, 50));
+  return Effect(Enemy, TORSO_INDEX, Max<slong>(GetVolume() / 10, 50));
 }
 
-truth material::CauseExplosion(character* Idiot, long Damage)
+truth material::CauseExplosion(character* Idiot, slong Damage)
 {
   lsquare* Square = Idiot->GetLSquareUnder();
 
@@ -431,7 +431,7 @@ truth material::CauseExplosion(character* Idiot, long Damage)
 
 truth material::ExplosiveEffect(character* Enemy)
 {
-  return CauseExplosion(Enemy, Max<long>(GetVolume() / 6, 10));
+  return CauseExplosion(Enemy, Max<slong>(GetVolume() / 6, 10));
 }
 
 const materialdatabase* material::GetDataBase(int Config)
@@ -474,7 +474,7 @@ void materialdatabase::InitDefaults(const materialprototype* NewProtoType, int N
   CommonFlags |= IS_ABSTRACT; // dummy value for configcontainer
 }
 
-item* material::CreateNaturalForm(int Config, long Volume)
+item* material::CreateNaturalForm(int Config, slong Volume)
 {
   item* Item = GetDataBase(Config)->NaturalForm.Instantiate(NO_MATERIALS
                                                             |NO_PIC_UPDATE);
@@ -482,7 +482,7 @@ item* material::CreateNaturalForm(int Config, long Volume)
   return Item;
 }
 
-item* material::CreateNaturalForm(long Volume) const
+item* material::CreateNaturalForm(slong Volume) const
 {
   item* Item = GetNaturalForm().Instantiate(NO_MATERIALS|NO_PIC_UPDATE);
   Item->InitMaterials(SpawnMore(Volume));

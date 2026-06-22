@@ -55,11 +55,11 @@ class god
   void ApplyDivineTick();
   void AdjustRelation(god*, int, truth);
   void AdjustRelation(int);
-  void AdjustTimer(long);
+  void AdjustTimer(slong);
   void Save(outputfile&) const;
   void Load(inputfile&);
   void SetRelation(int Value) { Relation = Value; }
-  void SetTimer(long Value) { Timer = Value; }
+  void SetTimer(slong Value) { Timer = Value; }
   truth ReceiveOffer(item*);
   virtual int GetBasicAlignment() const;
   int GetRelation() const { return Relation; }
@@ -88,7 +88,7 @@ class god
   virtual void PrayBadEffect() = 0;
   int Relation, LastPray;
   festring fsLastKnownRelation;
-  long Timer;
+  slong Timer;
   truth Known;
 };
 

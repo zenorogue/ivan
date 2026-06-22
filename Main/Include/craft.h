@@ -109,7 +109,7 @@ class recipecore {
 struct undoremains {
   ulong ulUndoRemainsIngredientID = 0;
   ulong ulUndoRemainsLumpID = 0;
-  long lUndoRemainsVolume = 0;
+  slong lUndoRemainsVolume = 0;
 };
 class recipedata {
   /**
@@ -232,7 +232,7 @@ class recipedata {
     bool bTailoringMode;
     v2 v2TailoringWorkbenchLocation;
     
-    long lDamageFinalItem;
+    slong lDamageFinalItem;
 
   public:
     recipedata(humanoid* H=NULL,uint sel=FELIST_ERROR_BIT);
@@ -289,7 +289,7 @@ class craftcore {
     static bool IsWooden(material* mat);
     static bool IsBone(material* mat);
 
-    static item* PrepareRemains(recipedata&,material*,int ForceType=CIT_NONE, long NewMaterialVolume = 0);
+    static item* PrepareRemains(recipedata&,material*,int ForceType=CIT_NONE, slong NewMaterialVolume = 0);
     static void UndoRemainsIfNeeded(recipedata& rpd);
     static void FinishSpawning(recipedata& rpd,item* itSpawn);
 
