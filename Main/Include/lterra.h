@@ -217,6 +217,7 @@ struct olterraindatabase : public lterraindatabase
   truth CreateDivineConfigurations;
   truth CanBeDestroyed;
   truth IsUpLink;
+  truth IsDownLink;
   truth CreateLockConfigurations;
   truth IsAlwaysTransparent;
   truth ShowThingsUnder;
@@ -300,6 +301,7 @@ class olterrain : public lterrain, public oterrain
   DATA_BASE_VALUE(int, RestModifier);
   DATA_BASE_VALUE(cfestring&, RestMessage);
   DATA_BASE_TRUTH(IsUpLink);
+  DATA_BASE_TRUTH(IsDownLink);
   DATA_BASE_VALUE(long, StorageVolume);
   DATA_BASE_VALUE(int, HPModifier);
   DATA_BASE_TRUTH(IsSafeToCreateDoor);
