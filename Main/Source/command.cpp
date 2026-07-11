@@ -1820,6 +1820,10 @@ truth commandsystem::ShowMapWork(character* Char,v2* pv2ChoseLocation)
     " Position mouse cursor over a map note to edit or delete it.\n"
     " In look mode, clicking on a map note will navigate to that location.\n";
 
+  bitmap BackGround(RES);
+  BackGround.ActivateFastFlag();
+  DOUBLE_BUFFER->FastBlit(&BackGround);
+
   if(bChoseLocationMode)
     if(!game::ToggleShowMapNotes())
       game::ToggleShowMapNotes();
@@ -1830,6 +1834,7 @@ truth commandsystem::ShowMapWork(character* Char,v2* pv2ChoseLocation)
       while(true){
         v2 noteAddPos = Char->GetPos();
 
+        BackGround.FastBlit(DOUBLE_BUFFER);
         int key;
         if(bChoseLocationMode)
           key='l';
@@ -1858,6 +1863,7 @@ truth commandsystem::ShowMapWork(character* Char,v2* pv2ChoseLocation)
               ADD_MESSAGE("Let me see my map notes...");
             continue;
           case 'l':
+            BackGround.FastBlit(DOUBLE_BUFFER);
             if(noteAddPos==Char->GetPos()){
               game::RefreshDrawMapOverlay();
 
@@ -1885,11 +1891,13 @@ truth commandsystem::ShowMapWork(character* Char,v2* pv2ChoseLocation)
               noteAddPos = game::PositionQuestion(fsMsg, start, NULL, NULL, true); DBGSV2(noteAddPos);
               if(noteAddPos==ERROR_V2){
                 game::ToggleDrawMapOverlay();
+                BackGround.FastBlit(DOUBLE_BUFFER);
                 return false; //continue;
               }
               if(pv2ChoseLocation!=NULL){
                 (*pv2ChoseLocation)=noteAddPos;
                 game::ToggleDrawMapOverlay();
+                BackGround.FastBlit(DOUBLE_BUFFER);
                 return (*pv2ChoseLocation) != Char->GetPos();
               }
             }
@@ -1913,6 +1921,7 @@ truth commandsystem::ShowMapWork(character* Char,v2* pv2ChoseLocation)
     ADD_MESSAGE("You can't hold the map!");
   }
 
+  BackGround.FastBlit(DOUBLE_BUFFER);
   return true;
 }
 
