@@ -287,6 +287,8 @@ class game
   static int GetMaxScreenXSize();
   static int GetMaxScreenYSize();
   static v2 CalculateScreenCoordinates(v2);
+  static truth PosCurrentlyOnScreen(v2);
+  static v2 ScreenCoordinatesToPos(v2);
   static int AdjustForFacing(int d);
   static int UnadjustForFacing(int d);
   static void BusyAnimation();
