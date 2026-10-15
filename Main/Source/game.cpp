@@ -1357,7 +1357,7 @@ void game::UpdateAutoPickUpMatching() //simple matching syntax
     if (!reAutoPickup){
       std::vector<festring> afsFullProblems;
       afsFullProblems.push_back(festring(errMsg));
-      afsFullProblems.push_back(festring()+"offset:"+iErrOffset);
+      afsFullProblems.push_back(festring()+"offset:"+int(iErrOffset));
       bool bDummy = iosystem::AlertConfirmMsg("regex validation failed, if ignored will just not work at all",afsFullProblems,false);
     }
   }
